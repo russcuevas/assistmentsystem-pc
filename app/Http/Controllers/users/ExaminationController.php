@@ -66,8 +66,24 @@ class ExaminationController extends Controller
     
     public function ExaminationCompletedPage()
     {
-        return view('users.examination.exam_completed');
+        $user = Auth::guard('users')->user();
+        
+        $scores = DB::table('riasec_scores')
+            ->select('riasec_id', DB::raw('SUM(points) as total_points'))
+            ->where('user_id', $user->id)
+            ->groupBy('riasec_id')
+            ->orderBy('total_points', 'desc')
+            ->take(3)
+            ->get();
+    
+        $all_scores = DB::table('riasec_scores')
+            ->where('user_id', $user->id)
+            ->pluck('points', 'riasec_id');
+    
+        return view('users.examination.exam_completed', compact('scores', 'all_scores'));
     }
+    
+    
 
     
     

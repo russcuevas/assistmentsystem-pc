@@ -24,6 +24,7 @@
     </style>
 </head>
 <body>
+
     <h1>Welcome {{ $user->fullname }}, {{ $user->default_id }}</h1>
 
     <a href="{{ route('users.logout.request') }}">Logout</a><br>
