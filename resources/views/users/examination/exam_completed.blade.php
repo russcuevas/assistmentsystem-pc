@@ -12,6 +12,7 @@
     </style>
 </head>
 <body>
+    <a href="{{ route('users.logout.request') }}">Logout</a>
     <h1>MY INTEREST CODE</h1>
 
     <h2>Top 3 Highest Points in the RIASEC</h2>

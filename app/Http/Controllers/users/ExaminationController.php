@@ -89,9 +89,9 @@ class ExaminationController extends Controller
             ->first();
 
         $preferredCourseIds = array_filter([
-            $preferredCoursesData->course_1,
-            $preferredCoursesData->course_2,
-            $preferredCoursesData->course_3,
+            $preferredCoursesData->course_1 ?? 'N/A',
+            $preferredCoursesData->course_2 ?? 'N/A',
+            $preferredCoursesData->course_3 ?? 'N/A',
         ]);
 
         $preferredCourses = DB::table('course_career_pathways')
