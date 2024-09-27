@@ -14,6 +14,7 @@
                 <a href="{{ route('admin.examiners.page')}}">Examiners Management</a><br>
                 <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
                 <a href="{{ route('admin.course.page') }}">Course Management</a><br>
+                <a href="{{ route('admin.questionnaire.page')}}">Questionnaire Management</a><br>
                 <a href="{{ route('admin.logout.request')  }}">Logout</a><br>
             </li>
         </ul>

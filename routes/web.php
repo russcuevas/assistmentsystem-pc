@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\CourseController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ExaminersController;
+use App\Http\Controllers\admin\QuestionnaireController;
 use App\Http\Controllers\admin\RiasecController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\users\InformationController;
@@ -36,6 +37,15 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/course', [CourseController::class, 'CoursePage'])->name('admin.course.page');
     Route::post('/admin/add_course', [CourseController::class, 'AddCourse'])->name('admin.add.course');
     Route::delete('/admin/delete_course/{id}', [CourseController::class, 'DeleteCourse'])->name('admin.delete.course');
+
+    // QUESTION PAGE ADMIN
+    Route::get('/admin/questionnaire', [QuestionnaireController::class, 'QuestionnairePage'])->name('admin.questionnaire.page');
+    Route::post('/admin/add_questionnaire', [QuestionnaireController::class, 'AddQuestionnaire'])->name('admin.add.questionnaire');
+    Route::get('/admin/edit/questionnaire/{id}', [QuestionnaireController::class, 'EditQuestionnaire'])->name('admin.edit.questionnaire');
+    Route::post('/admin/update/questionnaire/{id}', [QuestionnaireController::class, 'UpdateQuestionnaire'])->name('admin.update.questionnaire');
+    Route::post('/admin/delete/questionnaire/{id}', [QuestionnaireController::class, 'DeleteQuestionnaire'])->name('admin.delete.questionnaire');
+
+
 });
 
 
