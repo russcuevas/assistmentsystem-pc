@@ -5,16 +5,37 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class ExaminersController extends Controller
 {
     public function ExaminersPage()
     {
+        $available_default_id = User::all();
         $default_id = User::pluck('default_id')->toArray();
         $next_id = !empty($default_id) ? max($default_id) + 1 : 1;
 
-        return view('admin.examiners.examiners', compact('default_id', 'next_id'));
+        $examiners = DB::table('users')
+        ->leftJoin('preferred_courses', 'users.id', '=', 'preferred_courses.user_id')
+        ->leftJoin('courses as course_1', 'preferred_courses.course_1', '=', 'course_1.id')
+        ->leftJoin('courses as course_2', 'preferred_courses.course_2', '=', 'course_2.id')
+        ->leftJoin('courses as course_3', 'preferred_courses.course_3', '=', 'course_3.id')
+        ->select(
+            'users.id',
+            'users.default_id',
+            'users.fullname',
+            'users.gender',
+            'users.age',
+            'users.birthday',
+            'users.strand',
+            'course_1.course_name as course_1_name',
+            'course_2.course_name as course_2_name',
+            'course_3.course_name as course_3_name' 
+        )
+        ->get();
+
+        return view('admin.examiners.examiners', compact('available_default_id', 'default_id', 'next_id', 'examiners'));
     }
 
     public function ExaminersAccountAdd(Request $request)
@@ -44,5 +65,17 @@ class ExaminersController extends Controller
         }
 
         return redirect()->route('admin.examiners.page')->with('success', 'Default IDs added successfully: ' . implode(', ', $created_id));
+    }
+
+    public function ExaminersDefaultIdDelete($default_id)
+    {
+        $user = User::where('default_id', $default_id)->first();
+
+        if ($user){
+            $user->delete();
+            return redirect()->route('admin.examiners.page')->with('success', 'Examiner deleted successfully');
+        }
+
+        return redirect()->route('admin.examiners.page')->with('error', 'Examiner not found');
     }
 }

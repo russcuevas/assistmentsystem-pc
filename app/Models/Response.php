@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PreferredCourse extends Model
+class Response extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'course_1',
-        'course_2',
-        'course_3',
+        'question_id',
+        'selected_option_id',
     ];
 }

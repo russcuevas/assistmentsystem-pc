@@ -33,12 +33,12 @@ course_3 -> reference to course_table
 
 questions table
 question_text
-riasec_id -> reference to riasec table at pag dinelete ang related na riasec ay madedelete din dapat
+riasec_id -> reference to riasec table at pag dinelete ang related na riasec ay madedelete din dapat ang question
 
 options table
 question_id
-option_text
-is_correct
+option_text - R I A S E C
+is_correct - iscorrect set to 1 always in every question
 FOREIGN KEY (question_id) REFERENCES questions(question_id) ON DELETE CASCADE
 
 responses table

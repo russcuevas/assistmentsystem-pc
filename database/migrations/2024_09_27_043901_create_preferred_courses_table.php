@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('preferred_courses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('course_1');
             $table->unsignedBigInteger('course_2');
             $table->unsignedBigInteger('course_3');

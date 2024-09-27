@@ -25,6 +25,8 @@ Route::middleware(['admin'])->group(function () {
     // EXAMINERS PAGE ADMIN
     Route::get('/admin/examiners', [ExaminersController::class, 'ExaminersPage'])->name('admin.examiners.page');
     Route::post('/admin/add_examiners', [ExaminersController::class, 'ExaminersAccountAdd'])->name('admin.add.examiners');
+    Route::delete('/admin/examiners_account/delete/{default_id}', [ExaminersController::class, 'ExaminersDefaultIdDelete'])->name('admin.delete.examiners');
+
 
     // COURSE PAGE ADMIN
     Route::get('/admin/course', [CourseController::class, 'CoursePage'])->name('admin.course.page');
