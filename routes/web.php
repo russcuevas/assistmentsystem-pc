@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\ExaminersController;
 use App\Http\Controllers\admin\QuestionnaireController;
 use App\Http\Controllers\admin\RiasecController;
 use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\users\ExaminationController;
 use App\Http\Controllers\users\InformationController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,13 @@ Route::get('/logout', [AuthController::class, 'ExamineesLogout'])->name('users.l
 
 // USERS ROUTE
 Route::middleware(['users'])->group(function () {
+    // EXAMINATION INFORMATION PAGE
     Route::get('/examinees/landing_page', [InformationController::class, 'ExaminersInformationPage'])->name('users.information.page');
-    Route::post('/examinees/add_information', [InformationController::class, 'AddInformation'])->name('users.add.information');    
+    Route::post('/examinees/add_information', [InformationController::class, 'AddInformation'])->name('users.add.information');
+
+    // EXAMINATION FORM PAGE
+    Route::get('/examinees/examination', [ExaminationController::class, 'ExaminationPage'])->name('users.examination.page');
+    Route::post('/examinees/submit_responses', [ExaminationController::class, 'SubmitResponses'])->name('users.submit.responses');
+    Route::get('/examinees/completed', [ExaminationController::class, 'ExaminationCompletedPage'])->name('users.completed.page');
+
 });

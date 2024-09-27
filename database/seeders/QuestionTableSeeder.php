@@ -13,15 +13,15 @@ class QuestionTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('questions')->insert([
-            [
-                'question_text' => 'What do you enjoy doing the most?',
-                'riasec_id' => 'R',
-            ],
-            [
-                'question_text' => 'How do you solve problems?',
-                'riasec_id' => 'I',
-            ],
-        ]);
+        $questions = [
+            ['question_text' => 'I like to work on cars', 'riasec_id' => 'R'],
+            ['question_text' => 'I enjoy solving mathematical problems', 'riasec_id' => 'I'],
+            ['question_text' => 'I like to create artwork', 'riasec_id' => 'A'],
+            ['question_text' => 'I prefer working with animals', 'riasec_id' => 'S'],
+            ['question_text' => 'I like to persuade people', 'riasec_id' => 'E'],
+            ['question_text' => 'I enjoy organizing events', 'riasec_id' => 'C'],
+        ];
+
+        DB::table('questions')->insert($questions);
     }
 }

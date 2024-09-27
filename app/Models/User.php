@@ -20,6 +20,7 @@ class User extends Authenticatable
         'default_id',
         'fullname',
         'gender',
+        'email',
         'age',
         'birthday',
         'strand',

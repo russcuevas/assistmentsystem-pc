@@ -63,6 +63,6 @@ class InformationController extends Controller
             ]
         );
 
-        return redirect()->route('users.information.page')->with('success');
+        return redirect()->route('users.examination.page')->with('success');
     }
 }
