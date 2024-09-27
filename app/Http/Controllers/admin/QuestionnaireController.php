@@ -26,7 +26,7 @@ class QuestionnaireController extends Controller
 
     public function AddQuestionnaire(Request $request)
     {
-        $validatedData = $request->validate([
+        $validated_data = $request->validate([
             'question_text' => 'required|string|max:255',
             'riasec_id' => 'required|exists:riasecs,id',
             'option_text' => 'required|string|max:1',
@@ -34,14 +34,14 @@ class QuestionnaireController extends Controller
         ]);
 
         $question = Question::create([
-            'question_text' => $validatedData['question_text'],
-            'riasec_id' => $validatedData['riasec_id'],
+            'question_text' => $validated_data['question_text'],
+            'riasec_id' => $validated_data['riasec_id'],
         ]);
 
         Option::create([
             'question_id' => $question->id,
-            'option_text' => $validatedData['option_text'],
-            'is_correct' => $validatedData['is_correct'],
+            'option_text' => $validated_data['option_text'],
+            'is_correct' => $validated_data['is_correct'],
         ]);
 
         return redirect()->back()->with('success', 'Question added successfully!');
@@ -58,19 +58,19 @@ class QuestionnaireController extends Controller
 
     public function UpdateQuestionnaire(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $validated_data = $request->validate([
             'question_text' => 'required|string|max:255',
             'riasec_id' => 'required|exists:riasecs,id',
             'option_text' => 'required|string|max:1',
         ]);
 
         DB::table('questions')->where('id', $id)->update([
-            'question_text' => $validatedData['question_text'],
-            'riasec_id' => $validatedData['riasec_id'],
+            'question_text' => $validated_data['question_text'],
+            'riasec_id' => $validated_data['riasec_id'],
         ]);
 
         DB::table('options')->where('question_id', $id)->update([
-            'option_text' => $validatedData['option_text'],
+            'option_text' => $validated_data['option_text'],
             'is_correct' => 1,
         ]);
 

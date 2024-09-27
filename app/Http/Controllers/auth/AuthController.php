@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // ADMIN AUTH
     public function AdminLoginPage()
     {
         if (Auth::guard('admin')->check()) {
