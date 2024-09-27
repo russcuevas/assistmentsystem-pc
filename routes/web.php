@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\CourseController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ExaminersController;
+use App\Http\Controllers\admin\RiasecController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\users\InformationController;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,10 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/add_examiners', [ExaminersController::class, 'ExaminersAccountAdd'])->name('admin.add.examiners');
     Route::delete('/admin/examiners_account/delete/{default_id}', [ExaminersController::class, 'ExaminersDefaultIdDelete'])->name('admin.delete.examiners');
 
+    // RIASEC PAGE ADMIN
+    Route::get('/admin/riasec', [RiasecController::class, 'RiasecPage'])->name('admin.riasec.page');
 
+    
     // COURSE PAGE ADMIN
     Route::get('/admin/course', [CourseController::class, 'CoursePage'])->name('admin.course.page');
     Route::post('/admin/add_course', [CourseController::class, 'AddCourse'])->name('admin.add.course');
