@@ -57,5 +57,6 @@ Route::get('/logout', [AuthController::class, 'ExamineesLogout'])->name('users.l
 
 // USERS ROUTE
 Route::middleware(['users'])->group(function () {
-    Route::get('/examinees/landing_page', [InformationController::class, 'ExamineesInformationPage'])->name('users.information.page');
+    Route::get('/examinees/landing_page', [InformationController::class, 'ExaminersInformationPage'])->name('users.information.page');
+    Route::post('/examinees/add_information', [InformationController::class, 'AddInformation'])->name('users.add.information');    
 });
