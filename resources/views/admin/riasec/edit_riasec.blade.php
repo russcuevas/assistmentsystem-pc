@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add RIASEC</title>
+    <title>Edit RIASEC</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,82 +53,46 @@
         <div class="alert">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('admin.add.riasec') }}" method="POST">
+    <form action="{{ route('admin.update.riasec', $riasec->id) }}" method="POST">
         @csrf
-        <h2>Add New RIASEC</h2>
+        @method('PUT')
+        <h2>Edit RIASEC</h2>
         
         <label for="riasec_id">Initial:</label>
-        <input type="text" id="riasec_id" name="riasec_id" required maxlength="1" placeholder="R/I/A/S/E/C"><br>
+        <input type="text" id="riasec_id" name="riasec_id" required maxlength="1" value="{{ $riasec->id }}" placeholder="R/I/A/S/E/C"><br>
 
         <label for="riasec_name">RIASEC Name:</label>
-        <input type="text" id="riasec_name" name="riasec_name" required placeholder="Enter RIASEC Name"><br>
+        <input type="text" id="riasec_name" name="riasec_name" required value="{{ $riasec->riasec_name }}" placeholder="Enter RIASEC Name"><br>
 
         <label for="description">Description:</label>
-        <textarea id="description" name="description" required placeholder="Enter description"></textarea><br>
+        <textarea id="description" name="description" required placeholder="Enter description">{{ $riasec->description }}</textarea><br>
 
         <div id="career-pathway-fields">
-            <div class="career-pathway">
-                <label for="career_name[]">Career Pathway:</label>
-                <input type="text" name="career_name[]" required placeholder="Enter career pathway"><br>
-                <label for="course_id[]">Select Courses:</label>
-                <div>
-                    @foreach ($courses as $course)
-                        <label>
-                            <input type="checkbox" name="course_id[0][]" value="{{ $course->id }}">
-                            {{ $course->course_name }}
-                        </label>
-                    @endforeach
+            @foreach ($careerPathways as $index => $careerPathway)
+                <div class="career-pathway">
+                    <label for="career_name[]">Career Pathway:</label>
+                    <input type="text" name="career_name[]" required value="{{ $careerPathway->career_name }}" placeholder="Enter career pathway"><br>
+                    <label for="course_id[]">Select Courses:</label>
+                    <div>
+                        @foreach ($courses as $course)
+                            <label>
+                                <input type="checkbox" name="course_id[{{ $index }}][]" value="{{ $course->id }}" 
+                                    {{ in_array($course->id, $careerPathway->courses) ? 'checked' : '' }}>
+                                {{ $course->course_name }}
+                            </label>
+                        @endforeach
+                    </div>
+                    <button type="button" class="remove">Remove</button>
                 </div>
-                <button type="button" class="remove">Remove</button>
-            </div>
+            @endforeach
         </div>
         <button type="button" id="add-career-pathway">Add Another Career Pathway</button><br><br>
 
-        <button type="submit">Add RIASEC</button>
+        <button type="submit">Update RIASEC</button>
     </form>
 
-    <hr>
-    <h1>Riasec List</h1>
-    <div class="body">
-        <table>
-        <thead>
-            <tr>
-                <th>Initial</th>
-                <th>RIASEC Name</th>
-                <th>Career Pathway / Related Courses</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($riasec as $riasec_formatting)
-                <tr>
-                    <td>{{ $riasec_formatting->id }}</td>
-                    <td>{{ $riasec_formatting->riasec_name }}</td>
-                    <td>
-                        @if ($riasec_formatting->career_names)
-                            {{ $riasec_formatting->career_names }}: 
-                            @if ($riasec_formatting->course_names)
-                                {{ $riasec_formatting->course_names }}
-                            @else
-                                No courses available
-                            @endif
-                        @else
-                            No career pathways available
-                        @endif
-                    </td>
-                    <td>{{ $riasec_formatting->description }}</td>
-                    <td>
-                        <a href="{{ route('admin.edit.riasec', $riasec_formatting->id) }}">Update</a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    </div>
-
     <script>
-        let index = 1;
+        let index = {{ count($careerPathways) }};
         document.getElementById('add-career-pathway').addEventListener('click', function() {
             const newField = document.createElement('div');
             newField.className = 'career-pathway';

@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Examination Completed</title>
+    <style>
+    .highlight {
+        font-weight: bold;
+        color: red;
+    }
+    </style>
 </head>
 <body>
     <h1>MY INTEREST CODE</h1>
@@ -24,6 +30,24 @@
         <li>E = Enterprising: {{ $all_scores['E'] ?? 0 }}</li>
         <li>C = Conventional: {{ $all_scores['C'] ?? 0 }}</li>
     </ul>
+
+    <h2>Preferred Courses for Top 3 RIASEC <span style="color: brown"><i>(the highlighted related to your preferred course)</i></span> </h2>
+    <ul>
+        @foreach ($groupedPreferredCourses as $careerName => $courses)
+            <li>
+                {{ $careerName }}: 
+                @foreach ($courses as $course)
+                    <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
+                        {{ $course['name'] }}
+                    </span>
+                    @if (!$loop->last) 
+                        , 
+                    @endif
+                @endforeach
+            </li>
+        @endforeach
+    </ul>
+
 
     <canvas id="myDonutChart" width="50" height="400"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -73,5 +97,4 @@
         const myDonutChart = new Chart(ctx, config);
     </script>
 </body>
-
 </html>

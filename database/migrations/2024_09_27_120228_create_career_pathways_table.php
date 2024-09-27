@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('riasecs', function (Blueprint $table) {
-            $table->char('id', 1)->primary();
-            $table->string('riasec_name');
-            $table->text('description');
+        Schema::create('career_pathways', function (Blueprint $table) {
+            $table->id();
+            $table->char('riasec_id', 1);
+            $table->string('career_name');
             $table->timestamps();
+
+            $table->foreign('riasec_id')->references('id')->on('riasecs')->onDelete('cascade');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('riasecs');
+        Schema::dropIfExists('career_pathways');
     }
 };

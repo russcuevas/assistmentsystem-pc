@@ -32,8 +32,12 @@ Route::middleware(['admin'])->group(function () {
 
     // RIASEC PAGE ADMIN
     Route::get('/admin/riasec', [RiasecController::class, 'RiasecPage'])->name('admin.riasec.page');
+    Route::post('/admin/add_riasec', [RiasecController::class, 'AddRiasec'])->name('admin.add.riasec');
+    Route::get('/admin/edit/riasec/{id}', [RiasecController::class, 'EditRiasec'])->name('admin.edit.riasec');
+    Route::put('/admin/update/riasec/{id}', [RiasecController::class, 'UpdateRiasec'])->name('admin.update.riasec');
 
-    
+
+
     // COURSE PAGE ADMIN
     Route::get('/admin/course', [CourseController::class, 'CoursePage'])->name('admin.course.page');
     Route::post('/admin/add_course', [CourseController::class, 'AddCourse'])->name('admin.add.course');
@@ -45,8 +49,6 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/edit/questionnaire/{id}', [QuestionnaireController::class, 'EditQuestionnaire'])->name('admin.edit.questionnaire');
     Route::post('/admin/update/questionnaire/{id}', [QuestionnaireController::class, 'UpdateQuestionnaire'])->name('admin.update.questionnaire');
     Route::post('/admin/delete/questionnaire/{id}', [QuestionnaireController::class, 'DeleteQuestionnaire'])->name('admin.delete.questionnaire');
-
-
 });
 
 
@@ -66,5 +68,4 @@ Route::middleware(['users'])->group(function () {
     Route::get('/examinees/examination', [ExaminationController::class, 'ExaminationPage'])->name('users.examination.page');
     Route::post('/examinees/submit_responses', [ExaminationController::class, 'SubmitResponses'])->name('users.submit.responses');
     Route::get('/examinees/completed', [ExaminationController::class, 'ExaminationCompletedPage'])->name('users.completed.page');
-
 });
