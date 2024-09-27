@@ -56,7 +56,11 @@ class ExaminationController extends Controller
 
                 DB::table('riasec_scores')->updateOrInsert(
                     ['user_id' => $user->id, 'riasec_id' => $question->riasec_id],
-                    ['points' => DB::raw("points + " . ($answer === 'true' ? 1 : 0))]
+                    [
+                        'points' => DB::raw("points + " . ($answer === 'true' ? 1 : 0)),
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]
                 );
             }
         }
@@ -67,8 +71,6 @@ class ExaminationController extends Controller
     public function ExaminationCompletedPage()
     {
         $user = Auth::guard('users')->user();
-
-        // Get the top 3 RIASEC scores for the user
         $scores = DB::table('riasec_scores')
             ->select('riasec_id', DB::raw('SUM(points) as total_points'))
             ->where('user_id', $user->id)
@@ -77,25 +79,21 @@ class ExaminationController extends Controller
             ->take(3)
             ->get();
 
-        // Get all scores for the user
         $all_scores = DB::table('riasec_scores')
             ->where('user_id', $user->id)
             ->pluck('points', 'riasec_id');
 
-        // Fetch preferred courses from the preferred_courses table
         $preferredCoursesData = DB::table('preferred_courses')
             ->where('user_id', $user->id)
             ->select('course_1', 'course_2', 'course_3')
             ->first();
 
-        // Collect course IDs
         $preferredCourseIds = array_filter([
             $preferredCoursesData->course_1,
             $preferredCoursesData->course_2,
             $preferredCoursesData->course_3,
         ]);
 
-        // Fetch courses related to the top RIASEC scores
         $preferredCourses = DB::table('course_career_pathways')
             ->join('career_pathways', 'course_career_pathways.career_pathway_id', '=', 'career_pathways.id')
             ->join('courses', 'course_career_pathways.course_id', '=', 'courses.id')
@@ -103,7 +101,6 @@ class ExaminationController extends Controller
             ->select('courses.id', 'courses.course_name', 'career_pathways.career_name')
             ->get();
 
-        // Group preferred courses by career name
         $groupedPreferredCourses = [];
         foreach ($preferredCourses as $course) {
             $groupedPreferredCourses[$course->career_name][] = [

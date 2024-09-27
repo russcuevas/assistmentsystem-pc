@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\PreferredCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class InformationController extends Controller
@@ -14,6 +15,11 @@ class InformationController extends Controller
     public function ExaminersInformationPage()
     {
         $examiners = Auth::guard('users')->user();
+        $has_scores = DB::table('riasec_scores')->where('user_id', $examiners->id)->exists();
+
+        if ($has_scores) {
+            return redirect()->route('users.completed.page');
+        }
         $courses = Course::all();
         return view('users.information.information', compact('examiners', 'courses'));
     }

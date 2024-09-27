@@ -16,11 +16,11 @@ class QuestionnaireController extends Controller
         $riasecs = Riasec::all();
         $questions = DB::table('questions')
             ->join('riasecs', 'questions.riasec_id', '=', 'riasecs.id')
-            ->select('questions.id', 'questions.question_text', 'questions.riasec_id', 'riasecs.description as riasec_description')
+            ->select('questions.id', 'questions.question_text', 'questions.riasec_id', 'riasecs.riasec_name as riasec_name',  'riasecs.description as riasec_description')
             ->get();
-    
+
         $options = DB::table('options')->get();
-    
+
         return view('admin.questionnaire.questionnaire', compact('riasecs', 'questions', 'options'));
     }
 
@@ -81,12 +81,9 @@ class QuestionnaireController extends Controller
 
     public function DeleteQuestionnaire($id)
     {
-        $options = DB::table('options')->where('question_id', $id)->pluck('id');
-        DB::table('responses')->whereIn('selected_option_id', $options)->delete();
+        DB::table('responses')->where('question_id', $id)->delete();
         DB::table('options')->where('question_id', $id)->delete();
         DB::table('questions')->where('id', $id)->delete();
-    
         return redirect()->back()->with('success', 'Question deleted successfully!');
     }
-    
 }

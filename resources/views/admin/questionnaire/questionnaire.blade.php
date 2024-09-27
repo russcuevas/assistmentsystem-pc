@@ -79,7 +79,7 @@
             @foreach ($questions as $question)
                 <tr>
                     <td>{{ $question->question_text }}</td>
-                    <td>{{ $question->riasec_id }} = {{ $question->riasec_description }}</td>
+                    <td>{{ $question->riasec_id }} = {{ $question->riasec_name }}</td>
                     <td>
                         <ul>
                             @foreach ($options as $option)
