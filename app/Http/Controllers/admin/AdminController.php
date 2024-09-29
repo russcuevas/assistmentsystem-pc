@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -64,6 +65,9 @@ class AdminController extends Controller
         $admin = Admin::findOrFail($id);
 
         if ($request->hasFile('profile_picture')) {
+            if ($admin->profile_picture) {
+                Storage::disk('public')->delete($admin->profile_picture);
+            }
             $admin->profile_picture = $request->file('profile_picture')->store('admin/profile', 'public');
         }
 
@@ -83,6 +87,11 @@ class AdminController extends Controller
     public function DeleteAdmin($id)
     {
         $admin = Admin::findOrFail($id);
+
+        if ($admin->profile_picture) {
+            Storage::disk('public')->delete($admin->profile_picture);
+        }
+
         $admin->delete();
 
         return redirect()->route('admin.admin.management.page')->with('success', 'Admin deleted successfully');
