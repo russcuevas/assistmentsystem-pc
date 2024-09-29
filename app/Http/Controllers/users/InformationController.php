@@ -38,9 +38,7 @@ class InformationController extends Controller
             'course_3' => 'nullable|exists:courses,id',
         ]);
 
-        // Getting the auth user
         $user = Auth::guard('users')->user();
-
         $birthday = $request->input('birthday');
         if ($birthday) {
             $formatted_password = date('Ymd', strtotime($birthday));
@@ -48,7 +46,6 @@ class InformationController extends Controller
             $formatted_password = $user->password;
         }
 
-        // Update the user details
         $user->update([
             'fullname' => $request->input('fullname'),
             'gender' => $request->input('gender'),
@@ -59,7 +56,6 @@ class InformationController extends Controller
             'password' => Hash::make($formatted_password),
         ]);
 
-        // Insert or update in chosen_course table
         PreferredCourse::updateOrCreate(
             ['user_id' => $user->id],
             [

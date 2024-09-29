@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\CourseController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ExaminersController;
@@ -24,6 +25,15 @@ Route::get('/admin/logout', [AuthController::class, 'AdminLogout'])->name('admin
 // ADMIN ROUTE
 Route::middleware(['admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'AdminDashboardPage'])->name('admin.dashboard.page');
+
+    // ADMIN MANAGEMENT PAGE ADMIN
+    Route::get('/admin/admin_management', [AdminController::class, 'AdminManagementPage'])->name('admin.admin.management.page');
+    Route::post('/admin/add_admin', [AdminController::class, 'AddAdmin'])->name('admin.add.admin');
+    Route::get('/admin/edit/admin/{id}', [AdminController::class, 'EditAdmin'])->name('admin.edit.admin');
+    Route::put('/admin/update/admin/{id}', [AdminController::class, 'UpdateAdmin'])->name('admin.update.admin');
+    Route::delete('/admin/delete/admin/{id}', [AdminController::class, 'DeleteAdmin'])->name('admin.delete.admin');
+
+
 
     // EXAMINERS PAGE ADMIN
     Route::get('/admin/examiners', [ExaminersController::class, 'ExaminersPage'])->name('admin.examiners.page');

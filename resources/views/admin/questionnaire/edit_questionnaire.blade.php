@@ -6,6 +6,20 @@
     <title>Edit Question</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li>
+                <a href="{{ route('admin.dashboard.page')}}">Dashboard</a><br>
+                <a href="{{ route('admin.admin.management.page') }}">Admin Management</a><br>
+                <a href="{{ route('admin.examiners.page')}}">Examiners Management</a><br>
+                <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
+                <a href="{{ route('admin.course.page') }}">Course Management</a><br>
+                <a href="{{ route('admin.questionnaire.page')}}">Questionnaire Management</a><br>
+                <a href="{{ route('admin.logout.request') }}">Logout</a><br>
+            </li>
+        </ul>
+    </nav>
+
     <h1>Edit Question</h1>
 
     <form action="{{ route('admin.update.questionnaire', $question->id) }}" method="POST">

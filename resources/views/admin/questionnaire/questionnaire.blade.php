@@ -25,12 +25,19 @@
     </style>
 </head>
 <body>
-    <a href="{{ route('admin.dashboard.page')}}">Dashboard</a><br>
-    <a href="{{ route('admin.examiners.page')}}">Examiners Management</a><br>
-    <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
-    <a href="{{ route('admin.course.page') }}">Course Management</a><br>
-    <a href="{{ route('admin.questionnaire.page')}}">Questionnaire Management</a><br>
-    <a href="{{ route('admin.logout.request')  }}">Logout</a><br>
+    <nav>
+        <ul>
+            <li>
+                <a href="{{ route('admin.dashboard.page')}}">Dashboard</a><br>
+                <a href="{{ route('admin.admin.management.page') }}">Admin Management</a><br>
+                <a href="{{ route('admin.examiners.page')}}">Examiners Management</a><br>
+                <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
+                <a href="{{ route('admin.course.page') }}">Course Management</a><br>
+                <a href="{{ route('admin.questionnaire.page')}}">Questionnaire Management</a><br>
+                <a href="{{ route('admin.logout.request') }}">Logout</a><br>
+            </li>
+        </ul>
+    </nav>
     <hr>
     <h1>Questionnaire Page</h1>
 

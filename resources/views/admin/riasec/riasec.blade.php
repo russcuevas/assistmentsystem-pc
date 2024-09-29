@@ -40,6 +40,7 @@
         <ul>
             <li>
                 <a href="{{ route('admin.dashboard.page')}}">Dashboard</a><br>
+                <a href="{{ route('admin.admin.management.page') }}">Admin Management</a><br>
                 <a href="{{ route('admin.examiners.page')}}">Examiners Management</a><br>
                 <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
                 <a href="{{ route('admin.course.page') }}">Course Management</a><br>

@@ -34,7 +34,6 @@ class RiasecController extends Controller
     }
     public function AddRiasec(Request $request)
     {
-        // Validate the request
         $request->validate([
             'riasec_id' => 'required|string|max:1|unique:riasecs,id',
             'riasec_name' => 'required|string|max:255',
