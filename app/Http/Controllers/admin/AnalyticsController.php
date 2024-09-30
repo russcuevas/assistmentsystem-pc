@@ -55,4 +55,14 @@ class AnalyticsController extends Controller
 
         return view('admin.analytics.analytics', compact('grouped_users', 'riasec_scores', 'groupedRelatedCourses'));
     }
+
+    public function GetExaminersDataByGender()
+    {
+        $data = DB::table('users')
+            ->select('gender', DB::raw('COUNT(*) as count'))
+            ->groupBy('gender')
+            ->get();
+
+        return response()->json($data);
+    }
 }

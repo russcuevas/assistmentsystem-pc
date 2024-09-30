@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>User RIASEC Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav>
@@ -78,5 +79,45 @@
             @endforeach
         </tbody>
     </table>
+
+    <h1>Examiners based on gender</h1>
+    <canvas id="gender-chart" width="400" height="100"></canvas>
+
+    {{-- GET DATA BASED ON GENDER --}}
+    <script>
+        fetch('/admin/examiners/data-gender')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(item => item.gender);
+                const counts = data.map(item => item.count);
+
+                const maleCount = counts[labels.indexOf("Male")] || 0;
+                const femaleCount = counts[labels.indexOf("Female")] || 0;
+
+                const ctx = document.getElementById('gender-chart').getContext('2d');
+
+                const genderChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Female', 'Male'],
+                        datasets: [{
+                            label: 'Total',
+                            data: [femaleCount, maleCount],
+                            backgroundColor: ['rgba(255, 105, 180, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                            borderColor: ['rgba(255, 105, 180, 1)', 'rgba(75, 192, 192, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+
 </body>
 </html>
