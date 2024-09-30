@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>UB - Assistment</title>
+    <title>User RIASEC Analytics</title>
 </head>
 <body>
     <nav>
@@ -21,5 +21,51 @@
             </li>
         </ul>
     </nav>
+
+    <h1>Analytics determining career field of each users</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Fullname</th>
+                <th>RIASEC Type</th>
+                <th>Career Pathway</th>
+                <th>Related Course</th>
+                <th>Preferred Course</th>
+                <th>Total Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($grouped_users as $fullname => $scores)
+                @php
+                    $sorted_scores = $scores->sortByDesc('total_points');
+                    $grouped_by_riasec = $sorted_scores->groupBy('riasec_id');
+                @endphp
+            
+                @foreach ($grouped_by_riasec as $riasec_id => $group)
+                    @php
+                        $career_names = $group->pluck('career_name')->implode(', ');
+                        $total_points = $group->first()->total_points;
+                        $courses = array_filter([
+                            $group->first()->course_1,
+                            $group->first()->course_2,
+                            $group->first()->course_3,
+                        ]);
+                        $course_names = implode(', ', $courses);
+                        $related_courses = $group->first()->related_courses;
+                    @endphp
+                    <tr>
+                        <td>{{ $loop->first ? $fullname : '' }}</td>
+                        <td>{{ $riasec_id }}</td>
+                        <td>{{ $career_names }}</td>
+                        <td>{{ $related_courses }}</td>
+                        <td>{{ $course_names }}</td>
+                        <td>{{ $total_points }}</td>
+                    </tr>
+                @endforeach
+            @endforeach
+        </tbody>
+    </table>
+    
+    
 </body>
 </html>
