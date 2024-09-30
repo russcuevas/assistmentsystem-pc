@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AnalyticsController;
 use App\Http\Controllers\admin\CourseController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ExaminersController;
@@ -57,8 +58,11 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/questionnaire', [QuestionnaireController::class, 'QuestionnairePage'])->name('admin.questionnaire.page');
     Route::post('/admin/add_questionnaire', [QuestionnaireController::class, 'AddQuestionnaire'])->name('admin.add.questionnaire');
     Route::get('/admin/edit/questionnaire/{id}', [QuestionnaireController::class, 'EditQuestionnaire'])->name('admin.edit.questionnaire');
-    Route::post('/admin/update/questionnaire/{id}', [QuestionnaireController::class, 'UpdateQuestionnaire'])->name('admin.update.questionnaire');
+    Route::put('/admin/update/questionnaire/{id}', [QuestionnaireController::class, 'UpdateQuestionnaire'])->name('admin.update.questionnaire');
     Route::post('/admin/delete/questionnaire/{id}', [QuestionnaireController::class, 'DeleteQuestionnaire'])->name('admin.delete.questionnaire');
+
+    // ANALYTICS PAGE ADMIN
+    Route::get('/admin/analytics', [AnalyticsController::class, 'AnalyticsPage'])->name('admin.analytics.page');
 });
 
 

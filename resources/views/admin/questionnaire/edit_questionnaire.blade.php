@@ -15,6 +15,7 @@
                 <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
                 <a href="{{ route('admin.course.page') }}">Course Management</a><br>
                 <a href="{{ route('admin.questionnaire.page')}}">Questionnaire Management</a><br>
+                <a href="{{ route('admin.analytics.page')}}">Analytics</a>
                 <a href="{{ route('admin.logout.request') }}">Logout</a><br>
             </li>
         </ul>
@@ -24,6 +25,7 @@
 
     <form action="{{ route('admin.update.questionnaire', $question->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <input type="hidden" name="is_correct" value="1">
         <input type="hidden" name="option_text" id="option_text" required value="{{ $options->first()->option_text }}"> <br>
 
