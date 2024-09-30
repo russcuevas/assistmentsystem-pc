@@ -32,22 +32,32 @@
         <li>C = Conventional: {{ $all_scores['C'] ?? 0 }}</li>
     </ul>
 
-    <h2>Preferred Courses for Top 3 RIASEC <span style="color: brown"><i>(the highlighted related to your preferred course)</i></span> </h2>
-    <ul>
-        @foreach ($groupedPreferredCourses as $careerName => $courses)
+<h2>Preferred Courses for Top 3 RIASEC <span style="color: brown"><i>(the highlighted related to your preferred course)</i></span></h2>
+<ul>
+    @foreach ($scores as $score)
+        @if (isset($groupedPreferredCourses[$score->riasec_id]))
             <li>
-                {{ $careerName }}: 
-                @foreach ($courses as $course)
-                    <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
-                        {{ $course['name'] }}
-                    </span>
-                    @if (!$loop->last) 
-                        , 
-                    @endif
+                @php
+                    $firstCareer = array_key_first($groupedPreferredCourses[$score->riasec_id]);
+                    $riasecName = $groupedPreferredCourses[$score->riasec_id][$firstCareer][0]['riasec_name'] ?? '';
+                @endphp
+                {{ $riasecName }}//
+                @foreach ($groupedPreferredCourses[$score->riasec_id] as $careerName => $courses)
+                    <br>{{ $careerName }}: 
+                    @foreach ($courses as $course)
+                        <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
+                            {{ $course['name'] }}, &nbsp;
+                        </span>
+                    @endforeach
                 @endforeach
             </li>
-        @endforeach
-    </ul>
+        @endif
+    @endforeach
+</ul>
+
+
+
+
 
 
     <canvas id="myDonutChart" width="50" height="400"></canvas>

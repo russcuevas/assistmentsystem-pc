@@ -97,15 +97,17 @@ class ExaminationController extends Controller
         $preferredCourses = DB::table('course_career_pathways')
             ->join('career_pathways', 'course_career_pathways.career_pathway_id', '=', 'career_pathways.id')
             ->join('courses', 'course_career_pathways.course_id', '=', 'courses.id')
+            ->join('riasecs', 'career_pathways.riasec_id', '=', 'riasecs.id') // Join with riasecs table
             ->whereIn('career_pathways.riasec_id', $scores->pluck('riasec_id'))
-            ->select('courses.id', 'courses.course_name', 'career_pathways.career_name')
+            ->select('courses.id', 'courses.course_name', 'career_pathways.career_name', 'career_pathways.riasec_id', 'riasecs.riasec_name') // Select riasec_name
             ->get();
 
         $groupedPreferredCourses = [];
         foreach ($preferredCourses as $course) {
-            $groupedPreferredCourses[$course->career_name][] = [
+            $groupedPreferredCourses[$course->riasec_id][$course->career_name][] = [
                 'id' => $course->id,
                 'name' => $course->course_name,
+                'riasec_name' => $course->riasec_name
             ];
         }
 
