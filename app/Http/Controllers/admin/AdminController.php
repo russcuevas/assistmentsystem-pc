@@ -24,7 +24,7 @@ class AdminController extends Controller
             'profile_picture' => 'nullable|image',
             'fullname' => 'required|string',
             'email' => 'required|email|unique:admins,email',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6',
         ]);
     
         if ($validator->fails()) {
@@ -45,7 +45,7 @@ class AdminController extends Controller
     
         return redirect()->route('admin.admin.management.page')->with('success', 'Admin added successfully');
     }
-    
+
     public function UpdateAdmin(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

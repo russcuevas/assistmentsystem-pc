@@ -7,6 +7,8 @@
     <title>Admin Management</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
 </head>
 <body>
 
@@ -33,12 +35,12 @@
     {{-- MODALS --}}
     <!-- Add Admin Modal -->
     @include('admin.admin_management.modals.admin_add_modal')
-    
+
     @foreach($admins as $admin)
         <!-- Edit Admin Modal -->
-        @include('admin.admin_management.modals.admin_edit_modal');
+        @include('admin.admin_management.modals.admin_edit_modal')
         <!-- Delete Confirmation Modal -->
-        @include('admin.admin_management.modals.admin_delete_modal');
+        @include('admin.admin_management.modals.admin_delete_modal')
     @endforeach
 
     <div class="body">
@@ -81,5 +83,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+    <script>
+        @if(session('success'))
+            swal("Success", "{{ session('success') }}", "success");
+        @endif
+
+        @if($errors->any())
+            swal("Error", "{{ $errors->first() }}", "error");
+        @endif
+    </script>
 </body>
 </html>

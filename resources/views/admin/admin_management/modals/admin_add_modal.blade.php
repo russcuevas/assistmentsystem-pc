@@ -26,10 +26,6 @@
                         <label for="password">Password</label>
                         <input type="password" class="form-control" name="password" id="password" required>
                     </div>
-                    <div class="form-group">
-                        <label for="confirm_password">Confirm Password</label>
-                        <input type="password" class="form-control" name="confirm_password" id="confirm_password" required>
-                    </div>
                     <button type="submit" class="btn btn-primary">Add admin</button>
                 </form>
             </div>
