@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
     <style>
         .loading-message {
@@ -30,14 +31,32 @@
     </nav>
     
     <h1>Add default ID</h1>
-    <form action="{{ route('admin.add.examiners') }}" method="POST" onsubmit="showLoading">
-        @csrf
-        <label for="count">Number of ID to Add</label>
-        <input type="number" name="count" min="1" required><br>
-        <label for="default_id">Last ID</label>
-        <input type="text" name="default_id" readonly value="{{ $next_id }}"><br>
-        <input type="submit" value="Add Default ID">
-    </form>
+    <button class="btn btn-success" data-toggle="modal" data-target="#addDefaultIdModal">Add Default ID</button>
+    <div class="modal fade" id="addDefaultIdModal" tabindex="-1" role="dialog" aria-labelledby="addDefaultIdModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDefaultIdModalLabel">Add Course</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('admin.add.examiners') }}" method="POST" onsubmit="showLoading">
+                    @csrf
+                    <div class="modal-body">
+                        <label for="count">Number of ID to Add</label>
+                        <input type="number" name="count" min="1" class="form-control" required>
+                        <label for="default_id">Last ID</label>
+                        <input type="text" name="default_id"  class="form-control" readonly value="{{ $next_id }}" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Add Default ID">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <table>
         <thead>
@@ -112,7 +131,9 @@
         </tbody>
     </table>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
     <script>
         function showLoading() {
