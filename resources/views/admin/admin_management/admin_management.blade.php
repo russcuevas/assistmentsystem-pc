@@ -36,13 +36,6 @@
     <!-- Add Admin Modal -->
     @include('admin.admin_management.modals.admin_add_modal')
 
-    @foreach($admins as $admin)
-        <!-- Edit Admin Modal -->
-        @include('admin.admin_management.modals.admin_edit_modal')
-        <!-- Delete Confirmation Modal -->
-        @include('admin.admin_management.modals.admin_delete_modal')
-    @endforeach
-
     <div class="body">
         <table class="table">
             <thead>
@@ -72,6 +65,10 @@
                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
                             Delete
                         </button>
+                        <!-- Edit Admin Modal -->
+                        @include('admin.admin_management.modals.admin_edit_modal')
+                        <!-- Delete Confirmation Modal -->
+                        @include('admin.admin_management.modals.admin_delete_modal')
                     </td>
                 </tr>
                 @endforeach

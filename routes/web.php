@@ -51,6 +51,7 @@ Route::middleware(['admin'])->group(function () {
     // COURSE PAGE ADMIN
     Route::get('/admin/course', [CourseController::class, 'CoursePage'])->name('admin.course.page');
     Route::post('/admin/add_course', [CourseController::class, 'AddCourse'])->name('admin.add.course');
+    Route::put('admin/update/course/{id}', [CourseController::class, 'UpdateCourse'])->name('admin.update.course');
     Route::delete('/admin/delete_course/{id}', [CourseController::class, 'DeleteCourse'])->name('admin.delete.course');
 
     // QUESTION PAGE ADMIN

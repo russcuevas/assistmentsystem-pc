@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <nav>
@@ -21,20 +22,15 @@
             </li>
         </ul>
     </nav>
-    <h1>Add course</h1>
-    <form action="{{ route('admin.add.course') }}" method="POST">
-        @csrf
-        <label for="">Course name</label><br>
-        <input type="text" name="course_name"><br>
-        <label for="">Course decription</label><br>
-        <input type="text" name="course_description"><br>
-        <input type="submit" value="Add course">
-    </form>
-    <br>
+    <h1>Course Management</h1>
+    <button class="btn btn-success" data-toggle="modal" data-target="#addCourseModal">Add Course</button>
+    <!-- Add Course Modal -->
+    @include('admin.course.modals.add_course');
+
     <hr>
     <h1>Course List</h1>
-        <div class="body">
-        <table>
+    <div class="body">
+        <table class="table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -50,16 +46,30 @@
                     <td>{{ $available_course->course_name }}</td>
                     <td>{{ $available_course->course_description }}</td>
                     <td>
-                        <form action="{{ route('admin.delete.course', $available_course->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="Delete">
-                        </form>
+                        <button class="btn btn-warning btn-sm" 
+                                data-toggle="modal" 
+                                data-target="#updateCourseModal{{ $available_course->id }}">
+                            Edit
+                        </button>
+                        <button class="btn btn-danger btn-sm" 
+                                data-toggle="modal" 
+                                data-target="#deleteCourseModal{{ $available_course->id }}">
+                            Delete
+                        </button>
+                        
+                        <!-- Edit Course Modal -->
+                        @include('admin.course.modals.edit_course')
+                        {{-- Delete Course Modal --}}
+                        @include('admin.course.modals.delete_course')
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
