@@ -32,31 +32,8 @@
     
     <h1>Add default ID</h1>
     <button class="btn btn-success" data-toggle="modal" data-target="#addDefaultIdModal">Add Default ID</button>
-    <div class="modal fade" id="addDefaultIdModal" tabindex="-1" role="dialog" aria-labelledby="addDefaultIdModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addDefaultIdModalLabel">Add Course</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('admin.add.examiners') }}" method="POST" onsubmit="showLoading">
-                    @csrf
-                    <div class="modal-body">
-                        <label for="count">Number of ID to Add</label>
-                        <input type="number" name="count" min="1" class="form-control" required>
-                        <label for="default_id">Last ID</label>
-                        <input type="text" name="default_id"  class="form-control" readonly value="{{ $next_id }}" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Add Default ID">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    {{-- Add Default ID Modal --}}
+    @include('admin.examiners.modals.add_default_id')
 
     <table>
         <thead>
@@ -71,14 +48,16 @@
                 <td>{{ $default_id->default_id }}</td>
                 <td>
                     @if(empty($default_id->fullname))
-                        <form action="{{ route('admin.delete.examiners', $default_id->default_id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this id?');">Delete</button>
-                        </form>
+                    <button class="btn btn-danger btn-sm" 
+                            data-toggle="modal" 
+                            data-target="#deleteExaminersModal{{ $default_id->default_id }}">
+                        Delete
+                    </button>
                     @else
                         <span>Has records</span>
                     @endif
+                    {{-- Delete Default ID Modal --}}
+                    @include('admin.examiners.modals.delete_default_id')
                 </td>
             </tr>
             @empty
