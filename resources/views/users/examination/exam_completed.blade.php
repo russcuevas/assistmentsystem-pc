@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Examination Completed</title>
     <style>
-    .highlight {
-        font-weight: bold;
-        color: red;
-    }
+        .highlight {
+            font-weight: bold;
+            color: red;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -24,41 +31,37 @@
 
     <h2>Total Points for Each Interest Code</h2>
     <ul>
-        <li>R = Realistic: {{ $all_scores['R'] ?? 0 }}</li>
-        <li>I = Investigative: {{ $all_scores['I'] ?? 0 }}</li>
-        <li>A = Artistic: {{ $all_scores['A'] ?? 0 }}</li>
-        <li>S = Social: {{ $all_scores['S'] ?? 0 }}</li>
-        <li>E = Enterprising: {{ $all_scores['E'] ?? 0 }}</li>
-        <li>C = Conventional: {{ $all_scores['C'] ?? 0 }}</li>
+        @php
+            // Define a fixed order for the RIASEC scores
+            $riaSecOrder = ['R', 'I', 'A', 'S', 'E', 'C'];
+        @endphp
+        @foreach ($riaSecOrder as $riasec_id)
+            <li>{{ $riasec_id }} = {{ $all_scores[$riasec_id] ?? 0 }}</li>
+        @endforeach
     </ul>
 
-<h2>Preferred Courses for Top 3 RIASEC <span style="color: brown"><i>(the highlighted related to your preferred course)</i></span></h2>
-<ul>
-    @foreach ($scores as $score)
-        @if (isset($groupedPreferredCourses[$score->riasec_id]))
-            <li>
-                @php
-                    $firstCareer = array_key_first($groupedPreferredCourses[$score->riasec_id]);
-                    $riasecName = $groupedPreferredCourses[$score->riasec_id][$firstCareer][0]['riasec_name'] ?? '';
-                @endphp
-                {{ $riasecName }}//
-                @foreach ($groupedPreferredCourses[$score->riasec_id] as $careerName => $courses)
-                    <br>{{ $careerName }}: 
-                    @foreach ($courses as $course)
-                        <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
-                            {{ $course['name'] }}, &nbsp;
-                        </span>
+    <h2>Preferred Courses for Top 3 RIASEC <span style="color: brown"><i>(the highlighted related to your preferred course)</i></span></h2>
+    <ul>
+        @foreach ($scores as $score)
+            @if (isset($groupedPreferredCourses[$score->riasec_id]))
+                <li>
+                    @php
+                        $firstCareer = array_key_first($groupedPreferredCourses[$score->riasec_id]);
+                        $riasecName = $groupedPreferredCourses[$score->riasec_id][$firstCareer][0]['riasec_name'] ?? '';
+                    @endphp
+                    {{ $riasecName }}//
+                    @foreach ($groupedPreferredCourses[$score->riasec_id] as $careerName => $courses)
+                        <br>{{ $careerName }}: 
+                        @foreach ($courses as $course)
+                            <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
+                                {{ $course['name'] }}, &nbsp;
+                            </span>
+                        @endforeach
                     @endforeach
-                @endforeach
-            </li>
-        @endif
-    @endforeach
-</ul>
-
-
-
-
-
+                </li>
+            @endif
+        @endforeach
+    </ul>
 
     <canvas id="myDonutChart" width="50" height="400"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

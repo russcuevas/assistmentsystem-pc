@@ -6,6 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>User RIASEC Analytics</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -23,67 +38,77 @@
         </ul>
     </nav>
 
-    <h1>Analytics determining career field of each user</h1>
-    <table border="1">
+    <h2>Analytics preference based on the response of each examinees</h2>
+    <table>
         <thead>
             <tr>
                 <th>Fullname</th>
-                <th>Preferred Course</th>
-                <th>RIASEC</th>
-                <th>Related Course</th>
-                <th>Total Points</th>
+                <th>RIASEC/Scores</th>
+                <th>Suggested Courses</th>
+                <th>Preferred Courses</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($grouped_users as $fullname => $scores)
-                @php
-                    $currentRiasecId = null;
-                    $isFirstRow = true;
-                    $preferredCourseDisplayed = false;
-                @endphp
-
-                @foreach ($scores as $score)
-                    <tr>
-                        @if ($currentRiasecId !== $score->riasec_id)
-                            <td>{{ $isFirstRow ? $fullname : '' }}</td>
-                            <td>
-                                @if (!$preferredCourseDisplayed)
-                                    @php
-                                        $preferredCourses = array_filter([$score->course_1_name, $score->course_2_name, $score->course_3_name]);
-                                    @endphp
-                                    @foreach ($preferredCourses as $course)
-                                        {{ $course }}<br>
-                                    @endforeach
-                                    @php $preferredCourseDisplayed = true; @endphp
-                                @endif
-                            </td>
-                            <td>{{ $score->riasec_id }} = {{ $score->riasec_name }}</td>                
-                            <td>
-                                @if (isset($groupedRelatedCourses[$score->riasec_id]))
-                                    @foreach ($groupedRelatedCourses[$score->riasec_id] as $career_name => $courses)
-                                        {{ $career_name }}:<br>
-                                        @foreach ($courses as $course)
-                                            <span style="{{ in_array($course, array_filter([$score->course_1_name, $score->course_2_name, $score->course_3_name])) ? 'color: red;' : '' }}">
-                                                {{ $course }}
-                                            </span><br>
-                                        @endforeach
-                                    @endforeach
-                                @endif
-                            </td>
-                            <td>{{ $score->total_points }}</td>
-                            @php $isFirstRow = false; @endphp
-                        @endif
-                    </tr>
-                    @php $currentRiasecId = $score->riasec_id; @endphp
-                @endforeach
+            @foreach ($topScores as $userId => $scores)
+                <tr>
+                    <td>{{ $users[$userId] }}</td>
+                    <td>
+                        @foreach ($scores as $riasec_id => $data)
+                            <div>{{ $riasec_id }} = {{ $data }}</div> <!-- Note: $data is now assumed to be total_points directly -->
+                        @endforeach
+                    </td>
+                    
+                    <td>
+                        @foreach ($scores as $riasec_id => $total_points)
+                        <div>
+                            @if(isset($suggestedCourses[$userId][$riasec_id]))
+                                <strong>{{ $riasec_id }}:</strong><br>
+                                @foreach ($suggestedCourses[$userId][$riasec_id] as $course)
+                                    <?php
+                                        $preferredCourseNames = [
+                                            $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A',
+                                            $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A',
+                                            $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
+                                        ];
+                                    ?>
+                                    @if (in_array($course->course_name, $preferredCourseNames))
+                                        <span style="color: red; font-weight: 900;">→ {{ $course->career_name }}: {{ $course->course_name }}</span><br>
+                                    @else
+                                        {{ $course->career_name }}: {{ $course->course_name }}<br>
+                                    @endif
+                                @endforeach
+                            @else
+                                No suggested courses available for {{ $riasec_id }}.<br>
+                            @endif
+                        </div>
+                        @endforeach
+                    </td>
+                    <td>
+                        <div>
+                            @if(isset($preferredCourses[$userId][$riasec_id]))
+                                Course 1: {{ $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A' }}<br>
+                                Course 2: {{ $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A' }}<br>
+                                Course 3: {{ $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A' }}<br>
+                            @else
+                                No preferred courses available.<br>
+                            @endif
+                        </div>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
 
+    
+
     <h1>Examiners based on gender</h1>
     <canvas id="gender-chart" width="400" height="100"></canvas>
 
-    {{-- GET DATA BASED ON GENDER --}}
+    <h1>Offered courses</h1>
+    <canvas id="course-chart" width="400" height="200"></canvas>
+    
+
+    {{-- Gender Chart Analytics --}}
     <script>
         fetch('/admin/examiners/data-gender')
             .then(response => response.json())
@@ -119,5 +144,61 @@
             });
     </script>
 
+    {{-- Course Chart Analytics --}}
+    <script>
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    
+        fetch('/admin/courses/offered')
+            .then(response => response.json())
+            .then(data => {
+                const courseLabels = Object.keys(data.offered_courses);
+                const courseCounts = Object.values(data.offered_courses);
+                const backgroundColors = courseLabels.map(() => getRandomColor());
+                const borderColors = courseLabels.map(() => getRandomColor());
+    
+                const ctx = document.getElementById('course-chart').getContext('2d');
+    
+                const courseChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: courseLabels,
+                        datasets: [{
+                            label: 'Offered Courses',
+                            data: courseCounts,
+                            backgroundColor: backgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        const label = tooltipItem.label || '';
+                                        const value = tooltipItem.raw || 0;
+                                        return label + ': ' + value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching course data:', error);
+            });
+    </script>
 </body>
 </html>
