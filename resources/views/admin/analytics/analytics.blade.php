@@ -54,7 +54,7 @@
                     <td>{{ $users[$userId] }}</td>
                     <td>
                         @foreach ($scores as $riasec_id => $data)
-                            <div>{{ $riasec_id }} = {{ $data }}</div> <!-- Note: $data is now assumed to be total_points directly -->
+                            <div>{{ $riasec_id }} = {{ $data }}</div>
                         @endforeach
                     </td>
                     
