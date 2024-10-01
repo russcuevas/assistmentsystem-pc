@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
+    <style>
+        .loading-message {
+            font-family: 'Arial', sans-serif;
+        }
+
+    </style>
 </head>
 <body>
     <nav>
@@ -23,7 +30,7 @@
     </nav>
     
     <h1>Add default ID</h1>
-    <form action="{{ route('admin.add.examiners') }}" method="POST">
+    <form action="{{ route('admin.add.examiners') }}" method="POST" onsubmit="showLoading">
         @csrf
         <label for="count">Number of ID to Add</label>
         <input type="number" name="count" min="1" required><br>
@@ -63,8 +70,6 @@
         </tbody>
     </table>
     
-    
-
     <hr>
 
     <h1>Examiners List</h1>
@@ -107,5 +112,21 @@
         </tbody>
     </table>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
+    <script>
+        function showLoading() {
+            HoldOn.open({
+                theme: 'sk-circle',
+                message: '<div class="loading-message">Please wait, adding ID...</div>',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                textColor: '#fff'
+            });
+        }
+
+        document.querySelector('form').onsubmit = function() {
+            showLoading();
+        };
+    </script>
 </body>
 </html>
