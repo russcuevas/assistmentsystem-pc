@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Admin Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
     <nav>
         <ul>
             <li>
@@ -22,24 +25,24 @@
         </ul>
     </nav>
 
-    <h1>Add admin</h1>
-    <form action="{{ route('admin.add.admin') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <label for="">Profile picture</label><br>
-        <input type="file" name="profile_picture"><br>
-        <label for="">Fullname</label><br>
-        <input type="text" name="fullname"><br>
-        <label for="">Email</label><br>
-        <input type="email" name="email"><br>
-        <label for="">Password</label><br>
-        <input type="password" name="password"><br>
-        <input type="submit" value="Add admin">
-    </form>
-    <br>
-    <hr>
     <h1>Admin List</h1>
-        <div class="body">
-        <table>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAdminModal">
+        Add Admin
+    </button>
+
+    {{-- MODALS --}}
+    <!-- Add Admin Modal -->
+    @include('admin.admin_management.modals.admin_add_modal')
+    
+    @foreach($admins as $admin)
+        <!-- Edit Admin Modal -->
+        @include('admin.admin_management.modals.admin_edit_modal');
+        <!-- Delete Confirmation Modal -->
+        @include('admin.admin_management.modals.admin_delete_modal');
+    @endforeach
+
+    <div class="body">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Profile picture</th>
@@ -48,31 +51,35 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-                <tbody>
-                    @foreach($admins as $admin)
-                    <tr>
-                        <td>
-                            @if($admin->profile_picture)
-                                <img src="{{ asset('storage/' . $admin->profile_picture) }}" alt="Profile Picture" style="width: 50px; height: 50px;">
-                            @else
-                                No Image
-                            @endif
-                        </td>
-                        <td>{{ $admin->fullname }}</td>
-                        <td>{{ $admin->email }}</td>
-                        <td>
-                            <a href="{{ route('admin.edit.admin', $admin->id) }}">Edit</a> |
-                            <form action="{{ route('admin.delete.admin', $admin->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-
+            <tbody>
+                @foreach($admins as $admin)
+                <tr>
+                    <td>
+                        @if($admin->profile_picture)
+                            <img src="{{ asset('storage/' . $admin->profile_picture) }}" alt="Profile Picture" style="width: 50px; height: 50px;">
+                        @else
+                            No Image
+                        @endif
+                    </td>
+                    <td>{{ $admin->fullname }}</td>
+                    <td>{{ $admin->email }}</td>
+                    <td>
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">
+                            Edit
+                        </button> |
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
         </table>
     </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -30,7 +30,6 @@ Route::middleware(['admin'])->group(function () {
     // ADMIN MANAGEMENT PAGE ADMIN
     Route::get('/admin/admin_management', [AdminController::class, 'AdminManagementPage'])->name('admin.admin.management.page');
     Route::post('/admin/add_admin', [AdminController::class, 'AddAdmin'])->name('admin.add.admin');
-    Route::get('/admin/edit/admin/{id}', [AdminController::class, 'EditAdmin'])->name('admin.edit.admin');
     Route::put('/admin/update/admin/{id}', [AdminController::class, 'UpdateAdmin'])->name('admin.update.admin');
     Route::delete('/admin/delete/admin/{id}', [AdminController::class, 'DeleteAdmin'])->name('admin.delete.admin');
 

@@ -23,32 +23,29 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'profile_picture' => 'nullable|image',
             'fullname' => 'required|string',
-            'email' => 'required',
-            'password' => 'required|min:6',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|min:6|confirmed',
         ]);
-
+    
         if ($validator->fails()) {
             return redirect()->route('admin.admin.management.page')->withErrors($validator)->withInput();
         }
-
-        $profile_picture_path = $request->file('profile_picture')->store('admin/profile', 'public');
-
+    
+        $profile_picture_path = null;
+        if ($request->hasFile('profile_picture')) {
+            $profile_picture_path = $request->file('profile_picture')->store('admin/profile', 'public');
+        }
+    
         Admin::create([
             'profile_picture' => $profile_picture_path,
             'fullname' => $request->input('fullname'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
         ]);
-
+    
         return redirect()->route('admin.admin.management.page')->with('success', 'Admin added successfully');
     }
-
-    public function EditAdmin($id)
-    {
-        $admin = Admin::findOrFail($id);
-        return view('admin.admin_management.admin_edit', compact('admin'));
-    }
-
+    
     public function UpdateAdmin(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
