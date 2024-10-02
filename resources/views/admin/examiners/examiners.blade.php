@@ -82,6 +82,7 @@
                 <th>Birthday</th>
                 <th>Strand</th>
                 <th>Preferred Course</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -99,6 +100,13 @@
                             1.) {{ $examiner->course_1_name ?? 'N/A' }} <br>
                             2.) {{ $examiner->course_2_name ?? 'N/A' }} <br>
                             3.) {{ $examiner->course_3_name ?? 'N/A' }} <br>
+                        </td>
+                        <td>
+                            <form action="{{ route('admin.delete.examiners.list', $examiner->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this examiner?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">DELETE</button>
+                            </form>
                         </td>
                     </tr>
                 @endif

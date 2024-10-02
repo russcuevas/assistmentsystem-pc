@@ -16,13 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('selected_option_id')->nullable();
             $table->timestamps();
-    
-            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions');
             $table->foreign('selected_option_id')->references('id')->on('options')->nullable();
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

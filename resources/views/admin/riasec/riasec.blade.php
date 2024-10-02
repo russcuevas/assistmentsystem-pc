@@ -122,6 +122,11 @@
                     <td>{{ $riasec_formatting->description }}</td>
                     <td>
                         <a href="{{ route('admin.edit.riasec', $riasec_formatting->id) }}">Update</a>
+                        <form action="{{ route('admin.delete.riasec', $riasec_formatting->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

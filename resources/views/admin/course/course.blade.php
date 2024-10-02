@@ -25,7 +25,7 @@
     <h1>Course Management</h1>
     <button class="btn btn-success" data-toggle="modal" data-target="#addCourseModal">Add Course</button>
     <!-- Add Course Modal -->
-    @include('admin.course.modals.add_course');
+    @include('admin.course.modals.add_course')
 
     <hr>
     <h1>Course List</h1>

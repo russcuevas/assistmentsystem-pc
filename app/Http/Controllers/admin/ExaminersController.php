@@ -17,23 +17,23 @@ class ExaminersController extends Controller
         $next_id = !empty($default_id) ? max($default_id) + 1 : 1;
 
         $examiners = DB::table('users')
-        ->leftJoin('preferred_courses', 'users.id', '=', 'preferred_courses.user_id')
-        ->leftJoin('courses as course_1', 'preferred_courses.course_1', '=', 'course_1.id')
-        ->leftJoin('courses as course_2', 'preferred_courses.course_2', '=', 'course_2.id')
-        ->leftJoin('courses as course_3', 'preferred_courses.course_3', '=', 'course_3.id')
-        ->select(
-            'users.id',
-            'users.default_id',
-            'users.fullname',
-            'users.gender',
-            'users.age',
-            'users.birthday',
-            'users.strand',
-            'course_1.course_name as course_1_name',
-            'course_2.course_name as course_2_name',
-            'course_3.course_name as course_3_name' 
-        )
-        ->get();
+            ->leftJoin('preferred_courses', 'users.id', '=', 'preferred_courses.user_id')
+            ->leftJoin('courses as course_1', 'preferred_courses.course_1', '=', 'course_1.id')
+            ->leftJoin('courses as course_2', 'preferred_courses.course_2', '=', 'course_2.id')
+            ->leftJoin('courses as course_3', 'preferred_courses.course_3', '=', 'course_3.id')
+            ->select(
+                'users.id',
+                'users.default_id',
+                'users.fullname',
+                'users.gender',
+                'users.age',
+                'users.birthday',
+                'users.strand',
+                'course_1.course_name as course_1_name',
+                'course_2.course_name as course_2_name',
+                'course_3.course_name as course_3_name'
+            )
+            ->get();
 
         return view('admin.examiners.examiners', compact('available_default_id', 'default_id', 'next_id', 'examiners'));
     }
@@ -67,11 +67,23 @@ class ExaminersController extends Controller
         return redirect()->route('admin.examiners.page')->with('success', 'Default IDs added successfully: ' . implode(', ', $created_id));
     }
 
+    public function ExaminersListDelete($id)
+    {
+        $user = User::where('id', $id)->first();
+
+        if ($user) {
+            $user->delete();
+            return redirect()->route('admin.examiners.page')->with('success', 'Examiner deleted successfully');
+        }
+
+        return redirect()->route('admin.examiners.page')->with('error', 'Examiner not found');
+    }
+
     public function ExaminersDefaultIdDelete($default_id)
     {
         $user = User::where('default_id', $default_id)->first();
 
-        if ($user){
+        if ($user) {
             $user->delete();
             return redirect()->route('admin.examiners.page')->with('success', 'Examiner deleted successfully');
         }

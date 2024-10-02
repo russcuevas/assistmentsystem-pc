@@ -144,61 +144,60 @@
             });
     </script>
 
-    {{-- Course Chart Analytics --}}
-    <script>
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
+   {{-- Course Chart Analytics --}}
+<script>
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
         }
-    
-        fetch('/admin/courses/offered')
-            .then(response => response.json())
-            .then(data => {
-                const courseLabels = Object.keys(data.offered_courses);
-                const courseCounts = Object.values(data.offered_courses);
-                const backgroundColors = courseLabels.map(() => getRandomColor());
-                const borderColors = courseLabels.map(() => getRandomColor());
-    
-                const ctx = document.getElementById('course-chart').getContext('2d');
-    
-                const courseChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: courseLabels,
-                        datasets: [{
-                            label: 'Offered Courses',
-                            data: courseCounts,
-                            backgroundColor: backgroundColors,
-                            borderColor: borderColors,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(tooltipItem) {
-                                        const label = tooltipItem.label || '';
-                                        const value = tooltipItem.raw || 0;
-                                        return label + ': ' + value;
-                                    }
+        return color;
+    }
+
+    fetch('/admin/courses/offered')
+        .then(response => response.json())
+        .then(data => {
+            const courseLabels = Object.keys(data.offered_courses);
+            const courseCounts = Object.values(data.offered_courses);
+            const backgroundColors = courseLabels.map(() => getRandomColor());
+            const borderColors = courseLabels.map(() => getRandomColor());
+
+            const ctx = document.getElementById('course-chart').getContext('2d');
+
+            const courseChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: courseLabels,
+                    datasets: [{
+                        label: 'Offered Courses',
+                        data: courseCounts,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label || '';
                                 }
                             }
                         }
                     }
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching course data:', error);
+                }
             });
-    </script>
+        })
+        .catch(error => {
+            console.error('Error fetching course data:', error);
+        });
+</script>
+
 </body>
 </html>

@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('preferred_courses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('course_1');
-            $table->unsignedBigInteger('course_2');
-            $table->unsignedBigInteger('course_3');
+            $table->unsignedBigInteger('course_1')->nullable();
+            $table->unsignedBigInteger('course_2')->nullable();
+            $table->unsignedBigInteger('course_3')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('course_1')->references('id')->on('courses')->onDelete('cascade');
-            $table->foreign('course_2')->references('id')->on('courses')->onDelete('cascade');
-            $table->foreign('course_3')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('course_1')->references('id')->on('courses')->onDelete('set null');
+            $table->foreign('course_2')->references('id')->on('courses')->onDelete('set null');
+            $table->foreign('course_3')->references('id')->on('courses')->onDelete('set null');
         });
     }
 

@@ -40,24 +40,24 @@ class CourseController extends Controller
             'course_name' => 'required|string|max:255|unique:courses,course_name,' . $id,
             'course_description' => 'required|string'
         ]);
-    
+
         if ($validator->fails()) {
             return redirect()->route('admin.course.page')->withErrors($validator)->withInput();
         }
-    
+
         $course = Course::find($id);
         if ($course) {
             $course->update([
                 'course_name' => $request->input('course_name'),
                 'course_description' => $request->input('course_description'),
             ]);
-    
+
             return redirect()->route('admin.course.page')->with('success', 'Course updated successfully');
         }
-    
+
         return redirect()->route('admin.course.page')->with('error', 'Course not found');
     }
-    
+
 
     public function DeleteCourse($id)
     {

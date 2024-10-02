@@ -39,12 +39,15 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/examiners', [ExaminersController::class, 'ExaminersPage'])->name('admin.examiners.page');
     Route::post('/admin/add_examiners', [ExaminersController::class, 'ExaminersAccountAdd'])->name('admin.add.examiners');
     Route::delete('/admin/examiners_account/delete/{default_id}', [ExaminersController::class, 'ExaminersDefaultIdDelete'])->name('admin.delete.examiners');
+    Route::delete('/admin/examiners_list/delete/{id}', [ExaminersController::class, 'ExaminersListDelete'])->name('admin.delete.examiners.list');
 
     // RIASEC PAGE ADMIN
     Route::get('/admin/riasec', [RiasecController::class, 'RiasecPage'])->name('admin.riasec.page');
     Route::post('/admin/add_riasec', [RiasecController::class, 'AddRiasec'])->name('admin.add.riasec');
     Route::get('/admin/edit/riasec/{id}', [RiasecController::class, 'EditRiasec'])->name('admin.edit.riasec');
     Route::put('/admin/update/riasec/{id}', [RiasecController::class, 'UpdateRiasec'])->name('admin.update.riasec');
+    Route::delete('/admin/delete/riasec/{id}', [RiasecController::class, 'DeleteRiasec'])->name('admin.delete.riasec');
+
 
 
 

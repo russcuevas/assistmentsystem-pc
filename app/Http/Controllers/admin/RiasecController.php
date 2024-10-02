@@ -129,4 +129,20 @@ class RiasecController extends Controller
 
         return redirect()->route('admin.riasec.page')->with('success', 'RIASEC updated successfully!');
     }
+
+    public function DeleteRiasec($id)
+    {
+        // First, delete the associated course career pathways
+        DB::table('course_career_pathways')->whereIn('career_pathway_id', function ($query) use ($id) {
+            $query->select('id')->from('career_pathways')->where('riasec_id', $id);
+        })->delete();
+
+        // Then delete the career pathways
+        DB::table('career_pathways')->where('riasec_id', $id)->delete();
+
+        // Finally, delete the RIASEC record
+        DB::table('riasecs')->where('id', $id)->delete();
+
+        return redirect()->route('admin.riasec.page')->with('success', 'RIASEC deleted successfully!');
+    }
 }
