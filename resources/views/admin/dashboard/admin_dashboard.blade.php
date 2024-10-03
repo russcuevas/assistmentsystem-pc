@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>UB - Assistments</title>
     <!-- Favicon-->
     <link rel="icon" href="{{ asset('admin/images/ub-logo.png') }}" type="image/x-icon">
@@ -241,48 +242,52 @@
     </section>
 
     <!-- CHANGE PASSWORD MODAL -->
-    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="largeModalLabel">Change password</h4>
-                    <hr style="background-color: #752738; height: 2px; border: none;">
-                </div>
-                <div class="modal-body">
-                        <form id="form_advanced_validation" method="POST" action="{{ route('admin.change.password') }}">
-                        @csrf
-                        <div class="form-group form-float">
-                            <label style="color: #212529; font-weight: 600;" class="form-label">Old Password</label>
-                            <div class="form-line">
-                            <input type="password" class="form-control" name="old_password" required>
-                            </div>
-                        </div>
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="largeModalLabel">Change password</h4>
+                <hr style="background-color: #752738; height: 2px; border: none;">
+            </div>
+            <div class="modal-body">
+                <div id="errorMessages" class="alert alert-danger" style="display: none;"></div>
+                <form id="form_advanced_validation" class="changePasswordForm" method="POST" action="{{ route('admin.change.password') }}">
+                    @csrf
+                    <div class="form-group form-float">
+    <label style="color: #212529; font-weight: 600;" class="form-label">Old Password</label>
+    <div class="form-line">
+        <input type="password" class="form-control" name="old_password" required>
+    </div>
+    <div id="error-old_password" class="error-message" style="color: red;"></div>
+</div>
 
-                        <div class="form-group form-float">
-                            <label style="color: #212529; font-weight: 600;" class="form-label">New Password</label>
-                            <div class="form-line">
-                                <input type="password" class="form-control" name="password" maxlength="12"
-                                    minlength="6" required>
-                            </div>
-                            <div class="help-info">Min. 6, Max. 12 characters</div>
-                        </div>
+<div class="form-group form-float">
+    <label style="color: #212529; font-weight: 600;" class="form-label">New Password</label>
+    <div class="form-line">
+        <input type="password" class="form-control" name="password" maxlength="12" minlength="6" required>
+    </div>
+    <div id="error-password" class="error-message" style="color: red;"></div>
+</div>
 
-                        <div class="form-group form-float">
-                            <label style="color: #212529; font-weight: 600;" class="form-label">Confirm Password</label>
-                            <div class="form-line">
-                            <input type="password" class="form-control" name="password_confirmation" maxlength="12" minlength="6" required>
-                            </div>
-                            <div class="help-info">Min. 6, Max. 12 characters</div>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn bg-red waves-effect">SAVE CHANGES</button>
-                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                </div>
+<div class="form-group form-float">
+    <label style="color: #212529; font-weight: 600;" class="form-label">Confirm Password</label>
+    <div class="form-line">
+        <input type="password" class="form-control" name="password_confirmation" maxlength="12" minlength="6" required>
+    </div>
+    <div id="error-password_confirmation" class="error-message" style="color: red;"></div>
+</div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn bg-red waves-effect">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Jquery Core Js -->
     <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
@@ -330,21 +335,9 @@
     <script src="{{ asset('admin/js/admin.js') }}"></script>
     <script src="{{ asset('admin/js/pages/index.js') }}"></script>
     <script src="{{ asset('admin/js/ajax/dashboard_chart.js')}}"></script>
-
+    <script src="{{ asset('admin/js/ajax/change_password.js')}}"></script>
     <!-- Demo Js -->
     <script src="{{ asset('admin/js/demo.js') }}"></script>
-
-    {{-- UPDATE PASSWORD SWEETALERT --}}
-    <script>
-        @if(session('success'))
-            swal("Success", "{{ session('success') }}", "success");
-        @endif
-
-        @if($errors->any())
-            swal("Error", "{{ $errors->first() }}", "error");
-        @endif
-    </script>
-    
 </body>
 
 </html>

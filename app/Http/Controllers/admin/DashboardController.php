@@ -38,19 +38,19 @@ class DashboardController extends Controller
     public function AdminChangePassword(Request $request)
     {
         $request->validate([
-            'old_password' => 'required|string|',
+            'old_password' => 'required|string',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         $admin = Auth::guard('admin')->user();
 
         if (!Hash::check($request->old_password, $admin->password)) {
-            return redirect()->back()->withErrors(['old_password' => 'Old password is incorrect.']);
+            return response()->json(['errors' => ['old_password' => ['Old password is incorrect.']]], 400);
         }
 
         $admin->password = Hash::make($request->input('password'));
         $admin->save();
 
-        return redirect()->back()->with('success', 'Password changed successfully.');
+        return response()->json(['success' => 'Password changed successfully.']);
     }
 }
