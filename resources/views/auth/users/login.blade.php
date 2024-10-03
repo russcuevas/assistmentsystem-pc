@@ -16,7 +16,6 @@
             <h1>Login Page</h1>
         </div>
 
-        <!-- Error Message Section -->
         @if(session('error'))
             <div class="error-message">
                 {{ session('error') }}
