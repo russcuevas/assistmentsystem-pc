@@ -25,7 +25,10 @@ Route::get('/admin/logout', [AuthController::class, 'AdminLogout'])->name('admin
 
 // ADMIN ROUTE
 Route::middleware(['admin'])->group(function () {
+    // DASHBOARD PAGE ADMIN
     Route::get('/admin/dashboard', [DashboardController::class, 'AdminDashboardPage'])->name('admin.dashboard.page');
+    Route::get('/api/yearly-examinees', [DashboardController::class, 'GetYearlyExaminees']);
+
 
     // ADMIN MANAGEMENT PAGE ADMIN
     Route::get('/admin/admin_management', [AdminController::class, 'AdminManagementPage'])->name('admin.admin.management.page');
@@ -47,8 +50,6 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/edit/riasec/{id}', [RiasecController::class, 'EditRiasec'])->name('admin.edit.riasec');
     Route::put('/admin/update/riasec/{id}', [RiasecController::class, 'UpdateRiasec'])->name('admin.update.riasec');
     Route::delete('/admin/delete/riasec/{id}', [RiasecController::class, 'DeleteRiasec'])->name('admin.delete.riasec');
-
-
 
 
     // COURSE PAGE ADMIN
