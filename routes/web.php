@@ -28,6 +28,8 @@ Route::middleware(['admin'])->group(function () {
     // DASHBOARD PAGE ADMIN
     Route::get('/admin/dashboard', [DashboardController::class, 'AdminDashboardPage'])->name('admin.dashboard.page');
     Route::get('/api/yearly-examinees', [DashboardController::class, 'GetYearlyExaminees']);
+    Route::post('/admin/change-password', [DashboardController::class, 'AdminChangePassword'])->name('admin.change.password');
+
 
 
     // ADMIN MANAGEMENT PAGE ADMIN

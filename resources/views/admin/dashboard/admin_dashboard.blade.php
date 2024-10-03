@@ -18,7 +18,8 @@
     <!-- Animation Css -->
     <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
     <!-- Morris Chart Css-->
-    <link href="{{ asset('admin/plugins/morrisjs/morris.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/plugins/morrisjs/morris.css') }}" rel="stylesheet" />\
+    <link href="{{ asset('admin/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
@@ -248,20 +249,20 @@
                     <hr style="background-color: #752738; height: 2px; border: none;">
                 </div>
                 <div class="modal-body">
-                    <form id="form_advanced_validation" method="POST">
+                        <form id="form_advanced_validation" method="POST" action="{{ route('admin.change.password') }}">
+                        @csrf
                         <div class="form-group form-float">
                             <label style="color: #212529; font-weight: 600;" class="form-label">Old Password</label>
                             <div class="form-line">
-                                <input type="password" class="form-control" name="old_password" maxlength="12" minlength="6"
-                                    required>
+                            <input type="password" class="form-control" name="old_password" required>
                             </div>
                         </div>
 
                         <div class="form-group form-float">
                             <label style="color: #212529; font-weight: 600;" class="form-label">New Password</label>
                             <div class="form-line">
-                                <input type="password" class="form-control" name="password" maxlength="12" minlength="6"
-                                    required>
+                                <input type="password" class="form-control" name="password" maxlength="12"
+                                    minlength="6" required>
                             </div>
                             <div class="help-info">Min. 6, Max. 12 characters</div>
                         </div>
@@ -269,8 +270,7 @@
                         <div class="form-group form-float">
                             <label style="color: #212529; font-weight: 600;" class="form-label">Confirm Password</label>
                             <div class="form-line">
-                                <input type="password" class="form-control" name="confirm_password" maxlength="12"
-                                    minlength="6" required>
+                            <input type="password" class="form-control" name="password_confirmation" maxlength="12" minlength="6" required>
                             </div>
                             <div class="help-info">Min. 6, Max. 12 characters</div>
                         </div>
@@ -318,9 +318,13 @@
     <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.pie.js') }}"></script>
     <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.categories.js') }}"></script>
     <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.time.js') }}"></script>
-
+    
     <!-- Sparkline Chart Plugin Js -->
     <script src="{{ asset('admin/plugins/jquery-sparkline/jquery.sparkline.js') }}"></script>
+
+    {{-- SWEETALERT --}}
+    <script src="{{ asset('admin/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
     <!-- Custom Js -->
     <script src="{{ asset('admin/js/pages/forms/form-validation.js') }}"></script>
     <script src="{{ asset('admin/js/admin.js') }}"></script>
@@ -329,6 +333,18 @@
 
     <!-- Demo Js -->
     <script src="{{ asset('admin/js/demo.js') }}"></script>
+
+    {{-- UPDATE PASSWORD SWEETALERT --}}
+    <script>
+        @if(session('success'))
+            swal("Success", "{{ session('success') }}", "success");
+        @endif
+
+        @if($errors->any())
+            swal("Error", "{{ $errors->first() }}", "error");
+        @endif
+    </script>
+    
 </body>
 
 </html>

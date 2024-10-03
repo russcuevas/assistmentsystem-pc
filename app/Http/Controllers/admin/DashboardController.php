@@ -8,6 +8,8 @@ use App\Models\Course;
 use App\Models\RiasecScore;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
@@ -26,11 +28,29 @@ class DashboardController extends Controller
                 ->groupBy('year')
                 ->orderBy('year')
                 ->get();
-            
+
             return response()->json($examinees);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    
+
+    public function AdminChangePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required|string|',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $admin = Auth::guard('admin')->user();
+
+        if (!Hash::check($request->old_password, $admin->password)) {
+            return redirect()->back()->withErrors(['old_password' => 'Old password is incorrect.']);
+        }
+
+        $admin->password = Hash::make($request->input('password'));
+        $admin->save();
+
+        return redirect()->back()->with('success', 'Password changed successfully.');
+    }
 }
