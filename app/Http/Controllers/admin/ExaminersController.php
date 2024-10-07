@@ -81,7 +81,7 @@ class ExaminersController extends Controller
             $newId = $starting_id + $i;
 
             if (User::where('default_id', $newId)->exists()) {
-                return redirect()->back()->withErrors(['default_id' => "Default ID $newId already exists. Please choose a different starting ID."]);
+                return response()->json(['errors' => ['default_id' => ["Default ID $newId already exists. Please choose a different starting ID."]]], 422);
             }
 
             User::create([
@@ -92,8 +92,9 @@ class ExaminersController extends Controller
             $created_id[] = $newId;
         }
 
-        return redirect()->route('admin.default.id.page')->with('success', 'Default IDs added successfully: ' . implode(', ', $created_id));
+        return response()->json(['success' => 'Default IDs added successfully']);
     }
+
 
     public function ExaminersListDelete($id)
     {
@@ -113,9 +114,22 @@ class ExaminersController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect()->route('admin.default.id.page')->with('success', 'Examiner deleted successfully');
+            return response()->json(['success' => 'Default ID deleted successfully']);
         }
 
-        return redirect()->route('admin.default.id.page')->with('error', 'Examiner not found');
+        return response()->json(['error' => 'Default ID not found'], 404);
+    }
+
+
+    public function ExaminersBulkDefaultIdDelete(Request $request)
+    {
+        $ids = $request->input('delete_selected_ids');
+
+        if ($ids) {
+            User::whereIn('default_id', $ids)->delete();
+            return response()->json(['success' => 'Selected DefaultID deleted successfully']);
+        }
+
+        return response()->json(['error' => 'No DefaultID selected for deletion'], 400);
     }
 }

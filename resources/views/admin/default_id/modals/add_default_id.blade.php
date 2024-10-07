@@ -6,11 +6,10 @@
                     <hr style="background-color: #752738; height: 2px; border: none;">
                 </div>
                 <div class="modal-body">
-                    <form id="form_advanced_validation" action="{{ route('admin.add.examiners') }}" method="POST" onsubmit="showLoading">
+                        <form id="form_advanced_validation" class="addDefaultId" method="POST" data-route-add-default-id="{{ route('admin.add.examiners') }}">
                         @csrf
-
                         <div class="form-group form-float">
-                            <label style="color: #212529; font-weight: 600;" class="form-label">Last ID</label>
+                            <label style="color: #212529; font-weight: 600;" class="form-label">Next ID</label>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="default_id" readonly value="{{ $next_id }}" required>
                             </div>

@@ -20,7 +20,6 @@
     <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
     <!-- JQuery DataTable Css -->
     <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
@@ -161,7 +160,21 @@
                             <div class="table-responsive">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3>No records</h3>
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <td style="text-align: left;">
+                                                    <h3>No records</h3>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                <button id="delete-selected-default-id-btn" 
+                                                        class="btn bg-red waves-effect btn-sm" 
+                                                        style="display: none;" 
+                                                        data-route="{{ route('admin.default.id.bulk.delete') }}">
+                                                    DELETE SELECTED
+                                                </button>
+                                                </td>
+                                            </tr>
+                                        </table>
                                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                             <thead>
                                                 <tr>
@@ -173,7 +186,10 @@
                                                 @forelse ($available_default_id as $default_id)
                                                     @if (empty($default_id->fullname))
                                                         <tr>
-                                                            <td>{{ $default_id->default_id }}</td>
+                                                            <td>
+                                                                <input type="checkbox" class="delete-checkbox" id="checkbox-{{ $default_id->default_id }}" value="{{ $default_id->default_id }}">
+                                                                <label for="checkbox-{{ $default_id->default_id }}">{{ $default_id->default_id }}</label>
+                                                            </td>
                                                             <td>
                                                                 <button class="btn bg-red waves-effect btn-sm" 
                                                                         data-toggle="modal" 
@@ -249,25 +265,17 @@
     <script src="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
 
     {{-- SWEETALERT --}}
-    <script src="{{ asset('admin/plugins/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Custom Js -->
     <script src="{{ asset('admin/js/admin.js') }}"></script>
     <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
     <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
-    <script>
-        function showLoading() {
-            HoldOn.open({
-                theme: 'sk-circle',
-                message: '<div class="loading-message">Please wait, adding ID...</div>',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                textColor: '#fff'
-            });
-        }
-        document.querySelector('form').onsubmit = function() {
-            showLoading();
-        };
-    </script>
+
+    {{-- AJAX REQUEST --}}
+    <script src="{{ asset('admin/js/ajax/default_id/add_default_id.js') }}"></script>
+    <script src="{{ asset('admin/js/ajax/default_id/delete_default_id.js') }}"></script>
+    <script src="{{ asset('admin/js/ajax/default_id/delete_bulk_default_id.js') }}"></script>
     <!-- Demo Js -->
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>

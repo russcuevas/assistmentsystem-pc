@@ -40,11 +40,15 @@ Route::middleware(['admin'])->group(function () {
 
     // DEFAULT ID PAGE ADMIN
     Route::get('/admin/default_id', [ExaminersController::class, 'DefaultIDPage'])->name('admin.default.id.page');
+    Route::post('/admin/default-id/bulk-delete', [ExaminersController::class, 'ExaminersBulkDefaultIdDelete'])->name('admin.default.id.bulk.delete');
+
+
     // EXAMINERS PAGE ADMIN
     Route::get('/admin/examiners', [ExaminersController::class, 'ExaminersPage'])->name('admin.examiners.page');
     Route::post('/admin/add_examiners', [ExaminersController::class, 'ExaminersAccountAdd'])->name('admin.add.examiners');
     Route::delete('/admin/examiners_account/delete/{default_id}', [ExaminersController::class, 'ExaminersDefaultIdDelete'])->name('admin.delete.examiners');
     Route::delete('/admin/examiners_list/delete/{id}', [ExaminersController::class, 'ExaminersListDelete'])->name('admin.delete.examiners.list');
+
 
     // RIASEC PAGE ADMIN
     Route::get('/admin/riasec', [RiasecController::class, 'RiasecPage'])->name('admin.riasec.page');
