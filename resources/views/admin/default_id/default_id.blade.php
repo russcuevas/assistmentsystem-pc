@@ -18,12 +18,53 @@
     <link href="{{ asset('admin/plugins/node-waves/waves.css') }}" rel="stylesheet" />
     <!-- Animation Css -->
     <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
-    <!-- Morris Chart Css-->
-    <link href="{{ asset('admin/plugins/morrisjs/morris.css') }}" rel="stylesheet" />\
+    <!-- JQuery DataTable Css -->
+    <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* TABLE HEADER */
+        th {
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.805);
+        }
+
+        /* ACTIONS BUTTON */
+        .fa-solid.fa-pen-to-square {
+            color: #752738;
+            font-size: 24px;
+        }
+
+        .fa-solid.fa-pen-to-square:hover {
+            color: #a94442;
+        }
+
+        .fa-solid.fa-trash {
+            font-size: 20px !important;
+        }
+
+        /* DATA TABLE BUTTON */
+        .custom-button {
+            background-color: #752738 !important;
+            color: #fff !important;
+            border: none !important;
+        }
+
+        .custom-button:hover {
+            background-color: #a12a38 !important;
+        }
+
+        .loading-message {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
 </head>
 
 <body class="theme-red">
@@ -176,117 +217,100 @@
         </aside>
         <!-- #END# Right Sidebar -->
     </section>
-    
 
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>DASHBOARD</h2>
+                <ol style="font-size: 15px;" class="breadcrumb breadcrumb-col-red">
+                    <li><a href="dashboard.html"><i style="font-size: 20px;" class="material-icons">home</i>
+                            Dashboard</a></li>
+                    <li class="active"><i style="font-size: 20px;" class="material-icons">badge</i> List
+                        of Default ID
+                    </li>
+                </ol>
             </div>
 
             <!-- Widgets -->
             <div class="row clearfix">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-red hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">admin_panel_settings</i>
-                        </div>
-                        <div class="content">
-                            <div class="text" style="color: #FEC653 !important;">TOTAL ADMIN</div>
-                            <div class="" style="font-size: 20px;">{{ $get_total_admin }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-red hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">groups</i>
-                        </div>
-                        <div class="content">
-                            <div class="text" style="color: #FEC653 !important;">TOTAL EXAMINEES</div>
-                            <div class="" style="font-size: 20px;">{{ $get_total_examinees }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-red hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">done_all</i>
-                        </div>
-                        <div class="content">
-                            <div class="text" style="color: #FEC653 !important;">TOTAL COURSE</div>
-                            <div class="" style="font-size: 20px;">{{ $get_total_course }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- #END# Widgets -->
-             
-            <div class="row clearfix">
-                <!-- Bar Chart -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2 style="font-size: 25px; font-weight: 900; color: #752738;">
-                                Yearly Examinees
+                                List of Default ID
                             </h2>
                         </div>
                         <div class="body">
-                            <canvas id="yearlyExaminees" height="100"></canvas>
+                            <div>
+                                <a href="" class="btn bg-red waves-effect" style="margin-bottom: 15px;" data-toggle="modal" data-target="#addDefaultIdModal">+ Add Default ID</a>
+                            </div>
+                            @include('admin.default_id.modals.add_default_id')
+                            <div class="table-responsive">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3>No records</h3>
+                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Default ID</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($available_default_id as $default_id)
+                                                    @if (empty($default_id->fullname))
+                                                        <tr>
+                                                            <td>{{ $default_id->default_id }}</td>
+                                                            <td>
+                                                                <button class="btn btn-danger btn-sm" 
+                                                                        data-toggle="modal" 
+                                                                        data-target="#deleteExaminersModal{{ $default_id->default_id }}">
+                                                                    Delete <i class="fa-solid fa-trash"></i>
+                                                                </button>
+                                                                @include('admin.default_id.modals.delete_default_id')
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="2" class="text-center">No records</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h3>Has records</h3>
+                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Default ID</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($available_default_id as $default_id)
+                                                    @if (!empty($default_id->fullname))
+                                                        <tr>
+                                                            <td>{{ $default_id->default_id }}</td>
+                                                            <td><span>Has records</span></td>
+                                                        </tr>
+                                                    @endif
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="2" class="text-center">No records</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- #END# Bar Chart -->
             </div>
-        </div>
+
     </section>
-
-    <!-- CHANGE PASSWORD MODAL -->
-<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="largeModalLabel">Change password</h4>
-                <hr style="background-color: #752738; height: 2px; border: none;">
-            </div>
-            <div class="modal-body">
-                <div id="errorMessages" class="alert alert-danger" style="display: none;"></div>
-                <form id="form_advanced_validation" class="changePasswordForm" method="POST" action="{{ route('admin.change.password') }}">
-                    @csrf
-                    <div class="form-group form-float">
-                        <label style="color: #212529; font-weight: 600;" class="form-label">Old Password</label>
-                        <div class="form-line">
-                            <input type="password" class="form-control" name="old_password" required>
-                        </div>
-                        <div id="error-old_password" class="error-message" style="color: red;"></div>
-                    </div>
-
-                    <div class="form-group form-float">
-                        <label style="color: #212529; font-weight: 600;" class="form-label">New Password</label>
-                        <div class="form-line">
-                            <input type="password" class="form-control" name="password" maxlength="12" minlength="6" required>
-                        </div>
-                        <div id="error-password" class="error-message" style="color: red;"></div>
-                    </div>
-
-                    <div class="form-group form-float">
-                        <label style="color: #212529; font-weight: 600;" class="form-label">Confirm Password</label>
-                        <div class="form-line">
-                            <input type="password" class="form-control" name="password_confirmation" maxlength="12" minlength="6" required>
-                        </div>
-                        <div id="error-password_confirmation" class="error-message" style="color: red;"></div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn bg-red waves-effect">SAVE CHANGES</button>
-                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-            </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 
     <!-- Jquery Core Js -->
     <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
@@ -306,35 +330,30 @@
     <!-- Waves Effect Plugin Js -->
     <script src="{{ asset('admin/plugins/node-waves/waves.js') }}"></script>
 
-    <!-- Jquery CountTo Plugin Js -->
-    <script src="{{ asset('admin/plugins/jquery-countto/jquery.countTo.js') }}"></script>
-
-    <!-- Morris Plugin Js -->
-    <script src="{{ asset('admin/plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/morrisjs/morris.js') }}"></script>
-
-    <!-- ChartJs -->
-    <script src="{{ asset('admin/plugins/chartjs/Chart.bundle.js') }}"></script>
-
-    <!-- Flot Charts Plugin Js -->
-    <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.js') }}"></script>
-    <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.resize.js') }}"></script>
-    <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.pie.js') }}"></script>
-    <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.categories.js') }}"></script>
-    <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.time.js') }}"></script>
-    
-    <!-- Sparkline Chart Plugin Js -->
-    <script src="{{ asset('admin/plugins/jquery-sparkline/jquery.sparkline.js') }}"></script>
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="{{ asset('admin/plugins/jquery-datatable/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
 
     {{-- SWEETALERT --}}
     <script src="{{ asset('admin/plugins/sweetalert/sweetalert.min.js') }}"></script>
 
     <!-- Custom Js -->
-    <script src="{{ asset('admin/js/pages/forms/form-validation.js') }}"></script>
     <script src="{{ asset('admin/js/admin.js') }}"></script>
-    <script src="{{ asset('admin/js/pages/index.js') }}"></script>
-    <script src="{{ asset('admin/js/ajax/dashboard_analytics/dashboard_chart.js')}}"></script>
-    <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
+    <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
+    <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
+    <script>
+        function showLoading() {
+            HoldOn.open({
+                theme: 'sk-circle',
+                message: '<div class="loading-message">Please wait, adding ID...</div>',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                textColor: '#fff'
+            });
+        }
+        document.querySelector('form').onsubmit = function() {
+            showLoading();
+        };
+    </script>
     <!-- Demo Js -->
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>

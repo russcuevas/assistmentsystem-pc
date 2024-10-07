@@ -30,44 +30,6 @@
         </ul>
     </nav>
     
-    <h1>Add default ID</h1>
-    <button class="btn btn-success" data-toggle="modal" data-target="#addDefaultIdModal">Add Default ID</button>
-    {{-- Add Default ID Modal --}}
-    @include('admin.examiners.modals.add_default_id')
-
-    <table>
-        <thead>
-            <tr>
-                <th>Default ID</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($available_default_id as $default_id)
-            <tr>
-                <td>{{ $default_id->default_id }}</td>
-                <td>
-                    @if(empty($default_id->fullname))
-                    <button class="btn btn-danger btn-sm" 
-                            data-toggle="modal" 
-                            data-target="#deleteExaminersModal{{ $default_id->default_id }}">
-                        Delete
-                    </button>
-                    @else
-                        <span>Has records</span>
-                    @endif
-                    {{-- Delete Default ID Modal --}}
-                    @include('admin.examiners.modals.delete_default_id')
-                </td>
-            </tr>
-            @empty
-                <tr>
-                    <td colspan="4">No default id available</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-    
     <hr>
 
     <h1>Examiners List</h1>

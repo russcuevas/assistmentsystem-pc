@@ -38,6 +38,34 @@ class ExaminersController extends Controller
         return view('admin.examiners.examiners', compact('available_default_id', 'default_id', 'next_id', 'examiners'));
     }
 
+    public function DefaultIDPage()
+    {
+        $available_default_id = User::all();
+        $default_id = User::pluck('default_id')->toArray();
+        $next_id = !empty($default_id) ? max($default_id) + 1 : 1;
+
+        $examiners = DB::table('users')
+            ->leftJoin('preferred_courses', 'users.id', '=', 'preferred_courses.user_id')
+            ->leftJoin('courses as course_1', 'preferred_courses.course_1', '=', 'course_1.id')
+            ->leftJoin('courses as course_2', 'preferred_courses.course_2', '=', 'course_2.id')
+            ->leftJoin('courses as course_3', 'preferred_courses.course_3', '=', 'course_3.id')
+            ->select(
+                'users.id',
+                'users.default_id',
+                'users.fullname',
+                'users.gender',
+                'users.age',
+                'users.birthday',
+                'users.strand',
+                'course_1.course_name as course_1_name',
+                'course_2.course_name as course_2_name',
+                'course_3.course_name as course_3_name'
+            )
+            ->get();
+
+        return view('admin.default_id.default_id', compact('available_default_id', 'default_id', 'next_id', 'examiners'));
+    }
+
     public function ExaminersAccountAdd(Request $request)
     {
         $request->validate([
@@ -64,7 +92,7 @@ class ExaminersController extends Controller
             $created_id[] = $newId;
         }
 
-        return redirect()->route('admin.examiners.page')->with('success', 'Default IDs added successfully: ' . implode(', ', $created_id));
+        return redirect()->route('admin.default.id.page')->with('success', 'Default IDs added successfully: ' . implode(', ', $created_id));
     }
 
     public function ExaminersListDelete($id)
@@ -85,9 +113,9 @@ class ExaminersController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect()->route('admin.examiners.page')->with('success', 'Examiner deleted successfully');
+            return redirect()->route('admin.default.id.page')->with('success', 'Examiner deleted successfully');
         }
 
-        return redirect()->route('admin.examiners.page')->with('error', 'Examiner not found');
+        return redirect()->route('admin.default.id.page')->with('error', 'Examiner not found');
     }
 }

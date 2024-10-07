@@ -38,8 +38,8 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/admin/update/admin/{id}', [AdminController::class, 'UpdateAdmin'])->name('admin.update.admin');
     Route::delete('/admin/delete/admin/{id}', [AdminController::class, 'DeleteAdmin'])->name('admin.delete.admin');
 
-
-
+    // DEFAULT ID PAGE ADMIN
+    Route::get('/admin/default_id', [ExaminersController::class, 'DefaultIDPage'])->name('admin.default.id.page');
     // EXAMINERS PAGE ADMIN
     Route::get('/admin/examiners', [ExaminersController::class, 'ExaminersPage'])->name('admin.examiners.page');
     Route::post('/admin/add_examiners', [ExaminersController::class, 'ExaminersAccountAdd'])->name('admin.add.examiners');
