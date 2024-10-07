@@ -22,48 +22,13 @@
     <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* TABLE HEADER */
-        th {
-            font-weight: 900;
-            color: rgba(0, 0, 0, 0.805);
-        }
-
-        /* ACTIONS BUTTON */
-        .fa-solid.fa-pen-to-square {
-            color: #752738;
-            font-size: 24px;
-        }
-
-        .fa-solid.fa-pen-to-square:hover {
-            color: #a94442;
-        }
-
-        .fa-solid.fa-trash {
-            font-size: 20px !important;
-        }
-
-        /* DATA TABLE BUTTON */
-        .custom-button {
-            background-color: #752738 !important;
-            color: #fff !important;
-            border: none !important;
-        }
-
-        .custom-button:hover {
-            background-color: #a12a38 !important;
-        }
-
-        .loading-message {
-            font-family: 'Arial', sans-serif;
-        }
-    </style>
 </head>
 
 <body class="theme-red">
@@ -84,42 +49,13 @@
         </div>
     </div>
     <!-- #END# Page Loader -->
+
     <!-- Overlay For Sidebars -->
     <div class="overlay"></div>
     <!-- #END# Overlay For Sidebars -->
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <div class="search-icon">
-            <i class="material-icons">search</i>
-        </div>
-        <input type="text" placeholder="START TYPING...">
-        <div class="close-search">
-            <i class="material-icons">close</i>
-        </div>
-    </div>
-    <!-- #END# Search Bar -->
+
     <!-- Top Bar -->
-    <nav class="navbar">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
-                <a href="javascript:void(0);" class="bars"></a>
-                <a id="app-title" style="display:flex;align-items:center" class="navbar-brand" href="{{ route('admin.dashboard.page') }}">
-                    <img id="bcas-logo" style="width:45px;display:inline;margin-right:10px;"  src="{{ asset('admin/images/ub-logo.png') }}" />
-                    <span style="color: #FEC653;">ASSISTments</span>
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="pull-right">
-                        <a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
-                            <i class="material-icons">account_circle</i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    @include('admin.components.top_bar')
     <!-- #Top Bar -->
     
     <section>

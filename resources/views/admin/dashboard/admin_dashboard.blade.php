@@ -47,30 +47,11 @@
     <!-- Overlay For Sidebars -->
     <div class="overlay"></div>
     <!-- #END# Overlay For Sidebars -->
-    
+
     <!-- Top Bar -->
-    <nav class="navbar">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
-                <a href="javascript:void(0);" class="bars"></a>
-                <a id="app-title" style="display:flex;align-items:center" class="navbar-brand" href="{{ route('admin.dashboard.page') }}">
-                    <img id="bcas-logo" style="width:45px;display:inline;margin-right:10px;"  src="{{ asset('admin/images/ub-logo.png') }}" />
-                    <span style="color: #FEC653;">ASSISTments</span>
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="pull-right">
-                        <a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
-                            <i class="material-icons">account_circle</i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    @include('admin.components.top_bar')
     <!-- #Top Bar -->
+    
     <section>
         <!-- Left Sidebar -->
         @include('admin.components.left_sidebar')
@@ -83,10 +64,6 @@
 
     <section class="content">
         <div class="container-fluid">
-            <div class="block-header">
-                <h2>DASHBOARD</h2>
-            </div>
-
             <!-- Widgets -->
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
