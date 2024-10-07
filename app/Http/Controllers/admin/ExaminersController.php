@@ -102,10 +102,10 @@ class ExaminersController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect()->route('admin.examiners.page')->with('success', 'Examiner deleted successfully');
+            return response()->json(['success' => 'Examiners deleted successfully']);
         }
 
-        return redirect()->route('admin.examiners.page')->with('error', 'Examiner not found');
+        return response()->json(['error' => 'Examiners ID not found'], 404);
     }
 
     public function ExaminersDefaultIdDelete($default_id)

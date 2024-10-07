@@ -222,7 +222,7 @@
                                                     @if (!empty($default_id->fullname))
                                                         <tr>
                                                             <td>{{ $default_id->default_id }}</td>
-                                                            <td><span>Has records</span></td>
+                                                            <td><span style="color: green; font-weight: 900;">Has records</span></td>
                                                         </tr>
                                                     @endif
                                                 @empty

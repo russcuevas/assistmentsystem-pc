@@ -20,7 +20,6 @@
     <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
     <!-- JQuery DataTable Css -->
     <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
@@ -156,7 +155,6 @@
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Default ID</th>
                                             <th>Fullname</th>
                                             <th>Gender</th>
@@ -171,7 +169,6 @@
                                         @forelse ($examiners as $examiner)
                                             @if(!is_null($examiner->fullname) && !empty($examiner->fullname))
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $examiner->default_id }}</td>
                                                     <td>{{ $examiner->fullname }}</td>
                                                     <td>{{ $examiner->gender }}</td>
@@ -183,13 +180,14 @@
                                                         2.) {{ $examiner->course_2_name ?? 'N/A' }} <br>
                                                         3.) {{ $examiner->course_3_name ?? 'N/A' }} <br>
                                                     </td>
-                                                    <td>
-                                                        <form action="{{ route('admin.delete.examiners.list', $examiner->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this examiner?');">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit">DELETE</button>
-                                                        </form>
-                                                    </td>
+                                                        <td>
+                                                            <button class="btn bg-red waves-effect btn-sm" 
+                                                                        data-toggle="modal" 
+                                                                        data-target="#deleteExamineesModal{{ $examiner->id }}">
+                                                                    DELETE
+                                                            </button>
+                                                            @include('admin.examiners.modals.delete_examinees')
+                                                        </td>
                                                 </tr>
                                             @endif
                                         @empty
@@ -230,11 +228,16 @@
     <script src="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
 
     {{-- SWEETALERT --}}
-    <script src="{{ asset('admin/plugins/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <!-- Custom Js -->
     <script src="{{ asset('admin/js/admin.js') }}"></script>
+    <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
     <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
+
+    {{-- AJAX REQUEST --}}
+    <script src="{{ asset('admin/js/ajax/examiners/delete_examiners.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
 
