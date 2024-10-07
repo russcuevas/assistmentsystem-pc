@@ -1,102 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>UB - Assistments</title>
+    <!-- Favicon-->
+    <link rel="icon" href="{{ asset('admin/images/ub-logo.png') }}" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <!-- Bootstrap Core Css -->
+    <link href="{{ asset('admin/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="{{ asset('admin/plugins/node-waves/waves.css') }}" rel="stylesheet" />
+    <!-- Animation Css -->
+    <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
+    <!-- JQuery DataTable Css -->
+    <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
+    <!-- Custom Css -->
+    <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        /* TABLE HEADER */
+        th {
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.805);
+        }
+
+        /* ACTIONS BUTTON */
+        .fa-solid.fa-pen-to-square {
+            color: #752738;
+            font-size: 24px;
+        }
+
+        .fa-solid.fa-pen-to-square:hover {
+            color: #a94442;
+        }
+
+        .fa-solid.fa-trash {
+            font-size: 20px !important;
+        }
+
+        /* DATA TABLE BUTTON */
+        .custom-button {
+            background-color: #752738 !important;
+            color: #fff !important;
+            border: none !important;
+        }
+
+        .custom-button:hover {
+            background-color: #a12a38 !important;
+        }
+
         .loading-message {
             font-family: 'Arial', sans-serif;
         }
-
     </style>
 </head>
-<body>
-    <nav>
-        <ul>
-            <li>
-                <a href="{{ route('admin.dashboard.page')}}">Dashboard</a><br>
-                <a href="{{ route('admin.admin.management.page') }}">Admin Management</a><br>
-                <a href="{{ route('admin.examiners.page')}}">Examiners Management</a><br>
-                <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
-                <a href="{{ route('admin.course.page') }}">Course Management</a><br>
-                <a href="{{ route('admin.questionnaire.page')}}">Questionnaire Management</a><br>
-                <a href="{{ route('admin.analytics.page')}}">Analytics</a><br>
-                <a href="{{ route('admin.logout.request') }}">Logout</a><br>
-            </li>
-        </ul>
+
+<body class="theme-red">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a id="app-title" style="display:flex;align-items:center" class="navbar-brand" href="{{ route('admin.dashboard.page') }}">
+                    <img id="bcas-logo" style="width:45px;display:inline;margin-right:10px;"  src="{{ asset('admin/images/ub-logo.png') }}" />
+                    <span style="color: #FEC653;">ASSISTments</span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right">
+                        <a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
+                            <i class="material-icons">account_circle</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    
-    <hr>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        @include('admin.components.left_sidebar')
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        @include('admin.components.right_sidebar')
+        <!-- #END# Right Sidebar -->
+    </section>
 
-    <h1>Examiners List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Default ID</th>
-                <th>Fullname</th>
-                <th>Gender</th>
-                <th>Age</th>
-                <th>Birthday</th>
-                <th>Strand</th>
-                <th>Preferred Course</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($examiners as $examiner)
-                @if(!is_null($examiner->fullname) && !empty($examiner->fullname))
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $examiner->default_id }}</td>
-                        <td>{{ $examiner->fullname }}</td>
-                        <td>{{ $examiner->gender }}</td>
-                        <td>{{ $examiner->age }}</td>
-                        <td>{{ $examiner->birthday }}</td>
-                        <td>{{ $examiner->strand }}</td>
-                        <td>
-                            1.) {{ $examiner->course_1_name ?? 'N/A' }} <br>
-                            2.) {{ $examiner->course_2_name ?? 'N/A' }} <br>
-                            3.) {{ $examiner->course_3_name ?? 'N/A' }} <br>
-                        </td>
-                        <td>
-                            <form action="{{ route('admin.delete.examiners.list', $examiner->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this examiner?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">DELETE</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endif
-            @empty
-                <tr>
-                    <td colspan="8">No examiners available</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <ol style="font-size: 15px;" class="breadcrumb breadcrumb-col-red">
+                    <li><a href="dashboard.html"><i style="font-size: 20px;" class="material-icons">home</i>
+                            Dashboard</a></li>
+                    <li class="active"><i style="font-size: 20px;" class="material-icons">badge</i> Examinees List
+                    </li>
+                </ol>
+            </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
-    <script>
-        function showLoading() {
-            HoldOn.open({
-                theme: 'sk-circle',
-                message: '<div class="loading-message">Please wait, adding ID...</div>',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                textColor: '#fff'
-            });
-        }
+            <!-- Widgets -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2 style="font-size: 25px; font-weight: 900; color: #752738;">
+                                List of Examinees
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Default ID</th>
+                                            <th>Fullname</th>
+                                            <th>Gender</th>
+                                            <th>Age</th>
+                                            <th>Birthday</th>
+                                            <th>Strand</th>
+                                            <th>Preferred Course</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($examiners as $examiner)
+                                            @if(!is_null($examiner->fullname) && !empty($examiner->fullname))
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $examiner->default_id }}</td>
+                                                    <td>{{ $examiner->fullname }}</td>
+                                                    <td>{{ $examiner->gender }}</td>
+                                                    <td>{{ $examiner->age }}</td>
+                                                    <td>{{ $examiner->birthday }}</td>
+                                                    <td>{{ $examiner->strand }}</td>
+                                                    <td>
+                                                        1.) {{ $examiner->course_1_name ?? 'N/A' }} <br>
+                                                        2.) {{ $examiner->course_2_name ?? 'N/A' }} <br>
+                                                        3.) {{ $examiner->course_3_name ?? 'N/A' }} <br>
+                                                    </td>
+                                                    <td>
+                                                        <form action="{{ route('admin.delete.examiners.list', $examiner->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this examiner?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit">DELETE</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @empty
+                                            <tr>
+                                                <td colspan="8">No examiners available</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        document.querySelector('form').onsubmit = function() {
-            showLoading();
-        };
-    </script>
+    </section>
+
+    <!-- Jquery Core Js -->
+    <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.js') }}"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="{{ asset('admin/plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="{{ asset('admin/plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
+
+    <!-- Jquery Validation Plugin Css -->
+    <script src="{{ asset('admin/plugins/jquery-validation/jquery.validate.js') }}"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="{{ asset('admin/plugins/node-waves/waves.js') }}"></script>
+
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="{{ asset('admin/plugins/jquery-datatable/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
+
+    {{-- SWEETALERT --}}
+    <script src="{{ asset('admin/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
+    <!-- Custom Js -->
+    <script src="{{ asset('admin/js/admin.js') }}"></script>
+    <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
+    <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
+
 </html>

@@ -24,24 +24,24 @@ course table -> OK
 course_name
 course_description
 
-preferred_course
+preferred_course -> OK
 user_id -> reference to users
 course_1 -> reference to course_table
 course_2 -> reference to course_table
 course_3 -> reference to course_table
 
 
-questions table
+questions table -> OK
 question_text
 riasec_id -> reference to riasec table at pag dinelete ang related na riasec ay madedelete din dapat ang question
 
-options table
+options table -> OK
 question_id
 option_text - R I A S E C
 is_correct - iscorrect set to 1 always in every question
 FOREIGN KEY (question_id) REFERENCES questions(question_id) ON DELETE CASCADE
 
-responses table
+responses table -> OK
 user_id INT,
 question_id INT,
 selected_option_id INT,
@@ -49,7 +49,7 @@ FOREIGN KEY (user_id) REFERENCES users(user_id),
 FOREIGN KEY (question_id) REFERENCES questions(question_id),
 FOREIGN KEY (selected_option_id) REFERENCES options(option_id)
 
-riasec_scores
+riasec_scores -> OK
 id
 user_id
 riasec_id
