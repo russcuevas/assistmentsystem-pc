@@ -173,7 +173,7 @@
     {{-- AJAX REQUEST --}}
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/admin_management/add_admin.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/admin_management/edit_admin.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
-
 </html>

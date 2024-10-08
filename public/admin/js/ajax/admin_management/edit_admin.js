@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.addAdminForm').validate({
+    $('.editAdminForm').validate({
         highlight: function (input) {
             $(input).parents('.form-line').addClass('error');
         },
@@ -19,12 +19,7 @@ $(document).ready(function () {
                 email: true
             },
             password: {
-                required: true,
                 minlength: 6
-            },
-            password_confirmation: {
-                required: true,
-                equalTo: "#password"
             }
         },
         messages: {
@@ -37,28 +32,25 @@ $(document).ready(function () {
                 email: "Please enter a valid email address."
             },
             password: {
-                required: "Password is required.",
                 minlength: "Password must be at least 6 characters."
-            },
-            password_confirmation: {
-                required: "Please confirm your password.",
-                equalTo: "Passwords do not match."
             }
         }
     });
 
-    $('form.addAdminForm').on('submit', function (event) {
+    $('form.editAdminForm').on('submit', function (event) {
         event.preventDefault();
         const form = $(this);
-        $('#error-email').text('');
+        const adminId = form.data('admin-id');
+        $('#error-edit-email' + adminId).text('');
+        $('.error-message').text('');
 
         if (form.valid()) {
             const formData = new FormData(this);
-            const addAdminUrl = form.data('route-add-admin');
-            addAdminShowLoading();
+            const editAdminUrl = form.data('route-edit-admin');
+            editAdminShowLoading();
 
             $.ajax({
-                url: addAdminUrl,
+                url: editAdminUrl,
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -82,7 +74,7 @@ $(document).ready(function () {
                     if (errors) {
                         $.each(errors, function (key, value) {
                             if (key === 'email') {
-                                $('#error-email').text(value[0]);
+                                $('#error-edit-email' + adminId).text(value[0]);
                                 HoldOn.close();
                             } else {
                                 errorMessage += `\n- ${value[0]}`;
@@ -98,37 +90,37 @@ $(document).ready(function () {
         }
     });
 
-    function addAdminShowLoading() {
+    function editAdminShowLoading() {
         HoldOn.open({
             theme: 'sk-circle',
-            message: '<div class="loading-message">Please wait, adding admin...</div>',
+            message: '<div class="loading-message">Please wait, updating admin...</div>',
             backgroundColor: 'rgba(0, 0, 0, 0.7)',
             textColor: '#fff'
         });
     }
 
-    // DYNAMIC PROFILE PICTURE
-    document.getElementById('profile_picture').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('profile-preview');
+    function previewImage(event) {
+        const preview = document.getElementById('edit_profile_preview');
         const noImage = document.getElementById('no-image');
 
-        if (file) {
+        if (event.target.files && event.target.files[0]) {
             const reader = new FileReader();
+
             reader.onload = function (e) {
                 preview.src = e.target.result;
-                preview.style.display = 'block';
                 noImage.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = '';
-            preview.style.display = 'none';
-            noImage.style.display = 'block';
-        }
-    });
+            }
 
-    $('#email').on('input', function () {
-        $('#error-email').text('');
+            reader.readAsDataURL(event.target.files[0]);
+        } else {
+            preview.src = '{{ asset("storage/" . $admin->profile_picture) }}';
+            noImage.style.display = 'none';
+        }
+    }
+    window.previewImage = previewImage;
+
+    $(document).on('input', 'input[name="email"]', function () {
+        const adminId = $(this).closest('form').data('admin-id');
+        $('#error-edit-email' + adminId).text('');
     });
 });
