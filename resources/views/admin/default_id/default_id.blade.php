@@ -115,6 +115,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Default ID</th>
+                                                    <th>Created At</th>
+                                                    <th>Updated At</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -126,6 +128,8 @@
                                                                 <input type="checkbox" class="delete-checkbox" id="checkbox-{{ $default_id->default_id }}" value="{{ $default_id->default_id }}">
                                                                 <label for="checkbox-{{ $default_id->default_id }}">{{ $default_id->default_id }}</label>
                                                             </td>
+                                                            <td>{{ $default_id->created_at }}</td>
+                                                            <td>{{ $default_id->updated_at }}</td>
                                                             <td>
                                                                 <button class="btn bg-red waves-effect btn-sm" 
                                                                         data-toggle="modal" 
@@ -150,6 +154,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Default ID</th>
+                                                    <th>Created At</th>
+                                                    <th>Updated At</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -158,6 +164,8 @@
                                                     @if (!empty($default_id->fullname))
                                                         <tr>
                                                             <td>{{ $default_id->default_id }}</td>
+                                                            <td>{{ $default_id->created_at }}</td>
+                                                            <td>{{ $default_id->updated_at }}</td>
                                                             <td><span style="color: green; font-weight: 900;">Has records</span></td>
                                                         </tr>
                                                     @endif
@@ -209,6 +217,7 @@
     <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
 
     {{-- AJAX REQUEST --}}
+    <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/default_id/add_default_id.js') }}"></script>
     <script src="{{ asset('admin/js/ajax/default_id/delete_default_id.js') }}"></script>
     <script src="{{ asset('admin/js/ajax/default_id/delete_bulk_default_id.js') }}"></script>

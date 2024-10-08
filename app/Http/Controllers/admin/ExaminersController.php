@@ -29,6 +29,8 @@ class ExaminersController extends Controller
                 'users.age',
                 'users.birthday',
                 'users.strand',
+                'users.created_at',
+                'users.updated_at',
                 'course_1.course_name as course_1_name',
                 'course_2.course_name as course_2_name',
                 'course_3.course_name as course_3_name'

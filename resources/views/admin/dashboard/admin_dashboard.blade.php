@@ -19,8 +19,7 @@
     <!-- Animation Css -->
     <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
     <!-- Morris Chart Css-->
-    <link href="{{ asset('admin/plugins/morrisjs/morris.css') }}" rel="stylesheet" />\
-    <link href="{{ asset('admin/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
+    <link href="{{ asset('admin/plugins/morrisjs/morris.css') }}" rel="stylesheet" />
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
@@ -161,7 +160,7 @@
     <script src="{{ asset('admin/plugins/jquery-sparkline/jquery.sparkline.js') }}"></script>
 
     {{-- SWEETALERT --}}
-    <script src="{{ asset('admin/plugins/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Custom Js -->
     <script src="{{ asset('admin/js/pages/forms/form-validation.js') }}"></script>

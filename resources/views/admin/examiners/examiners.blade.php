@@ -98,6 +98,8 @@
                                             <th>Birthday</th>
                                             <th>Strand</th>
                                             <th>Preferred Course</th>
+                                            <th>Created At</th>
+                                            <th>Updated At</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -116,6 +118,8 @@
                                                         2.) {{ $examiner->course_2_name ?? 'N/A' }} <br>
                                                         3.) {{ $examiner->course_3_name ?? 'N/A' }} <br>
                                                     </td>
+                                                    <td>{{ $examiner->created_at }}</td>
+                                                    <td>{{ $examiner->updated_at }}</td>
                                                         <td>
                                                             <button class="btn bg-red waves-effect btn-sm" 
                                                                         data-toggle="modal" 
@@ -173,6 +177,7 @@
     <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
 
     {{-- AJAX REQUEST --}}
+    <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/examiners/delete_examiners.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
