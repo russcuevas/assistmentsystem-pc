@@ -19,32 +19,40 @@ class AdminController extends Controller
 
 
     public function AddAdmin(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'profile_picture' => 'nullable|image',
-            'fullname' => 'required|string',
-            'email' => 'required|email|unique:admins,email',
-            'password' => 'required|min:6',
-        ]);
-    
-        if ($validator->fails()) {
-            return redirect()->route('admin.admin.management.page')->withErrors($validator)->withInput();
-        }
-    
-        $profile_picture_path = null;
-        if ($request->hasFile('profile_picture')) {
-            $profile_picture_path = $request->file('profile_picture')->store('admin/profile', 'public');
-        }
-    
-        Admin::create([
-            'profile_picture' => $profile_picture_path,
-            'fullname' => $request->input('fullname'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
-    
-        return redirect()->route('admin.admin.management.page')->with('success', 'Admin added successfully');
+{
+    $validator = Validator::make($request->all(), [
+        'profile_picture' => 'nullable|image',
+        'fullname' => 'required|string',
+        'email' => 'required|email|unique:admins,email',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'errors' => $validator->errors(),
+        ], 422);
     }
+
+    $profile_picture_path = null;
+    if ($request->hasFile('profile_picture')) {
+        $profile_picture_path = $request->file('profile_picture')->store('admin/profile', 'public');
+    }
+
+    Admin::create([
+        'profile_picture' => $profile_picture_path,
+        'fullname' => $request->input('fullname'),
+        'email' => $request->input('email'),
+        'password' => Hash::make($request->input('password')),
+    ]);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Admin added successfully'
+    ]);
+}
+
+
 
     public function UpdateAdmin(Request $request, $id)
     {

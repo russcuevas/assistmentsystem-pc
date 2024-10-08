@@ -33,7 +33,8 @@ $('.changePasswordForm').on('submit', function (e) {
         var url = form.attr('action');
         var formData = new FormData(form[0]);
         formData.append('_method', 'POST');
-
+        changePassShowLoading();
+        
         $.ajax({
             type: 'POST',
             url: url,
@@ -48,6 +49,7 @@ $('.changePasswordForm').on('submit', function (e) {
                 swal("Success", response.success, "success");
                 $('#changePasswordModal').modal('hide');
                 form[0].reset();
+                HoldOn.close();
             },
             error: function (xhr) {
                 let errors = xhr.responseJSON.errors || {};
@@ -55,7 +57,18 @@ $('.changePasswordForm').on('submit', function (e) {
                 $.each(errors, function (key, value) {
                     $('#error-' + key).html(value[0]);
                 });
+                HoldOn.close();
             }
         });
     }
 });
+
+
+function changePassShowLoading() {
+    HoldOn.open({
+        theme: 'sk-circle',
+        message: '<div class="loading-message">Please wait, changing password..</div>',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        textColor: '#fff'
+    });
+}
