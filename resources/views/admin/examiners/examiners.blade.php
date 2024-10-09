@@ -132,7 +132,7 @@
                                             @endif
                                         @empty
                                             <tr>
-                                                <td colspan="8">No examiners available</td>
+                                                <td style="text-align: center" colspan="10">No examinees available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

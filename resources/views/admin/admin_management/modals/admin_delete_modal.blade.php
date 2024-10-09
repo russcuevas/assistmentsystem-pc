@@ -11,12 +11,9 @@
                 Are you sure you want to delete {{ $admin->fullname }}?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="{{ route('admin.delete.admin', $admin->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                <button type="button" class="btn bg-red waves-effect delete-admin" 
+                        data-url="{{ route('admin.delete.admin', $admin->id) }}">DELETE</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     </div>

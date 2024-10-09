@@ -142,14 +142,20 @@
                                                     @endif
                                                 @empty
                                                     <tr>
-                                                        <td colspan="2" class="text-center">No records</td>
+                                                        <td colspan="4" class="text-center">No records</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="col-md-6">
-                                        <h3>Has records</h3>
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <td style="text-align: left;">
+                                                    <h3>Has records</h3>
+                                                </td>
+                                            </tr>
+                                        </table>
                                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                             <thead>
                                                 <tr>
@@ -171,7 +177,7 @@
                                                     @endif
                                                 @empty
                                                     <tr>
-                                                        <td colspan="2" class="text-center">No records</td>
+                                                        <td colspan="4" class="text-center">No records</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>

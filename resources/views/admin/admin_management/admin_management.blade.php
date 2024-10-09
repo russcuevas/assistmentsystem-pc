@@ -99,6 +99,8 @@
                                             <th>Profile picture</th>
                                             <th>Fullname</th>
                                             <th>Email</th>
+                                            <th>Created At</th>
+                                            <th>Updated At</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -114,11 +116,13 @@
                                             </td>
                                             <td>{{ $admin->fullname }}</td>
                                             <td>{{ $admin->email }}</td>
+                                            <td>{{ $admin->created_at }}</td>
+                                            <td>{{ $admin->updated_at }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">
-                                                    Edit
-                                                </button> |
-                                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
+                                                <button type="button" class="btn bg-red waves-effect btn-sm" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">
+                                                    Update
+                                                </button>
+                                                <button type="button" class="btn bg-red waves-effect btn-sm" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
                                                     Delete
                                                 </button>
                                                 <!-- Edit Admin Modal -->
@@ -174,6 +178,7 @@
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/admin_management/add_admin.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/admin_management/edit_admin.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/admin_management/delete_admin.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
 </html>

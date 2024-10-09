@@ -102,6 +102,6 @@ class AdminController extends Controller
 
         $admin->delete();
 
-        return redirect()->route('admin.admin.management.page')->with('success', 'Admin deleted successfully');
+        return response()->json(['message' => 'Admin deleted successfully']);
     }
 }
