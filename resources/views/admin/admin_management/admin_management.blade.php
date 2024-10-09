@@ -109,7 +109,10 @@
                                         <tr>
                                             <td>
                                                 @if($admin->profile_picture)
-                                                    <img src="{{ asset('storage/' . $admin->profile_picture) }}" alt="Profile Picture" style="width: 50px; height: 50px;">
+                                                    <img src="{{ asset('storage/' . $admin->profile_picture) }}" alt="Profile Picture" data-toggle="modal" data-target="#profilePictureModal{{ $admin->id }}" 
+                                                        style="width: 50px; height: 50px; border-radius: 50%; cursor: pointer;"> 
+                                                    <span data-toggle="modal" data-target="#profilePictureModal{{ $admin->id }}" style="cursor: pointer">View</span>
+                                                    @include('admin.admin_management.modals.picture.admin_profile_picture')
                                                 @else
                                                     No Image
                                                 @endif
@@ -139,6 +142,7 @@
                     </div>
                 </div>
             </div>
+
 
     </section>
 

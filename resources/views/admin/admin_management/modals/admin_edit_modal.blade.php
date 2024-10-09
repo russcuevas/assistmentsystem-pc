@@ -12,7 +12,7 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="form-group form-float">
+                    <div class="form-group form-float" style="margin-bottom: 15px !important">
                         <label style="color: #212529; font-weight: 600;" class="form-label">Profile Picture</label>
                         <div class="form-line">
                         <input type="file" class="form-control" name="profile_picture" id="edit_profile_picture" accept="image/*" onchange="previewImage(event)">
@@ -23,23 +23,23 @@
                         </div>
                     </div>
 
-                    <div class="form-group form-float">
+                    <div class="form-group form-float" style="margin-bottom: 15px !important">
                         <label style="color: #212529; font-weight: 600;" class="form-label">Fullname</label>
                         <div class="form-line">
                             <input type="text" class="form-control" name="fullname" id="edit_fullname" value="{{ old('fullname', $admin->fullname) }}" required>
                         </div>
                     </div>
 
-                    <div class="form-group form-float">
+                    <div class="form-group form-float" style="margin-bottom: 15px !important">
                         <label style="color: #212529; font-weight: 600;" class="form-label">Email</label>
                         <div class="form-line">
                             <input type="email" class="form-control" name="email" id="edit_email" value="{{ old('email', $admin->email) }}" required>
                         </div>
-                        <div id="error-edit-email{{ $admin->id }}" class="error-message" style="color: red;"></div>
+                        <div id="error-edit-email{{ $admin->id }}" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
 
-                    <div class="form-group form-float">
-                        <label style="color: #212529; font-weight: 600;" class="form-label">Password (leave blank to keep current)</label>
+                    <div class="form-group form-float" style="margin-bottom: 15px !important">
+                        <label style="color: #212529; font-weight: 600;" class="form-label">Password <i>(leave blank to keep current)</i></label>
                         <div class="form-line">
                             <input type="password" class="form-control" name="password" id="edit_password">
                         </div>

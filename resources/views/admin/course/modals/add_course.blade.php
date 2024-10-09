@@ -13,13 +13,13 @@
                         <div class="form-line">
                             <input type="text" name="course_name" class="form-control" required>
                         </div>
-                            <div id="error-course" class="error-message" style="color: red;"></div>
+                            <div id="error-course" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
 
                     <div class="form-group form-float">
                         <label style="color: #212529; font-weight: 600;" class="form-label">Course Description</label>
                         <div class="form-line">
-                            <input type="text" name="course_description" class="form-control" required>
+                            <textarea name="course_description" cols="30" rows="5" class="form-control no-resize" required></textarea>
                         </div>
                     </div>
             </div>

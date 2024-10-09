@@ -33,7 +33,7 @@ class CourseController extends Controller
             'course_description' => $request->input('course_description'),
         ]);
 
-        return response()->json(['status'=> 'success', 'message' => 'Course added successfully']);
+        return response()->json(['status' => 'success', 'message' => 'Course added successfully']);
     }
 
     public function UpdateCourse(Request $request, $id)
@@ -44,7 +44,9 @@ class CourseController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('admin.course.page')->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         $course = Course::find($id);
@@ -54,10 +56,10 @@ class CourseController extends Controller
                 'course_description' => $request->input('course_description'),
             ]);
 
-            return redirect()->route('admin.course.page')->with('success', 'Course updated successfully');
+            return response()->json(['status' => 'success', 'message' => 'Course updated successfully']);
         }
 
-        return redirect()->route('admin.course.page')->with('error', 'Course not found');
+        return response()->json(['status' => 'error', 'message' => 'Course not found'], 404);
     }
 
 
@@ -66,8 +68,8 @@ class CourseController extends Controller
         $course = Course::find($id);
         if ($course) {
             $course->delete();
-            return redirect()->route('admin.course.page')->with('success', 'Course deleted successfully');
+            return response()->json(['status' => 'success', 'message' => 'Course deleted successfully']);
         }
-        return redirect()->route('admin.course.page')->with('error', 'Course not found');
+        return response()->json(['status' => 'error', 'message' => 'Course not found'], 404);
     }
 }

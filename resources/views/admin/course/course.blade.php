@@ -99,6 +99,8 @@
                                         <tr>
                                             <th>Course Name</th>
                                             <th>Course Description</th>
+                                            <th>Created At</th>
+                                            <th>Updated At</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -107,6 +109,8 @@
                                         <tr>
                                             <td>{{ $available_course->course_name }}</td>
                                             <td>{{ $available_course->course_description }}</td>
+                                            <td>{{ $available_course->created_at }}</td>
+                                            <td>{{ $available_course->updated_at }}</td>
                                             <td>
                                                 <button class="btn btn-warning waves-effect btn-sm" 
                                                         data-toggle="modal" 
@@ -170,6 +174,8 @@
     {{-- AJAX REQUEST --}}
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/course/add_course.js') }}"></script>
+    <script src="{{ asset('admin/js/ajax/course/edit_course.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/course/delete_course.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
 

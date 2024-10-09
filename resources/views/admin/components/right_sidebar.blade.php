@@ -36,7 +36,7 @@
                         <div class="form-line">
                             <input type="password" class="form-control" name="old_password" required>
                         </div>
-                        <div id="error-old_password" class="error-message" style="color: red;"></div>
+                        <div id="error-old_password" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
 
                     <div class="form-group form-float">
@@ -44,7 +44,7 @@
                         <div class="form-line">
                             <input type="password" class="form-control" name="password" maxlength="12" minlength="6" required>
                         </div>
-                        <div id="error-password" class="error-message" style="color: red;"></div>
+                        <div id="error-password" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
 
                     <div class="form-group form-float">
@@ -52,7 +52,7 @@
                         <div class="form-line">
                             <input type="password" class="form-control" name="password_confirmation" maxlength="12" minlength="6" required>
                         </div>
-                        <div id="error-password_confirmation" class="error-message" style="color: red;"></div>
+                        <div id="error-password_confirmation" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
             </div>
             <div class="modal-footer">

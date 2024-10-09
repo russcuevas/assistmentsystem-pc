@@ -31,7 +31,7 @@
                             <div class="form-line">
                                 <input type="email" class="form-control" name="email" id="email" required>
                             </div>
-                            <div id="error-email" class="error-message" style="color: red;"></div>
+                            <div id="error-email" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                         </div>
                         
                         <div class="form-group form-float">
