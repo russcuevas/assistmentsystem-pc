@@ -18,12 +18,14 @@ class CourseController extends Controller
     public function AddCourse(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'course_name' => 'required|string|max:255',
+            'course_name' => 'required|string|max:255|unique:courses,course_name',
             'course_description' => 'required|string'
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('admin.course.page')->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         Course::create([
@@ -31,7 +33,7 @@ class CourseController extends Controller
             'course_description' => $request->input('course_description'),
         ]);
 
-        return redirect()->route('admin.course.page')->with('success', 'Course added successfully');
+        return response()->json(['status'=> 'success', 'message' => 'Course added successfully']);
     }
 
     public function UpdateCourse(Request $request, $id)
