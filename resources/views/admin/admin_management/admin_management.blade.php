@@ -119,10 +119,10 @@
                                             <td>{{ $admin->created_at }}</td>
                                             <td>{{ $admin->updated_at }}</td>
                                             <td>
-                                                <button type="button" class="btn bg-red waves-effect btn-sm" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">
-                                                    Update
+                                                <button type="button" class="btn btn-warning waves-effect btn-sm" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">
+                                                    Edit
                                                 </button>
-                                                <button type="button" class="btn bg-red waves-effect btn-sm" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
+                                                <button type="button" class="btn btn-danger waves-effect btn-sm" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
                                                     Delete
                                                 </button>
                                                 <!-- Edit Admin Modal -->

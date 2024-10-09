@@ -108,12 +108,12 @@
                                             <td>{{ $available_course->course_name }}</td>
                                             <td>{{ $available_course->course_description }}</td>
                                             <td>
-                                                <button class="btn btn-warning btn-sm" 
+                                                <button class="btn btn-warning waves-effect btn-sm" 
                                                         data-toggle="modal" 
                                                         data-target="#updateCourseModal{{ $available_course->id }}">
                                                     Edit
                                                 </button>
-                                                <button class="btn btn-danger btn-sm" 
+                                                <button class="btn btn-danger waves-effect btn-sm" 
                                                         data-toggle="modal" 
                                                         data-target="#deleteCourseModal{{ $available_course->id }}">
                                                     Delete

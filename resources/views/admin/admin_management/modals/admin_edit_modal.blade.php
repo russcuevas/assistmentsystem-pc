@@ -4,9 +4,6 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="editAdminModalLabel{{ $admin->id }}">Edit Admin</h4>
                 <hr style="background-color: #752738; height: 2px; border: none;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                     <form id="form_advanced_validation" class="editAdminForm" method="POST" enctype="multipart/form-data" 
