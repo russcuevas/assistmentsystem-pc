@@ -1,139 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add RIASEC</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        nav {
-            margin-bottom: 20px;
-        }
-        form {
-            margin-bottom: 40px;
-        }
-        .career-pathway {
-            margin-bottom: 10px;
-        }
-        .remove {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px;
-            cursor: pointer;
-        }
-        button {
-            margin-top: 10px;
-        }
-        .alert {
-            color: green;
-            margin-bottom: 20px;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>UB - Assistments</title>
+    <!-- Favicon-->
+    <link rel="icon" href="{{ asset('admin/images/ub-logo.png') }}" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <!-- Bootstrap Core Css -->
+    <link href="{{ asset('admin/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="{{ asset('admin/plugins/node-waves/waves.css') }}" rel="stylesheet" />
+    <!-- Animation Css -->
+    <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
+    <!-- JQuery DataTable Css -->
+    <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <!-- Custom Css -->
+    <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-    <nav>
-        <ul>
-            <li>
-                <a href="{{ route('admin.dashboard.page')}}">Dashboard</a><br>
-                <a href="{{ route('admin.admin.management.page') }}">Admin Management</a><br>
-                <a href="{{ route('admin.examiners.page')}}">Examiners Management</a><br>
-                <a href="{{ route('admin.riasec.page')}}">Riasec Management</a><br>
-                <a href="{{ route('admin.course.page') }}">Course Management</a><br>
-                <a href="{{ route('admin.questionnaire.page')}}">Questionnaire Management</a><br>
-                <a href="{{ route('admin.analytics.page')}}">Analytics</a><br>
-                <a href="{{ route('admin.logout.request') }}">Logout</a><br>
-            </li>
-        </ul>
-    </nav>
 
-    @if (session('success'))
-        <div class="alert">{{ session('success') }}</div>
-    @endif
-
-    <form action="{{ route('admin.add.riasec') }}" method="POST">
-        @csrf
-        <h2>Add New RIASEC</h2>
-        
-        <label for="riasec_id">Initial:</label>
-        <input type="text" id="riasec_id" name="riasec_id" required maxlength="1" placeholder="R/I/A/S/E/C"><br>
-
-        <label for="riasec_name">RIASEC Name:</label>
-        <input type="text" id="riasec_name" name="riasec_name" required placeholder="Enter RIASEC Name"><br>
-
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required placeholder="Enter description"></textarea><br>
-
-        <div id="career-pathway-fields">
-            <div class="career-pathway">
-                <label for="career_name[]">Career Pathway:</label>
-                <input type="text" name="career_name[]" required placeholder="Enter career pathway"><br>
-                <label for="course_id[]">Select Courses:</label>
-                <div>
-                    @foreach ($courses as $course)
-                        <label>
-                            <input type="checkbox" name="course_id[0][]" value="{{ $course->id }}">
-                            {{ $course->course_name }}
-                        </label>
-                    @endforeach
+<body class="theme-red">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
                 </div>
-                <button type="button" class="remove">Remove</button>
             </div>
+            <p>Please wait...</p>
         </div>
-        <button type="button" id="add-career-pathway">Add Another Career Pathway</button><br><br>
-
-        <button type="submit">Add RIASEC</button>
-    </form>
-
-    <hr>
-    <h1>Riasec List</h1>
-    <div class="body">
-        <table>
-        <thead>
-            <tr>
-                <th>Initial</th>
-                <th>RIASEC Name</th>
-                <th>Career Pathway / Related Courses</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($riasec as $riasec_formatting)
-                <tr>
-                    <td>{{ $riasec_formatting->id }}</td>
-                    <td>{{ $riasec_formatting->riasec_name }}</td>
-                    <td>
-                        @if ($riasec_formatting->career_names)
-                            {{ $riasec_formatting->career_names }}: 
-                            @if ($riasec_formatting->course_names)
-                                {{ $riasec_formatting->course_names }}
-                            @else
-                                No courses available
-                            @endif
-                        @else
-                            No career pathways available
-                        @endif
-                    </td>
-                    <td>{{ $riasec_formatting->description }}</td>
-                    <td>
-                        <a href="{{ route('admin.edit.riasec', $riasec_formatting->id) }}">Update</a>
-                        <form action="{{ route('admin.delete.riasec', $riasec_formatting->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
     </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
 
+    <!-- Top Bar -->
+    @include('admin.components.top_bar')
+    <!-- #Top Bar -->
+    
+    <section>
+        <!-- Left Sidebar -->
+        @include('admin.components.left_sidebar')
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        @include('admin.components.right_sidebar')
+        <!-- #END# Right Sidebar -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <ol style="font-size: 15px;" class="breadcrumb breadcrumb-col-red">
+                    <li><a href="dashboard.html"><i style="font-size: 20px;" class="material-icons">home</i>
+                            Dashboard</a></li>
+                    <li class="active"><i style="font-size: 20px;" class="material-icons">description</i> Assesstment Management
+                    </li>
+                    <li class="active"><i style="font-size: 20px;" class="material-icons"></i> Course List
+                    </li>
+                </ol>
+            </div>
+
+            <!-- Widgets -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2 style="font-size: 25px; font-weight: 900; color: #752738;">
+                                List of Course
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div>
+                                <a href="" class="btn bg-red waves-effect" style="margin-bottom: 15px;" data-toggle="modal" data-target="#addRiasecModal">+ ADD RIASEC</a>
+                            </div>
+                            @include('admin.riasec.modals.add_riasec')
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                        <tr>
+                                            <th>Initial</th>
+                                            <th>RIASEC Name</th>
+                                            <th>Career Pathway / Related Courses</th>
+                                            <th>Description</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($riasec as $riasec_formatting)
+                                            <tr>
+                                                <td>{{ $riasec_formatting->id }}</td>
+                                                <td>{{ $riasec_formatting->riasec_name }}</td>
+                                                <td>
+                                                    @if ($riasec_formatting->career_names)
+                                                        {{ $riasec_formatting->career_names }}: 
+                                                        @if ($riasec_formatting->course_names)
+                                                            {{ $riasec_formatting->course_names }}
+                                                        @else
+                                                            No courses available
+                                                        @endif
+                                                    @else
+                                                        No career pathways available
+                                                    @endif
+                                                </td>
+                                                <td>{{ $riasec_formatting->description }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.edit.riasec', $riasec_formatting->id) }}">Update</a>
+                                                    <form action="{{ route('admin.delete.riasec', $riasec_formatting->id) }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </section>
+
+    <!-- Jquery Core Js -->
+    <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.js') }}"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="{{ asset('admin/plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="{{ asset('admin/plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
+
+    <!-- Jquery Validation Plugin Css -->
+    <script src="{{ asset('admin/plugins/jquery-validation/jquery.validate.js') }}"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="{{ asset('admin/plugins/node-waves/waves.js') }}"></script>
+
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="{{ asset('admin/plugins/jquery-datatable/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
+
+    {{-- SWEETALERT --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <!-- Custom Js -->
+    <script src="{{ asset('admin/js/admin.js') }}"></script>
+    <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
+    <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
+
+    {{-- AJAX REQUEST --}}
+    <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/course/add_course.js') }}"></script>
+    <script src="{{ asset('admin/js/ajax/course/edit_course.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/course/delete_course.js')}}"></script>
+    <script src="{{ asset('admin/js/demo.js') }}"></script>
     <script>
         let index = 1;
         document.getElementById('add-career-pathway').addEventListener('click', function() {
@@ -141,12 +186,13 @@
             newField.className = 'career-pathway';
             newField.innerHTML = `
                 <label for="career_name[]">Career Pathway:</label>
-                <input type="text" name="career_name[]" required placeholder="Enter career pathway">
+                <input type="text" name="career_name[]" required placeholder="Enter career pathway"> 
                 <label for="course_id[]">Select Courses:</label>
                 <div>
                     @foreach ($courses as $course)
                         <label>
                             <input type="checkbox" name="course_id[${index}][]" value="{{ $course->id }}">
+                            <label for="checkbox-{{ $course->id }}">{{ $course->id }}</label>
                             {{ $course->course_name }}
                         </label>
                     @endforeach
@@ -164,4 +210,5 @@
         });
     </script>
 </body>
+
 </html>
