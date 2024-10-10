@@ -106,6 +106,10 @@
 
     <h1>Offered courses</h1>
     <canvas id="course-chart" width="400" height="200"></canvas>
+
+    <h1>Top preferred courses</h1>
+    <canvas id="preferred-course-chart" width="400" height="200"></canvas>
+
     
 
     {{-- Gender Chart Analytics --}}
@@ -198,6 +202,61 @@
             console.error('Error fetching course data:', error);
         });
 </script>
+
+
+{{-- PREFERRED COURSE --}}
+<script>
+    fetch('/admin/preferred-courses/counts')
+        .then(response => response.json())
+        .then(data => {
+            const courseLabels = Object.keys(data);
+            const courseCounts = Object.values(data);
+
+            // Define an array of colors
+            const colors = [
+                'rgba(255, 99, 132, 0.5)', // Red
+                'rgba(54, 162, 235, 0.5)', // Blue
+                'rgba(255, 206, 86, 0.5)', // Yellow
+                'rgba(75, 192, 192, 0.5)', // Teal
+                'rgba(153, 102, 255, 0.5)', // Purple
+                'rgba(255, 159, 64, 0.5)', // Orange
+                'rgba(255, 99, 71, 0.5)', // Tomato
+                'rgba(60, 179, 113, 0.5)', // Medium Sea Green
+                'rgba(255, 20, 147, 0.5)', // Deep Pink
+                'rgba(255, 165, 0, 0.5)' // Orange
+            ];
+
+            // If there are more courses than colors, repeat colors
+            const datasetColors = courseLabels.map((_, index) => colors[index % colors.length]);
+
+            const ctx = document.getElementById('preferred-course-chart').getContext('2d');
+
+            const preferredCourseChart = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: courseLabels,
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: courseCounts,
+                        backgroundColor: datasetColors, // Use the unique colors
+                        borderColor: datasetColors.map(color => color.replace('0.5', '1')), // Solid color for border
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching preferred course data:', error);
+        });
+</script>
+
 
 </body>
 </html>

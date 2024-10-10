@@ -32,13 +32,13 @@
 
                     <div id="career-pathway-fields">
                         <div class="form-group">
-                        <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]">Career Pathway:</label>
+                        <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]">Career Pathway</label>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="career_name[]" required>
                             </div>
                             </div>
                         <div class="form-group form-float career-pathway">
-                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Related Courses:</label>
+                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Related Courses</label>
                             <div class="fields-scroll" style="margin-top: 5px">
                                 <div>
                                     @foreach ($courses as $course)

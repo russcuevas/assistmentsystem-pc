@@ -196,14 +196,14 @@
         newField.className = 'career-pathway';
         newField.innerHTML = `
             <div class="form-group">
-                <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]_${index}">Career Pathway:</label>
+                <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]_${index}">Career Pathway</label>
                 <div class="form-line">
                     <input type="text" class="form-control" name="career_name[]_${index}" id="career_name_${index}" required>
                     <div id="error-career-${index}" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                 </div>
             </div>
             <div class="form-group form-float career-pathway">
-                <label style="color: #212529; font-weight: 600; margin-top: 20px;" class="form-label" for="course_id[]">Select Related Courses:</label>
+                <label style="color: #212529; font-weight: 600; margin-top: 20px;" class="form-label" for="course_id[]">Select Related Courses</label>
                 <div class="fields-scroll" style="margin-top: 5px">
                     <div>
                         @foreach ($courses as $course)

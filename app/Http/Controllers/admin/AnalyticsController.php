@@ -15,25 +15,22 @@ class AnalyticsController extends Controller
             ->groupBy('user_id', 'riasec_id')
             ->orderByDesc('total_points')
             ->get();
-    
-        // Group scores by user
+
         $groupedUserScores = [];
         foreach ($userScores as $score) {
             $groupedUserScores[$score->user_id][$score->riasec_id] = $score->total_points;
         }
-    
-        // Get top 3 scores for each user
+
         $topScores = [];
         foreach ($groupedUserScores as $userId => $scores) {
             arsort($scores);
             $topScores[$userId] = array_slice($scores, 0, 3, true);
         }
-    
-        // Fetch user names and preferred courses
+
         $users = DB::table('users')->whereIn('id', array_keys($topScores))->pluck('fullname', 'id');
         $preferredCourses = [];
         $suggestedCourses = [];
-    
+
         foreach ($topScores as $userId => $scores) {
             foreach ($scores as $riasec_id => $total_points) {
                 $courses = DB::table('course_career_pathways')
@@ -42,9 +39,9 @@ class AnalyticsController extends Controller
                     ->where('career_pathways.riasec_id', $riasec_id)
                     ->select('courses.course_name', 'career_pathways.career_name')
                     ->get();
-    
+
                 $suggestedCourses[$userId][$riasec_id] = $courses;
-    
+
                 $userPreferredCourses = DB::table('preferred_courses')->where('user_id', $userId)->first();
                 $preferredCourses[$userId][$riasec_id] = $userPreferredCourses ? [
                     'course_1' => $this->getCourseName($userPreferredCourses->course_1),
@@ -57,7 +54,7 @@ class AnalyticsController extends Controller
                 ];
             }
         }
-    
+
         return view('admin.analytics.analytics', compact('topScores', 'users', 'suggestedCourses', 'preferredCourses'));
     }
 
@@ -65,8 +62,8 @@ class AnalyticsController extends Controller
     {
         return DB::table('courses')->where('id', $courseId)->value('course_name') ?? 'N/A';
     }
-    
-    
+
+
 
     public function GetExaminersDataByGender()
     {
@@ -86,7 +83,48 @@ class AnalyticsController extends Controller
             ->groupBy('course_name')
             ->pluck('count', 'course_name')
             ->toArray();
-    
+
         return response()->json(['offered_courses' => $offered_courses]);
-    }    
+    }
+
+    public function GetPreferredCourseCounts()
+    {
+        $preferredCourses = DB::table('preferred_courses')
+            ->select('course_1 as course_id')
+            ->whereNotNull('course_1')
+            ->groupBy('course_id')
+            ->selectRaw('count(*) as count')
+            ->unionAll(
+                DB::table('preferred_courses')
+                    ->select('course_2 as course_id')
+                    ->whereNotNull('course_2')
+                    ->groupBy('course_id')
+                    ->selectRaw('count(*) as count')
+            )
+            ->unionAll(
+                DB::table('preferred_courses')
+                    ->select('course_3 as course_id')
+                    ->whereNotNull('course_3')
+                    ->groupBy('course_id')
+                    ->selectRaw('count(*) as count')
+            )
+            ->get();
+
+        $course_counts = [];
+        foreach ($preferredCourses as $course) {
+            $courseName = DB::table('courses')->where('id', $course->course_id)->value('course_name');
+            if ($courseName) {
+                if (isset($course_counts[$courseName])) {
+                    $course_counts[$courseName] += $course->count;
+                } else {
+                    $course_counts[$courseName] = $course->count;
+                }
+            }
+        }
+
+        arsort($course_counts);
+        $topCourses = array_slice($course_counts, 0, 3, true);
+
+        return response()->json($topCourses);
+    }
 }
