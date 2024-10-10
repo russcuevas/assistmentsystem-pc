@@ -29,6 +29,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+        .fields-scroll {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        </style>
 </head>
 
 <body class="theme-red">
@@ -74,7 +83,7 @@
                             Dashboard</a></li>
                     <li class="active"><i style="font-size: 20px;" class="material-icons">description</i> Assesstment Management
                     </li>
-                    <li class="active"><i style="font-size: 20px;" class="material-icons"></i> Course List
+                    <li class="active"><i style="font-size: 20px;" class="material-icons"></i> RIASEC List
                     </li>
                 </ol>
             </div>
@@ -85,7 +94,7 @@
                     <div class="card">
                         <div class="header">
                             <h2 style="font-size: 25px; font-weight: 900; color: #752738;">
-                                List of Course
+                                List of RIASEC
                             </h2>
                         </div>
                         <div class="body">
@@ -193,17 +202,19 @@
                             <div class="form-line">
                                 <input type="text" class="form-control" name="career_name[]" required>
                             </div>
-                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Courses:</label>
-                            <div>
-                                @foreach ($courses as $course)
-                                    <div class="col-5">
-                                        <label>
-                                            <input type="checkbox" name="course_id[${index}][]" value="{{ $course->id }}">
-                                            <label for="checkbox">{{ $course->id }}</label>
-                                            {{ $course->course_name }}
-                                        </label>
-                                    </div>
-                                @endforeach
+                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Related Courses:</label>
+                            <div class="fields-scroll" style="margin-top: 5px">
+                                <div>
+                                    @foreach ($courses as $course)
+                                        <div class="col-5">
+                                            <label>
+                                                <input type="checkbox" name="course_id[${index}][]" value="{{ $course->id }}">
+                                                <label for="checkbox">{{ $course->id }}</label>
+                                                {{ $course->course_name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                             <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
                         </div>

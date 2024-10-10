@@ -1,5 +1,5 @@
 <div class="modal fade" id="addRiasecModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="addRiasecModalLabel">Add RIASEC</h4>
@@ -36,17 +36,19 @@
                             <div class="form-line">
                                 <input type="text" class="form-control" name="career_name[]" required>
                             </div>
-                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Courses:</label>
-                            <div>
-                                @foreach ($courses as $course)
-                                    <div class="col-5">
-                                        <label>
-                                            <input type="checkbox" name="course_id[0][]" value="{{ $course->id }}">
-                                            <label for="checkbox">{{ $course->id }}</label>
-                                            {{ $course->course_name }}
-                                        </label>
-                                    </div>
-                                @endforeach
+                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Related Courses:</label>
+                            <div class="fields-scroll" style="margin-top: 5px">
+                                <div>
+                                    @foreach ($courses as $course)
+                                        <div class="col-5">
+                                            <label>
+                                                <input type="checkbox" name="course_id[0][]" value="{{ $course->id }}">
+                                                <label for="checkbox">{{ $course->id }}</label>
+                                                {{ $course->course_name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                             <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
                         </div>
