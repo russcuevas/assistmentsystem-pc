@@ -19,7 +19,7 @@ class RiasecController extends Controller
             ->leftJoin('course_career_pathways', 'career_pathways.id', '=', 'course_career_pathways.career_pathway_id')
             ->leftJoin('courses', 'course_career_pathways.course_id', '=', 'courses.id')
             ->select(
-                'riasecs.id as riasec_id', 
+                'riasecs.id as riasec_id',
                 'riasecs.riasec_name',
                 'riasecs.description',
                 'career_pathways.career_name',
@@ -27,26 +27,26 @@ class RiasecController extends Controller
             )
             ->groupBy('riasecs.id', 'riasecs.riasec_name', 'riasecs.description', 'career_pathways.career_name')
             ->get();
-    
-            $formattedRiasec = [];
-            foreach ($riasec as $item) {
-                if (!isset($formattedRiasec[$item->riasec_name])) {
-                    $formattedRiasec[$item->riasec_name] = [
-                        'id' => $item->riasec_id,
-                        'description' => $item->description,
-                        'careers' => []
-                    ];
-                }
-                $formattedRiasec[$item->riasec_name]['careers'][] = [
-                    'name' => $item->career_name,
-                    'courses' => $item->course_names ? explode(', ', $item->course_names) : []
+
+        $formattedRiasec = [];
+        foreach ($riasec as $item) {
+            if (!isset($formattedRiasec[$item->riasec_name])) {
+                $formattedRiasec[$item->riasec_name] = [
+                    'id' => $item->riasec_id,
+                    'description' => $item->description,
+                    'careers' => []
                 ];
             }
+            $formattedRiasec[$item->riasec_name]['careers'][] = [
+                'name' => $item->career_name,
+                'courses' => $item->course_names ? explode(', ', $item->course_names) : []
+            ];
+        }
         $courses = Course::all();
         return view('admin.riasec.riasec', compact('formattedRiasec', 'courses'));
     }
-    
-    
+
+
     public function AddRiasec(Request $request)
     {
         $request->validate([
@@ -79,7 +79,7 @@ class RiasecController extends Controller
             }
         }
 
-        return redirect()->route('admin.riasec.page')->with('success', 'RIASEC added successfully!');
+        return response()->json(['status' => 'success', 'message' => 'RIASEC added successfully']);
     }
 
     public function EditRiasec($id)

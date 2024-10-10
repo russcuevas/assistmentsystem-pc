@@ -179,7 +179,6 @@
     {{-- SWEETALERT --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
     <!-- Custom Js -->
     <script src="{{ asset('admin/js/admin.js') }}"></script>
     <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
@@ -188,47 +187,50 @@
     {{-- AJAX REQUEST --}}
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/course/add_course.js') }}"></script>
-    <script src="{{ asset('admin/js/ajax/course/edit_course.js')}}"></script>
-    <script src="{{ asset('admin/js/ajax/course/delete_course.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
+    {{-- INNER HTML --}}
     <script>
-        let index = 1;
-        document.getElementById('add-career-pathway').addEventListener('click', function() {
-            const newField = document.createElement('div');
-            newField.className = 'career-pathway';
-            newField.innerHTML = `
-                        <div class="form-group form-float career-pathway">
-                            <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]">Career Pathway:</label>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="career_name[]" required>
+    let index = 1;
+    document.getElementById('add-career-pathway').addEventListener('click', function () {
+        const newField = document.createElement('div');
+        newField.className = 'career-pathway';
+        newField.innerHTML = `
+            <div class="form-group">
+                <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]_${index}">Career Pathway:</label>
+                <div class="form-line">
+                    <input type="text" class="form-control" name="career_name[]_${index}" id="career_name_${index}" required>
+                    <div id="error-career-${index}" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
+                </div>
+            </div>
+            <div class="form-group form-float career-pathway">
+                <label style="color: #212529; font-weight: 600; margin-top: 20px;" class="form-label" for="course_id[]">Select Related Courses:</label>
+                <div class="fields-scroll" style="margin-top: 5px">
+                    <div>
+                        @foreach ($courses as $course)
+                            <div class="col-5">
+                                <label>
+                                    <input type="checkbox" name="course_id[${index}][]" id="checkbox-${index}-{{ $course->id }}" value="{{ $course->id }}">
+                                    <label for="checkbox-${index}-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
+                                </label>
                             </div>
-                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Related Courses:</label>
-                            <div class="fields-scroll" style="margin-top: 5px">
-                                <div>
-                                    @foreach ($courses as $course)
-                                        <div class="col-5">
-                                            <label>
-                                                <input type="checkbox" name="course_id[${index}][]" value="{{ $course->id }}">
-                                                <label for="checkbox">{{ $course->id }}</label>
-                                                {{ $course->course_name }}
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
-                        </div>
+                        @endforeach
                     </div>
-            `;
-            document.getElementById('career-pathway-fields').appendChild(newField);
-            index++;
-        });
-
-        document.getElementById('career-pathway-fields').addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove')) {
-                e.target.parentElement.remove();
-            }
-        });
+                </div>
+                <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
+            </div>
+        `;
+        document.getElementById('career-pathway-fields').appendChild(newField);
+        index++;
+    });
+    document.getElementById('career-pathway-fields').addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove')) {
+            e.target.closest('.career-pathway').remove();
+        }
+    });
+    </script>
+    <script src="{{ asset('admin/js/ajax/riasec/add_riasec.js') }}"></script>
+    <script>
+        
     </script>
 </body>
 
