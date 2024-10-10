@@ -99,39 +99,42 @@
                                         <tr>
                                             <th>Initial</th>
                                             <th>RIASEC Name</th>
-                                            <th>Career Pathway / Related Courses</th>
                                             <th>Description</th>
+                                            <th>Career Pathway / Related Courses</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($riasec as $riasec_formatting)
-                                            <tr>
-                                                <td>{{ $riasec_formatting->id }}</td>
-                                                <td>{{ $riasec_formatting->riasec_name }}</td>
-                                                <td>
-                                                    @if ($riasec_formatting->career_names)
-                                                        {{ $riasec_formatting->career_names }}: 
-                                                        @if ($riasec_formatting->course_names)
-                                                            {{ $riasec_formatting->course_names }}
-                                                        @else
-                                                            No courses available
-                                                        @endif
-                                                    @else
-                                                        No career pathways available
-                                                    @endif
-                                                </td>
-                                                <td>{{ $riasec_formatting->description }}</td>
-                                                <td>
-                                                    <a href="{{ route('admin.edit.riasec', $riasec_formatting->id) }}">Update</a>
-                                                    <form action="{{ route('admin.delete.riasec', $riasec_formatting->id) }}" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        @foreach ($formattedRiasec as $riasec_name => $riasec_formatting)
+                                        <tr>
+                                            <td>{{ $riasec_formatting['id'] }}</td>
+                                            <td>{{ $riasec_name }}</td>
+                                            <td>{{ $riasec_formatting['description'] }}</td>
+                                            <td>
+                                            @foreach ($riasec_formatting['careers'] as $career)
+                                                <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
+                                                @if (!empty($career['courses']))
+                                                    @foreach ($career['courses'] as $course)
+                                                        {{ $course }},<br>
+                                                    @endforeach
+                                                @else
+                                                    No courses available
+                                                @endif
+                                                <br>
+                                            @endforeach
+                                            
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.edit.riasec', $riasec_formatting['id']) }}">Update</a>
+                                                <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    
                                     </tbody>
                                 </table>
                             </div>
@@ -185,19 +188,26 @@
             const newField = document.createElement('div');
             newField.className = 'career-pathway';
             newField.innerHTML = `
-                <label for="career_name[]">Career Pathway:</label>
-                <input type="text" name="career_name[]" required placeholder="Enter career pathway"> 
-                <label for="course_id[]">Select Courses:</label>
-                <div>
-                    @foreach ($courses as $course)
-                        <label>
-                            <input type="checkbox" name="course_id[${index}][]" value="{{ $course->id }}">
-                            <label for="checkbox-{{ $course->id }}">{{ $course->id }}</label>
-                            {{ $course->course_name }}
-                        </label>
-                    @endforeach
-                </div>
-                <button type="button" class="remove">Remove</button>
+                        <div class="form-group form-float career-pathway">
+                            <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]">Career Pathway:</label>
+                            <div class="form-line">
+                                <input type="text" class="form-control" name="career_name[]" required>
+                            </div>
+                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Courses:</label>
+                            <div>
+                                @foreach ($courses as $course)
+                                    <div class="col-5">
+                                        <label>
+                                            <input type="checkbox" name="course_id[${index}][]" value="{{ $course->id }}">
+                                            <label for="checkbox">{{ $course->id }}</label>
+                                            {{ $course->course_name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
+                        </div>
+                    </div>
             `;
             document.getElementById('career-pathway-fields').appendChild(newField);
             index++;

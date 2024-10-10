@@ -19,19 +19,34 @@ class RiasecController extends Controller
             ->leftJoin('course_career_pathways', 'career_pathways.id', '=', 'course_career_pathways.career_pathway_id')
             ->leftJoin('courses', 'course_career_pathways.course_id', '=', 'courses.id')
             ->select(
-                'riasecs.id',
+                'riasecs.id as riasec_id', 
                 'riasecs.riasec_name',
                 'riasecs.description',
-                DB::raw('GROUP_CONCAT(DISTINCT career_pathways.career_name ORDER BY career_pathways.career_name SEPARATOR ", ") as career_names'),
-                DB::raw('GROUP_CONCAT(DISTINCT courses.course_name ORDER BY courses.course_name SEPARATOR ", ") as course_names')
+                'career_pathways.career_name',
+                DB::raw('GROUP_CONCAT(courses.course_name ORDER BY courses.course_name SEPARATOR ", ") as course_names')
             )
-            ->groupBy('riasecs.id', 'riasecs.riasec_name', 'riasecs.description')
+            ->groupBy('riasecs.id', 'riasecs.riasec_name', 'riasecs.description', 'career_pathways.career_name')
             ->get();
-
+    
+            $formattedRiasec = [];
+            foreach ($riasec as $item) {
+                if (!isset($formattedRiasec[$item->riasec_name])) {
+                    $formattedRiasec[$item->riasec_name] = [
+                        'id' => $item->riasec_id,
+                        'description' => $item->description,
+                        'careers' => []
+                    ];
+                }
+                $formattedRiasec[$item->riasec_name]['careers'][] = [
+                    'name' => $item->career_name,
+                    'courses' => $item->course_names ? explode(', ', $item->course_names) : []
+                ];
+            }
         $courses = Course::all();
-
-        return view('admin.riasec.riasec', compact('riasec', 'courses'));
+        return view('admin.riasec.riasec', compact('formattedRiasec', 'courses'));
     }
+    
+    
     public function AddRiasec(Request $request)
     {
         $request->validate([
