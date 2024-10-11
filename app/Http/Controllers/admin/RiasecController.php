@@ -22,10 +22,12 @@ class RiasecController extends Controller
                 'riasecs.id as riasec_id',
                 'riasecs.riasec_name',
                 'riasecs.description',
+                'riasecs.created_at',
+                'riasecs.updated_at',
                 'career_pathways.career_name',
                 DB::raw('GROUP_CONCAT(courses.course_name ORDER BY courses.course_name SEPARATOR ", ") as course_names')
             )
-            ->groupBy('riasecs.id', 'riasecs.riasec_name', 'riasecs.description', 'career_pathways.career_name')
+            ->groupBy('riasecs.id', 'riasecs.riasec_name', 'riasecs.description', 'riasecs.created_at', 'riasecs.updated_at', 'career_pathways.career_name')
             ->get();
 
         $formattedRiasec = [];
@@ -34,6 +36,8 @@ class RiasecController extends Controller
                 $formattedRiasec[$item->riasec_name] = [
                     'id' => $item->riasec_id,
                     'description' => $item->description,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
                     'careers' => []
                 ];
             }
@@ -45,6 +49,7 @@ class RiasecController extends Controller
         $courses = Course::all();
         return view('admin.riasec.riasec', compact('formattedRiasec', 'courses'));
     }
+
 
 
     public function AddRiasec(Request $request)
@@ -147,15 +152,17 @@ class RiasecController extends Controller
 
     public function DeleteRiasec($id)
     {
-        // First, delete the associated course career pathways
-        DB::table('course_career_pathways')->whereIn('career_pathway_id', function ($query) use ($id) {
-            $query->select('id')->from('career_pathways')->where('riasec_id', $id);
-        })->delete();
-
-        // Then delete the career pathways
+        $questionIds = DB::table('questions')
+            ->where('riasec_id', $id)
+            ->pluck('id');
+        DB::table('responses')->whereIn('question_id', $questionIds)->delete();
+        DB::table('questions')->where('riasec_id', $id)->delete();
+        DB::table('riasec_scores')->where('riasec_id', $id)->delete();
+        $careerPathwayIds = DB::table('career_pathways')
+            ->where('riasec_id', $id)
+            ->pluck('id');
+        DB::table('course_career_pathways')->whereIn('career_pathway_id', $careerPathwayIds)->delete();
         DB::table('career_pathways')->where('riasec_id', $id)->delete();
-
-        // Finally, delete the RIASEC record
         DB::table('riasecs')->where('id', $id)->delete();
 
         return redirect()->route('admin.riasec.page')->with('success', 'RIASEC deleted successfully!');

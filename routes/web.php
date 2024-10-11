@@ -76,6 +76,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/examiners/data-gender', [AnalyticsController::class, 'GetExaminersDataByGender']);
     Route::get('/admin/courses/offered', [AnalyticsController::class, 'GetOfferedCourses']);
     Route::get('/admin/preferred-courses/counts', [AnalyticsController::class, 'GetPreferredCourseCounts']);
+    Route::get('/admin/riasec/scores', [AnalyticsController::class, 'GetRiasecScores']);
 });
 
 

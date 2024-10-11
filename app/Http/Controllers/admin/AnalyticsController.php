@@ -127,4 +127,56 @@ class AnalyticsController extends Controller
 
         return response()->json($topCourses);
     }
+
+    public function GetRiasecScores(Request $request)
+    {
+        $year = $request->input('year', date('Y'));
+        $data = $this->getRiasecData($year);
+        return response()->json($data);
+    }
+
+    private function getRiasecData($year)
+    {
+        $riasecData = [];
+        $chartData = [];
+        $userScores = DB::table('riasec_scores')
+            ->whereYear('created_at', $year)
+            ->select('riasec_id', DB::raw('SUM(points) as total_points'))
+            ->groupBy('riasec_id')
+            ->orderByDesc('total_points')
+            ->get();
+
+        foreach ($userScores as $score) {
+            $totalPoints = $score->total_points;
+
+            $riasecData[$score->riasec_id] = [
+                'total_points' => $totalPoints,
+                'courses' => []
+            ];
+
+            $courses = DB::table('course_career_pathways')
+                ->join('career_pathways', 'course_career_pathways.career_pathway_id', '=', 'career_pathways.id')
+                ->join('courses', 'course_career_pathways.course_id', '=', 'courses.id')
+                ->where('career_pathways.riasec_id', $score->riasec_id)
+                ->select('courses.course_name', 'career_pathways.career_name')
+                ->get();
+
+            foreach ($courses as $course) {
+                $riasecData[$score->riasec_id]['courses'][$course->career_name][] = $course->course_name;
+            }
+
+            $formattedCourses = [];
+            foreach ($riasecData[$score->riasec_id]['courses'] as $career_name => $course_names) {
+                $formattedCourses[] = "{$career_name}: " . implode(', ', $course_names);
+            }
+
+            $chartData[] = [
+                'riasec' => "{$score->riasec_id}: ($totalPoints)",
+                'points' => $totalPoints,
+                'courses' => implode('<br>', $formattedCourses)
+            ];
+        }
+
+        return ['riasecData' => $riasecData, 'chartData' => $chartData];
+    }
 }
