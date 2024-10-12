@@ -42,15 +42,10 @@ class ExaminersController extends Controller
 
     public function GetExamineesMonthYear(Request $request)
     {
-        $request->validate([
-            'month' => 'required|integer|between:1,12',
-            'year' => 'required|integer|min:2000|max:' . date('Y'),
-        ]);
-
         $month = $request->input('month');
         $year = $request->input('year');
 
-        $examiners = DB::table('users')
+        $query = DB::table('users')
             ->leftJoin('preferred_courses', 'users.id', '=', 'preferred_courses.user_id')
             ->leftJoin('courses as course_1', 'preferred_courses.course_1', '=', 'course_1.id')
             ->leftJoin('courses as course_2', 'preferred_courses.course_2', '=', 'course_2.id')
@@ -69,11 +64,19 @@ class ExaminersController extends Controller
                 'course_2.course_name as course_2_name',
                 'course_3.course_name as course_3_name'
             )
-            ->whereYear('users.created_at', $year)
-            ->whereMonth('users.created_at', $month)
             ->whereNotNull('users.fullname')
-            ->where('users.fullname', '<>', '')
-            ->get();
+            ->where('users.fullname', '<>', '');
+
+        if ($month && $year) {
+            $query->whereYear('users.created_at', $year)
+                ->whereMonth('users.created_at', $month);
+        } elseif ($year) {
+            $query->whereYear('users.created_at', $year);
+        } elseif ($month) {
+            $query->whereMonth('users.created_at', $month);
+        }
+
+        $examiners = $query->get();
 
         return response()->json($examiners);
     }

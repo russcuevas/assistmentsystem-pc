@@ -2,24 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class PreferredCourseTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('preferred_courses')->insert([
-            'user_id' => 1,
-            'course_1' => 1,
-            'course_2' => 2,
-            'course_3' => 3,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        for ($i = 1; $i <= 100; $i++) {
+            DB::table('preferred_courses')->insert([
+                'user_id' => $i, // Ensure this matches the ID in users table
+                'course_1' => rand(1, 5), // Use IDs that exist in courses table
+                'course_2' => rand(1, 5),
+                'course_3' => rand(1, 5),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }
