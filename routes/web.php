@@ -47,7 +47,8 @@ Route::middleware(['admin'])->group(function () {
 
     // EXAMINERS PAGE ADMIN
     Route::get('/admin/examiners', [ExaminersController::class, 'ExaminersPage'])->name('admin.examiners.page');
-    Route::get('/get-examinees-month-year', [ExaminersController::class, 'GetExamineesMonthYear']);
+    Route::get('/admin/get-examinees-month-year', [ExaminersController::class, 'GetExamineesMonthYear'])->name('admin.filter-month-year.examiners');
+    Route::get('/admin/print-examinees', [ExaminersController::class, 'printExaminees'])->name('admin.print-examinees');
     Route::delete('/admin/examiners_list/delete/{id}', [ExaminersController::class, 'ExaminersListDelete'])->name('admin.delete.examiners.list');
 
 

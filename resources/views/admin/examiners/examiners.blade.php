@@ -93,35 +93,49 @@
                                 List of Examinees
                             </h2>
                             <div id="print-container">
-                                <button type="button" id="download-button" class="btn bg-red">
-                                    <i class="material-icons">print</i>
-                                    <span>Download for Print</span>
-                                </button>
+                                <form action="{{ route('admin.print-examinees') }}" method="GET" style="display:inline;">
+                                    <input type="hidden" name="month" value="{{ request('month') }}">
+                                    <input type="hidden" name="year" value="{{ request('year') }}">
+                                    <button type="submit" class="btn bg-red">
+                                        <i class="material-icons">print</i>
+                                        <span>Download for Print</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="body">
                         <div class="row mb-3">
                             <div class="form-group">
-                                <div style="display: flex; align-items: center; flex-wrap: wrap;">
-                                    <label for="month" style="color: black; margin-left: 15px;" class="col-12 col-md-auto">Month & Year:</label>
-                                    <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                                        <select class="form-control show-tick select-spacing" id="month" name="month">
-                                            <option value="">--</option>
-                                            @foreach (range(1, 12) as $month)
-                                                <option value="{{ $month }}">{{ date('F', mktime(0, 0, 0, $month, 1)) }}</option>
-                                            @endforeach
-                                        </select>
+                                <form action="{{ route('admin.filter-month-year.examiners') }}" method="GET">
+                                    <div class="d-flex align-items-center mb-3">        
+                                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 me-2">
+                                            <select class="form-control show-tick select-spacing" id="month" name="month">
+                                                <option value="">All months</option>
+                                                @foreach (range(1, 12) as $monthValue)
+                                                    <option value="{{ $monthValue }}" {{ $monthValue == request('month') ? 'selected' : '' }}>
+                                                        {{ date('F', mktime(0, 0, 0, $monthValue, 1)) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 me-2">
+                                            <select class="form-control show-tick" id="year" name="year">
+                                                <option value="">All years</option>
+                                                @foreach (range(date('Y'), date('Y') + 2) as $yearValue)
+                                                    <option value="{{ $yearValue }}" {{ $yearValue == request('year') ? 'selected' : '' }}>
+                                                        {{ $yearValue }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" class="btn">
+                                            <i class="material-icons">filter_alt</i>
+                                        </button>
                                     </div>
-                                    <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                                        <select class="form-control show-tick" id="year" name="year">
-                                            <option value="">--</option>
-                                            @foreach (range(date('Y'), date('Y')) as $year)
-                                                <option value="{{ $year }}">{{ $year }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                         
@@ -217,13 +231,14 @@
     <!-- Custom Js -->
     <script src="{{ asset('admin/js/admin.js') }}"></script>
     <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
-    <script src="{{ asset('admin/js/pages/tables/examiners-table.js') }}"></script>
+    <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
 
 
     {{-- AJAX REQUEST --}}
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/examiners/delete_examiners.js')}}"></script>
-    <script src="{{ asset('admin/js/ajax/examiners/print_examiners.js')}}"></script>
+    
+
 
 
 

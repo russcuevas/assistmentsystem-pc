@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -78,8 +79,58 @@ class ExaminersController extends Controller
 
         $examiners = $query->get();
 
-        return response()->json($examiners);
+        return view('admin.examiners.examiners', compact('examiners', 'month', 'year'));
     }
+
+    public function printExaminees(Request $request)
+    {
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        $query = DB::table('users')
+            ->leftJoin('preferred_courses', 'users.id', '=', 'preferred_courses.user_id')
+            ->leftJoin('courses as course_1', 'preferred_courses.course_1', '=', 'course_1.id')
+            ->leftJoin('courses as course_2', 'preferred_courses.course_2', '=', 'course_2.id')
+            ->leftJoin('courses as course_3', 'preferred_courses.course_3', '=', 'course_3.id')
+            ->select(
+                'users.id',
+                'users.default_id',
+                'users.fullname',
+                'users.gender',
+                'users.age',
+                'users.birthday',
+                'users.strand',
+                'users.created_at',
+                'users.updated_at',
+                'course_1.course_name as course_1_name',
+                'course_2.course_name as course_2_name',
+                'course_3.course_name as course_3_name'
+            )
+            ->whereNotNull('users.fullname')
+            ->where('users.fullname', '<>', '');
+
+        if ($month && $year) {
+            $query->whereYear('users.created_at', $year)
+                ->whereMonth('users.created_at', $month);
+        } elseif ($year) {
+            $query->whereYear('users.created_at', $year);
+        } elseif ($month) {
+            $query->whereMonth('users.created_at', $month);
+        }
+
+        $examiners = $query->get();
+
+        $data = [
+            'title' => 'Examinees List',
+            'date' => date('m/d/Y'),
+            'examiners' => $examiners,
+        ];
+
+        $pdf = PDF::loadView('admin.examiners.print.print_examiners', $data);
+        return $pdf->download('examinees_list.pdf');
+    }
+
+
 
 
 
