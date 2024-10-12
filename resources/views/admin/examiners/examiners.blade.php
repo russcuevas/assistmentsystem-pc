@@ -20,7 +20,6 @@
     <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
     <!-- JQuery DataTable Css -->
     <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet">
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/custom.css') }}" rel="stylesheet">
@@ -31,8 +30,61 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-    .select-spacing {
-        margin-right: 15px; /* Adjust spacing as needed */
+    .select-form {
+        display: block !important;
+        width: 100% !important;
+        height: 34px !important;
+        padding: 6px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.42857143 !important;
+        color: #555 !important;
+        background-color: #fff !important;
+        background-image: none !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075) !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075) !important;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s !important;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .btn {
+            font-size: 9px !important;
+            height: 27px;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+
+        .btn .material-icons {
+            font-size: 14px !important;
+            top: 2px;
+        }
+
+        .filter-button {
+            margin: 0 auto 20px;
+            height: 34px;
+            display: block;
+        }
+
+        
+    }
+
+    @media (min-width: 992px) {
+
+        .select-form-lg {
+            margin-left: -20px !important;
+        }
+        .filter-button {
+            margin: 0 auto 20px;
+            height: 33px;
+            margin-left: -40px !important;
+        }
+    }
+    .table-responsive {
+        border: none !important;
     }
 </style>
 </head>
@@ -93,24 +145,27 @@
                                 List of Examinees
                             </h2>
                             <div id="print-container">
-                                <form action="{{ route('admin.print-examinees') }}" method="GET" style="display:inline;">
-                                    <input type="hidden" name="month" value="{{ request('month') }}">
-                                    <input type="hidden" name="year" value="{{ request('year') }}">
-                                    <button type="submit" class="btn bg-red">
-                                        <i class="material-icons">print</i>
-                                        <span>Download for Print</span>
-                                    </button>
-                                </form>
+                                @if($examiners->isNotEmpty())
+                                    <form action="{{ route('admin.print-examinees') }}" method="GET" style="display:inline;">
+                                        <input type="hidden" name="month" value="{{ request('month') }}">
+                                        <input type="hidden" name="year" value="{{ request('year') }}">
+                                        <button type="submit" class="btn bg-red waves-effect btn-sm">
+                                            <i class="material-icons">print</i>
+                                            <span>Download for Print</span>
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
+
                         </div>
                     </div>
                     <div class="body">
                         <div class="row mb-3">
                             <div class="form-group">
                                 <form action="{{ route('admin.filter-month-year.examiners') }}" method="GET">
-                                    <div class="d-flex align-items-center mb-3">        
-                                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 me-2">
-                                            <select class="form-control show-tick select-spacing" id="month" name="month">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                            <select class="form-control select-form" id="month" name="month">
                                                 <option value="">All months</option>
                                                 @foreach (range(1, 12) as $monthValue)
                                                     <option value="{{ $monthValue }}" {{ $monthValue == request('month') ? 'selected' : '' }}>
@@ -119,9 +174,8 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
-                                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 me-2">
-                                            <select class="form-control show-tick" id="year" name="year">
+                                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                            <select class="form-control select-form select-form-lg" id="year" name="year">
                                                 <option value="">All years</option>
                                                 @foreach (range(date('Y'), date('Y') + 2) as $yearValue)
                                                     <option value="{{ $yearValue }}" {{ $yearValue == request('year') ? 'selected' : '' }}>
@@ -130,10 +184,11 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
-                                        <button type="submit" class="btn">
-                                            <i class="material-icons">filter_alt</i>
-                                        </button>
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                            <button type="submit" class="btn bg-red waves-effect btn-sm filter-button">
+                                                <i class="material-icons">filter_list</i> <span class="filter-span">FILTER</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -207,10 +262,6 @@
 
     <!-- Bootstrap Core Js -->
     <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.js') }}"></script>
-
-    <!-- Select Plugin Js -->
-    <script src="{{ asset('admin/plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
-
     <!-- Slimscroll Plugin Js -->
     <script src="{{ asset('admin/plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
 
