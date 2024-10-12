@@ -47,6 +47,7 @@ Route::middleware(['admin'])->group(function () {
 
     // EXAMINERS PAGE ADMIN
     Route::get('/admin/examiners', [ExaminersController::class, 'ExaminersPage'])->name('admin.examiners.page');
+    Route::get('/get-examinees-month-year', [ExaminersController::class, 'GetExamineesMonthYear']);
     Route::delete('/admin/examiners_list/delete/{id}', [ExaminersController::class, 'ExaminersListDelete'])->name('admin.delete.examiners.list');
 
 
