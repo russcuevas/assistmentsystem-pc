@@ -1,3 +1,7 @@
+@php
+    $css = file_get_contents(public_path('admin/css/print.css'));
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,109 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Print Examinees</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.5;
-        }
-
-        #nav-bar {
-            flex-wrap: wrap;
-            background-color: #752738;
-            color: #ecf0f1;
-            text-align: center;
-            -webkit-box-shadow: 0px 5px 5px -5px rgba(107, 102, 107, 0.67);
-            -moz-box-shadow: 0px 5px 5px -5px rgba(107, 102, 107, 0.67);
-            box-shadow: 0px 5px 5px -5px rgba(107, 102, 107, 0.67);
-        }
-
-        #nav-bar .ub-logo {
-            width: 105px;
-            margin-right: 10px;
-            margin-left: 10px;
-        }
-
-        #school-name {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .sub-details {
-            font-size: 15px;
-            font-weight: 400;
-            line-height: 25px;
-        }
-
-        #nav-body .title {
-            margin-top: 20px;
-            color: black !important;
-            font-size: 30px;
-        }
-
-        .container {
-            width: 100%;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        h4 {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0 auto;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-
-        thead {
-            display: table-header-group;
-        }
-        @media print {
-            @page {
-                margin: 20mm;
-            }
-            tr {
-                page-break-inside: avoid;
-            }
-            tr:nth-of-type(n+2) th {
-                display: none;
-            }
-        }
+        {{ $css }}
     </style>
 </head>
 <body>
-
-     <div id="nav-bar" class="d-flex justify-content-center align-items-center">
+    <div id="nav-bar" class="d-flex justify-content-center align-items-center">
         <div>
-        <img class="ub-logo" src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('auth/images/ub-logo.png'))) }}" alt="UB Logo" />
+            <img class="ub-logo" src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('auth/images/ub-logo.png'))) }}" alt="UB Logo" />
         </div>
         <div style="padding:10px;">
-            <div>
-                <div id="school-name">
-                    UNIVERSITY OF BATANGAS LIPA CITY CAMPUS
-                </div>
-                <div class="sub-details">
-                    Sample Address
-                </div>
-                <div class="sub-details">
-                    www.ub.edu.ph / sample email
-                </div>
-                <div class="sub-details">
-                    telefax: sample-number
-                </div>
+            <div id="school-name">
+                UNIVERSITY OF BATANGAS LIPA CITY CAMPUS
             </div>
+            <div class="sub-details">Sample Address</div>
+            <div class="sub-details">www.ub.edu.ph / sample email</div>
+            <div class="sub-details">telefax: sample-number</div>
         </div>
     </div>
 
@@ -167,3 +83,4 @@
     </div>
 </body>
 </html>
+

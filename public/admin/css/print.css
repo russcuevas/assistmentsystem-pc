@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0px !important;
+    line-height: 1.5;
+}
+
+#nav-bar {
+    display: flex;
+    align-items: center;
+    background-color: #752738;
+    color: #ecf0f1;
+    padding: 15px;
+    box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.2);
+}
+
+#nav-bar .ub-logo {
+    width: 105px;
+    margin-right: 10px;
+}
+
+#school-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sub-details {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+.container {
+    width: 100%;
+}
+
+h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+h4 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tbody {
+    font-size: 10px;
+}
+
+thead {
+    display: table-header-group;
+    font-size: 12px;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #nav-bar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    @page {
+        margin: 20mm;
+    }
+
+    table {
+        page-break-inside: auto;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+}
