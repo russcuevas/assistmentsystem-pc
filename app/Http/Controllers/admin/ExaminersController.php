@@ -167,19 +167,25 @@ class ExaminersController extends Controller
     {
         $request->validate([
             'count' => 'required|integer|min:1',
-            'default_id' => 'required|integer',
         ]);
 
         $count = (int) $request->input('count');
-        $starting_id = (int) $request->input('default_id');
+        $randomizeNumber = date('Ym');
+
+        $maxId = User::where('default_id', 'like', "$randomizeNumber%")
+            ->max('default_id');
+
+        if ($maxId) {
+            $lastNumber = (int) substr($maxId, -1);
+            $startFrom = $lastNumber + 1;
+        } else {
+            $startFrom = 1;
+        }
+
         $created_id = [];
 
         for ($i = 0; $i < $count; $i++) {
-            $newId = $starting_id + $i;
-
-            if (User::where('default_id', $newId)->exists()) {
-                return response()->json(['errors' => ['default_id' => ["Default ID $newId already exists. Please choose a different starting ID."]]], 422);
-            }
+            $newId = $randomizeNumber . ($startFrom + $i);
 
             User::create([
                 'default_id' => $newId,
@@ -191,6 +197,7 @@ class ExaminersController extends Controller
 
         return response()->json(['success' => 'Default IDs added successfully']);
     }
+
 
 
     public function ExaminersListDelete($id)

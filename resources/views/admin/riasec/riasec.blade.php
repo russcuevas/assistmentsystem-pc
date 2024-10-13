@@ -116,36 +116,40 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($formattedRiasec as $riasec_name => $riasec_formatting)
-                                        <tr>
-                                            <td>{{ $riasec_formatting['id'] }}</td>
-                                            <td>{{ $riasec_name }}</td>
-                                            <td>{{ $riasec_formatting['description'] }}</td>
-                                            <td>
-                                                @foreach ($riasec_formatting['careers'] as $career)
-                                                    <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
-                                                    @if (!empty($career['courses']))
-                                                        @foreach ($career['courses'] as $course)
-                                                            {{ $course }},<br>
+                                        @forelse ($formattedRiasec as $riasec_name => $riasec_formatting)
+                                                <tr>
+                                                    <td>{{ $riasec_formatting['id'] }}</td>
+                                                    <td>{{ $riasec_name }}</td>
+                                                    <td>{{ $riasec_formatting['description'] }}</td>
+                                                    <td>
+                                                        @foreach ($riasec_formatting['careers'] as $career)
+                                                            <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
+                                                            @if (!empty($career['courses']))
+                                                                @foreach ($career['courses'] as $course)
+                                                                    {{ $course }},<br>
+                                                                @endforeach
+                                                            @else
+                                                                No courses available
+                                                            @endif
+                                                            <br>
                                                         @endforeach
-                                                    @else
-                                                        No courses available
-                                                    @endif
-                                                    <br>
-                                                @endforeach
-                                            </td>
-                                            <td>{{ $riasec_formatting['created_at'] }}</td>
-                                            <td>{{ $riasec_formatting['updated_at'] }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.edit.riasec', $riasec_formatting['id']) }}">Update</a>
-                                                <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                                    </td>
+                                                    <td>{{ $riasec_formatting['created_at'] }}</td>
+                                                    <td>{{ $riasec_formatting['updated_at'] }}</td>
+                                                    <td>
+                                                        <a href="{{ route('admin.edit.riasec', $riasec_formatting['id']) }}">Update</a>
+                                                        <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="7" class="text-center">No RIASEC available.</td>
+                                                </tr>
+                                            @endforelse
                                     </tbody>
                                 </table>
                             </div>

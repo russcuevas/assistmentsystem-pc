@@ -105,31 +105,35 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($course as $available_course)
-                                        <tr>
-                                            <td>{{ $available_course->course_name }}</td>
-                                            <td>{{ $available_course->course_description }}</td>
-                                            <td>{{ $available_course->created_at }}</td>
-                                            <td>{{ $available_course->updated_at }}</td>
-                                            <td>
-                                                <button class="btn btn-warning waves-effect btn-sm" 
-                                                        data-toggle="modal" 
-                                                        data-target="#updateCourseModal{{ $available_course->id }}">
-                                                    Edit
-                                                </button>
-                                                <button class="btn btn-danger waves-effect btn-sm" 
-                                                        data-toggle="modal" 
-                                                        data-target="#deleteCourseModal{{ $available_course->id }}">
-                                                    Delete
-                                                </button>
-                                                
-                                                <!-- Edit Course Modal -->
-                                                @include('admin.course.modals.edit_course')
-                                                {{-- Delete Course Modal --}}
-                                                @include('admin.course.modals.delete_course')
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                        @forelse ($course as $available_course)
+                                            <tr>
+                                                <td>{{ $available_course->course_name }}</td>
+                                                <td>{{ $available_course->course_description }}</td>
+                                                <td>{{ $available_course->created_at }}</td>
+                                                <td>{{ $available_course->updated_at }}</td>
+                                                <td>
+                                                    <button class="btn btn-warning waves-effect btn-sm" 
+                                                            data-toggle="modal" 
+                                                            data-target="#updateCourseModal{{ $available_course->id }}">
+                                                        Edit
+                                                    </button>
+                                                    <button class="btn btn-danger waves-effect btn-sm" 
+                                                            data-toggle="modal" 
+                                                            data-target="#deleteCourseModal{{ $available_course->id }}">
+                                                        Delete
+                                                    </button>
+                                                    
+                                                    <!-- Edit Course Modal -->
+                                                    @include('admin.course.modals.edit_course')
+                                                    {{-- Delete Course Modal --}}
+                                                    @include('admin.course.modals.delete_course')
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center">No courses available</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

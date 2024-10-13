@@ -9,7 +9,7 @@
                         <form id="form_advanced_validation" class="addDefaultId" method="POST" data-route-add-default-id="{{ route('admin.add.examiners') }}">
                         @csrf
                         <div class="form-group form-float">
-                            <label style="color: #212529; font-weight: 600;" class="form-label">Next ID</label>
+                            <label style="color: #212529; font-weight: 600;" class="form-label">Generated ID</label>
                             <div class="form-line">
                                 <input type="text" class="form-control" name="default_id" readonly value="{{ $next_id }}" required>
                             </div>

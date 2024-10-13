@@ -146,14 +146,14 @@
                             </h2>
                             <div id="print-container">
                                 @if($examiners->isNotEmpty())
-                                    <form action="{{ route('admin.print-examinees') }}" method="GET" style="display:inline;">
-                                        <input type="hidden" name="month" value="{{ request('month') }}">
-                                        <input type="hidden" name="year" value="{{ request('year') }}">
-                                        <button type="submit" class="btn bg-red waves-effect btn-sm">
-                                            <i class="material-icons">print</i>
-                                            <span>Download for Print</span>
-                                        </button>
-                                    </form>
+                                <form id="printExamineesForm" style="display:inline;" data-route-print="{{ route('admin.print-examinees') }}">
+                                    <input type="hidden" name="month" value="{{ request('month') }}">
+                                    <input type="hidden" name="year" value="{{ request('year') }}">
+                                    <button type="submit" class="btn bg-red waves-effect btn-sm">
+                                        <i class="material-icons">print</i>
+                                        <span>Download for Print</span>
+                                    </button>
+                                </form>
                                 @endif
                             </div>
 
@@ -288,6 +288,8 @@
     {{-- AJAX REQUEST --}}
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/examiners/delete_examiners.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/examiners/print_examiners.js')}}"></script>
+
     
 
 
