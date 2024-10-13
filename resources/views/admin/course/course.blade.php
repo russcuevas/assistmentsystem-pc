@@ -94,7 +94,7 @@
                             </div>
                             @include('admin.course.modals.add_course')
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th>Course Name</th>

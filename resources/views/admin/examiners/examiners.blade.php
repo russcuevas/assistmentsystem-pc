@@ -195,7 +195,7 @@
                         </div>
                         
                         <div id="printable-area" class="table-responsive mt-3">
-                            <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr>
                                         <th>ID</th>

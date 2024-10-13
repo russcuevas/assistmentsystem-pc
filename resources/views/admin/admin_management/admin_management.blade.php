@@ -93,7 +93,7 @@
                             </div>
                             @include('admin.admin_management.modals.admin_add_modal')
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th>Profile picture</th>

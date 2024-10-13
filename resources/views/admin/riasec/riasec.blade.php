@@ -103,52 +103,51 @@
                             </div>
                             @include('admin.riasec.modals.add_riasec')
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
-    <thead>
-        <tr>
-            <th>Initial</th>
-            <th>RIASEC Name</th>
-            <th>Description</th>
-            <th>Career Pathway / Related Courses</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($formattedRiasec as $riasec_name => $riasec_formatting)
-        <tr>
-            <td>{{ $riasec_formatting['id'] }}</td>
-            <td>{{ $riasec_name }}</td>
-            <td>{{ $riasec_formatting['description'] }}</td>
-            <td>
-                @foreach ($riasec_formatting['careers'] as $career)
-                    <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
-                    @if (!empty($career['courses']))
-                        @foreach ($career['courses'] as $course)
-                            {{ $course }},<br>
-                        @endforeach
-                    @else
-                        No courses available
-                    @endif
-                    <br>
-                @endforeach
-            </td>
-            <td>{{ $riasec_formatting['created_at'] }}</td>
-            <td>{{ $riasec_formatting['updated_at'] }}</td>
-            <td>
-                <a href="{{ route('admin.edit.riasec', $riasec_formatting['id']) }}">Update</a>
-                <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Initial</th>
+                                            <th>RIASEC Name</th>
+                                            <th>Description</th>
+                                            <th>Career Pathway / Related Courses</th>
+                                            <th>Created At</th>
+                                            <th>Updated At</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($formattedRiasec as $riasec_name => $riasec_formatting)
+                                        <tr>
+                                            <td>{{ $riasec_formatting['id'] }}</td>
+                                            <td>{{ $riasec_name }}</td>
+                                            <td>{{ $riasec_formatting['description'] }}</td>
+                                            <td>
+                                                @foreach ($riasec_formatting['careers'] as $career)
+                                                    <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
+                                                    @if (!empty($career['courses']))
+                                                        @foreach ($career['courses'] as $course)
+                                                            {{ $course }},<br>
+                                                        @endforeach
+                                                    @else
+                                                        No courses available
+                                                    @endif
+                                                    <br>
+                                                @endforeach
+                                            </td>
+                                            <td>{{ $riasec_formatting['created_at'] }}</td>
+                                            <td>{{ $riasec_formatting['updated_at'] }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.edit.riasec', $riasec_formatting['id']) }}">Update</a>
+                                                <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
