@@ -131,7 +131,7 @@
                                                             <td>{{ $default_id->created_at }}</td>
                                                             <td>{{ $default_id->updated_at }}</td>
                                                             <td>
-                                                                <button class="btn bg-red waves-effect btn-sm" 
+                                                                <button class="btn btn-danger waves-effect btn-sm" 
                                                                         data-toggle="modal" 
                                                                         data-target="#deleteExaminersModal{{ $default_id->default_id }}">
                                                                     DELETE

@@ -107,7 +107,7 @@
                                     <thead>
                                         <tr>
                                             <th>Initial</th>
-                                            <th>RIASEC Name</th>
+                                            <th>Name</th>
                                             <th>Description</th>
                                             <th>Career Pathway / Related Courses</th>
                                             <th>Created At</th>
@@ -143,17 +143,19 @@
                                                             <button class="btn btn-warning waves-effect btn-sm" 
                                                                     data-toggle="modal" 
                                                                     data-target="#updateRiasecModal{{ $riasec_formatting['id'] }}">
-                                                                Edit
+                                                                EDIT
                                                             </button>
-                                                            <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
-                                                        </form>
+                                                            <button class="btn btn-danger waves-effect btn-sm"
+                                                                    data-toggle="modal" 
+                                                                    data-target="#deleteRiasecModal{{ $riasec_formatting['id'] }}">
+                                                                DELETE
+                                                            </button>
 
                                                         {{-- EDIT RIASEC MODAL --}}
                                                         @include('admin.riasec.modals.edit_riasec')
 
+                                                        {{-- DELETE RIASEC MODAL --}}
+                                                        @include('admin.riasec.modals.delete_riasec')
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -257,15 +259,15 @@
                         const newField = document.createElement('div');
                         newField.className = 'career-update-pathway';
                         newField.innerHTML = `
-                            <div class="form-group">
-                                <label class="form-label">Career Name</label>
+                            <div class="form-group" style="margin-bottom: 25px !important;">
+                                <label style="color: #212529; font-weight: 600;" class="form-label">Career Name</label>
                                 <div class="form-line">
                                     <input type="text" name="career_name[]" class="form-control" required>
                                     <div id="error-update-career-${updateIndex}" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Select Related Courses</label>
+                                <label style="color: #212529; font-weight: 600;" class="form-label">Select Related Courses</label>
                                 <div class="fields-scroll">
                                     <div>
                                         @foreach ($courses as $course)
@@ -278,7 +280,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
+                                    <button type="button" style="margin-bottom: 25px;" class="btn btn-danger waves-effect remove">Remove</button>
                             </div>
                         `;
                         careerPathwayFields.appendChild(newField);
@@ -320,6 +322,7 @@
     
     <script src="{{ asset('admin/js/ajax/riasec/add_riasec.js') }}"></script>
     <script src="{{ asset('admin/js/ajax/riasec/edit_riasec.js') }}"></script>
+    <script src="{{ asset('admin/js/ajax/riasec/delete_riasec.js') }}"></script>
 
 </body>
 

@@ -115,12 +115,12 @@
                                                     <button class="btn btn-warning waves-effect btn-sm" 
                                                             data-toggle="modal" 
                                                             data-target="#updateCourseModal{{ $available_course->id }}">
-                                                        Edit
+                                                        EDIT
                                                     </button>
                                                     <button class="btn btn-danger waves-effect btn-sm" 
                                                             data-toggle="modal" 
                                                             data-target="#deleteCourseModal{{ $available_course->id }}">
-                                                        Delete
+                                                        DELETE
                                                     </button>
                                                     
                                                     <!-- Edit Course Modal -->

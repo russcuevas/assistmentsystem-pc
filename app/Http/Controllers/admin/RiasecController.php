@@ -88,27 +88,6 @@ class RiasecController extends Controller
         return response()->json(['status' => 'success', 'message' => 'RIASEC added successfully']);
     }
 
-    public function EditRiasec($id)
-    {
-        $riasec = DB::table('riasecs')->where('id', $id)->first();
-
-        $careerPathways = DB::table('career_pathways')
-            ->where('riasec_id', $id)
-            ->get();
-
-        foreach ($careerPathways as $careerPathway) {
-            $careerPathway->courses = DB::table('course_career_pathways')
-                ->where('career_pathway_id', $careerPathway->id)
-                ->pluck('course_id')
-                ->toArray();
-        }
-
-        $courses = DB::table('courses')->get();
-
-        return view('admin.riasec.edit_riasec', compact('riasec', 'careerPathways', 'courses'));
-    }
-
-
     public function UpdateRiasec(Request $request, $id)
     {
         $request->validate([
@@ -166,6 +145,6 @@ class RiasecController extends Controller
         DB::table('career_pathways')->where('riasec_id', $id)->delete();
         DB::table('riasecs')->where('id', $id)->delete();
 
-        return redirect()->route('admin.riasec.page')->with('success', 'RIASEC deleted successfully!');
+        return response()->json(['success' => 'RIASEC deleted successfully!']);
     }
 }

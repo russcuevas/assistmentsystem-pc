@@ -123,10 +123,10 @@
                                             <td>{{ $admin->updated_at }}</td>
                                             <td>
                                                 <button type="button" class="btn btn-warning waves-effect btn-sm" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">
-                                                    Edit
+                                                    EDIT
                                                 </button>
                                                 <button type="button" class="btn btn-danger waves-effect btn-sm" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
-                                                    Delete
+                                                    DELETE
                                                 </button>
                                                 <!-- Edit Admin Modal -->
                                                 @include('admin.admin_management.modals.admin_edit_modal')
