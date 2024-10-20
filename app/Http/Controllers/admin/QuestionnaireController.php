@@ -62,15 +62,6 @@ class QuestionnaireController extends Controller
         ]);
     }
 
-    public function EditQuestionnaire($id)
-    {
-        $riasecs = Riasec::all();
-        $question = DB::table('questions')->where('id', $id)->first();
-        $options = DB::table('options')->where('question_id', $id)->get();
-
-        return view('admin.questionnaire.edit_questionnaire', compact('riasecs', 'question', 'options'));
-    }
-
     public function UpdateQuestionnaire(Request $request, $id)
     {
         $validated_data = $request->validate([
@@ -91,10 +82,11 @@ class QuestionnaireController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('admin.questionnaire.page')->with('success', 'Question updated successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Question updated successfully!'
+        ]);
     }
-
-
 
 
     public function DeleteQuestionnaire($id)
@@ -102,6 +94,9 @@ class QuestionnaireController extends Controller
         DB::table('responses')->where('question_id', $id)->delete();
         DB::table('options')->where('question_id', $id)->delete();
         DB::table('questions')->where('id', $id)->delete();
-        return redirect()->back()->with('success', 'Question deleted successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Question deleted successfully!'
+        ]);
     }
 }

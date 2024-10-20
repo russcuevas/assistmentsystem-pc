@@ -126,11 +126,21 @@
                                                 <td>{{ $question->created_at }}</td>
                                                 <td>{{ $question->updated_at }}</td>                   
                                                 <td>
-                                                    <a href="{{ route('admin.edit.questionnaire', $question->id) }}">Update</a> 
-                                                    <form action="{{ route('admin.delete.questionnaire', $question->id) }}" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        <input type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-                                                    </form>
+                                                    <button class="btn btn-warning waves-effect btn-sm" 
+                                                            data-toggle="modal" 
+                                                            data-target="#updateQuestionnaireModal{{ $question->id }}">
+                                                        EDIT
+                                                    </button>
+                                                    <button class="btn btn-danger waves-effect btn-sm" 
+                                                            data-toggle="modal" 
+                                                            data-target="#deleteQuestionnaireModal{{ $question->id }}">
+                                                        DELETE
+                                                    </button>
+
+                                                    {{-- EDIT QUESTIONNAIRE MODAL --}}
+                                                    @include('admin.questionnaire.modals.edit_questionnaire')
+                                                    {{-- DELETE QUESTIONNAIRE MODAL --}}
+                                                    @include('admin.questionnaire.modals.delete_questionnaire')
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -176,7 +186,8 @@
 
     {{-- Ajax Request --}}
     <script src="{{ asset('admin/js/ajax/questionnaire/add_questionnaire.js')}}"></script>
-
+    <script src="{{ asset('admin/js/ajax/questionnaire/edit_questionnaire.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/questionnaire/delete_questionnaire.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
 

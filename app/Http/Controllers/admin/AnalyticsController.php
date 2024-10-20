@@ -64,7 +64,6 @@ class AnalyticsController extends Controller
     }
 
 
-
     public function GetExaminersDataByGender()
     {
         $data = DB::table('users')
