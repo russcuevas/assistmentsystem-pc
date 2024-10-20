@@ -130,11 +130,6 @@ class ExaminersController extends Controller
         return $pdf->download('examinees_list.pdf');
     }
 
-
-
-
-
-
     public function DefaultIDPage()
     {
         $available_default_id = User::all();

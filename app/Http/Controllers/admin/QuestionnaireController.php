@@ -99,4 +99,10 @@ class QuestionnaireController extends Controller
             'message' => 'Question deleted successfully!'
         ]);
     }
+
+    public function PrintQuestionnaire()
+    {
+        $questions = DB::table('questions')->get();
+        return view('admin.questionnaire.print.print_questionnaire', compact('questions'));
+    }
 }

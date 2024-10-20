@@ -70,6 +70,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/add_questionnaire', [QuestionnaireController::class, 'AddQuestionnaire'])->name('admin.add.questionnaire');
     Route::put('/admin/update/questionnaire/{id}', [QuestionnaireController::class, 'UpdateQuestionnaire'])->name('admin.update.questionnaire');
     Route::delete('/admin/delete/questionnaire/{id}', [QuestionnaireController::class, 'DeleteQuestionnaire'])->name('admin.delete.questionnaire');
+    Route::get('/admin/print-questionnaire', [QuestionnaireController::class, 'PrintQuestionnaire'])->name('admin.print-questionnaire');
 
     // ANALYTICS PAGE ADMIN
     Route::get('/admin/analytics', [AnalyticsController::class, 'AnalyticsPage'])->name('admin.analytics.page');

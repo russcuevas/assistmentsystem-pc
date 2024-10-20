@@ -1,5 +1,5 @@
 @php
-    $css = file_get_contents(public_path('admin/css/print.css'));
+    $css = file_get_contents(public_path('admin/css/print-examinees.css'));
 @endphp
 
 <!DOCTYPE html>

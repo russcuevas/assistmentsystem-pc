@@ -86,10 +86,21 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2 style="font-size: 25px; font-weight: 900; color: #752738;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <h2 class="m-0" style="font-size: 25px; font-weight: 900; color: #752738;">
                                 List of Question
                             </h2>
+                            <div id="print-container">
+                                @if ($questions->isNotEmpty())
+                                <button class="btn bg-red waves-effect btn-sm" onclick="printPage()">
+                                    <i class="material-icons">print</i>
+                                    <span>Download for Print</span>
+                                </button>
+                                @endif
+                            </div>
+                            <iframe id="print-iframe" style="display:none;"></iframe>
                         </div>
+                    </div>
                         <div class="body">
                             <div>
                                 <a href="" class="btn bg-red waves-effect" style="margin-bottom: 15px;" data-toggle="modal" data-target="#addQuestionnaireModal">+ ADD QUESTION</a>
@@ -188,6 +199,16 @@
     <script src="{{ asset('admin/js/ajax/questionnaire/add_questionnaire.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/questionnaire/edit_questionnaire.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/questionnaire/delete_questionnaire.js')}}"></script>
+    <script>
+        function printPage() {
+            const iframe = document.getElementById('print-iframe');
+            iframe.src = '/admin/print-questionnaire';
+
+            iframe.onload = function() {
+                iframe.contentWindow.print();
+            };
+        }
+    </script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>
 

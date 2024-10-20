@@ -1,0 +1,111 @@
+ body {
+     font-family: Arial, sans-serif;
+     margin: 0;
+     padding: 0 !important;
+     line-height: 1.5;
+ }
+
+ #nav-bar {
+     display: flex;
+     align-items: center;
+     color: black;
+     padding: 15px;
+ }
+
+ #nav-bar .ub-logo {
+     width: 105px;
+     margin-right: 10px;
+ }
+
+ #school-name {
+     font-size: 24px;
+     font-weight: bold;
+     margin-bottom: 5px;
+ }
+
+ .sub-details {
+     font-size: 14px;
+     line-height: 1.5;
+ }
+
+ .container {
+     width: 100%;
+     margin-top: 80px;
+ }
+
+ .instructions {
+     font-size: 10px;
+     font-weight: bold;
+     text-align: left;
+ }
+
+ h2 {
+     text-align: left;
+     margin-bottom: 20px;
+ }
+
+ table {
+     width: 100%;
+     border-collapse: collapse;
+     margin: 0 auto;
+ }
+
+ th,
+ td {
+     border: 1px solid black;
+     padding: 10px;
+     text-align: left;
+ }
+
+ th {
+     background-color: #f2f2f2;
+ }
+
+ tbody {
+     font-size: 12px;
+ }
+
+ button {
+     margin: 20px 0;
+     padding: 10px 15px;
+     background-color: #752738;
+     color: white;
+     border: none;
+     cursor: pointer;
+     font-size: 16px;
+ }
+
+ button:hover {
+     background-color: #5a1e2e;
+ }
+
+ @media print {
+     body {
+         margin: 0;
+         padding: 0;
+     }
+
+     #nav-bar {
+         top: 0;
+         width: 100%;
+         z-index: 1000;
+     }
+
+     @page {
+         margin: 20mm;
+     }
+
+     table {
+         page-break-inside: auto;
+     }
+
+     tr {
+         page-break-inside: avoid;
+         page-break-after: auto;
+         font-size: 10px;
+     }
+
+     button {
+         display: none;
+     }
+ }
