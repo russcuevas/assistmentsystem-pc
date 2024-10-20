@@ -116,7 +116,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($formattedRiasec as $riasec_name => $riasec_formatting)
+                                        @foreach ($formattedRiasec as $riasec_name => $riasec_formatting)
                                                 <tr>
                                                     <td>{{ $riasec_formatting['id'] }}</td>
                                                     <td>{{ $riasec_name }}</td>
@@ -125,8 +125,11 @@
                                                         @foreach ($riasec_formatting['careers'] as $career)
                                                             <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
                                                             @if (!empty($career['courses']))
-                                                                @foreach ($career['courses'] as $course)
-                                                                    {{ $course }},<br>
+                                                                @foreach ($career['courses'] as $courseId)
+                                                                    @php
+                                                                        $courseName = $courses->firstWhere('id', $courseId)?->course_name;
+                                                                    @endphp
+                                                                    {{ $courseName ? $courseName : 'Course not found' }},<br>
                                                                 @endforeach
                                                             @else
                                                                 No courses available
@@ -137,19 +140,23 @@
                                                     <td>{{ $riasec_formatting['created_at'] }}</td>
                                                     <td>{{ $riasec_formatting['updated_at'] }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.edit.riasec', $riasec_formatting['id']) }}">Update</a>
-                                                        <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
+                                                            <button class="btn btn-warning waves-effect btn-sm" 
+                                                                    data-toggle="modal" 
+                                                                    data-target="#updateRiasecModal{{ $riasec_formatting['id'] }}">
+                                                                Edit
+                                                            </button>
+                                                            <form action="{{ route('admin.delete.riasec', $riasec_formatting['id']) }}" method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" onclick="return confirm('Are you sure you want to delete this RIASEC?');">Delete</button>
                                                         </form>
+
+                                                        {{-- EDIT RIASEC MODAL --}}
+                                                        @include('admin.riasec.modals.edit_riasec')
+
                                                     </td>
                                                 </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="7" class="text-center">No RIASEC available.</td>
-                                                </tr>
-                                            @endforelse
+                                            @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -194,7 +201,8 @@
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/course/add_course.js') }}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
-    {{-- INNER HTML --}}
+
+    {{-- FOR ADD MODAL --}}
     <script>
     let index = 1;
     document.getElementById('add-career-pathway').addEventListener('click', function () {
@@ -234,10 +242,85 @@
         }
     });
     </script>
-    <script src="{{ asset('admin/js/ajax/riasec/add_riasec.js') }}"></script>
+
+    {{-- FOR UPDATE MODAL --}}
     <script>
-        
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.addEventListener('click', function (e) {
+                if (e.target.classList.contains('add-career-update-pathway')) {
+                    const riasecId = e.target.id.split('-').pop();
+                    const careerPathwayFields = document.getElementById(`career-update-pathway-fields-${riasecId}`);
+
+                    if (careerPathwayFields) {
+                        const updateIndex = careerPathwayFields.querySelectorAll('.career-update-pathway').length;
+
+                        const newField = document.createElement('div');
+                        newField.className = 'career-update-pathway';
+                        newField.innerHTML = `
+                            <div class="form-group">
+                                <label class="form-label">Career Name</label>
+                                <div class="form-line">
+                                    <input type="text" name="career_name[]" class="form-control" required>
+                                    <div id="error-update-career-${updateIndex}" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Select Related Courses</label>
+                                <div class="fields-scroll">
+                                    <div>
+                                        @foreach ($courses as $course)
+                                            <div class="col-5">
+                                                <label>
+                                                    <input type="checkbox" name="course_id[${updateIndex}][]" id="update-checkbox-${riasecId}-${updateIndex}-{{ $course->id }}" value="{{ $course->id }}">
+                                                    <label for="update-checkbox-${riasecId}-${updateIndex}-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
+                            </div>
+                        `;
+                        careerPathwayFields.appendChild(newField);
+                    }
+                }
+
+                if (e.target.classList.contains('remove')) {
+                    const pathway = e.target.closest('.career-update-pathway');
+                    pathway.remove();
+                    updateIndices();
+                }
+            });
+
+            function updateIndices() {
+                const careerPathwayFields = document.querySelectorAll('[id^="career-update-pathway-fields-"]');
+                
+                careerPathwayFields.forEach(fields => {
+                    const pathways = fields.querySelectorAll('.career-update-pathway');
+                    pathways.forEach((pathway, index) => {
+                        const careerInput = pathway.querySelector('input[name="career_name[]"]');
+                        if (careerInput) {
+                            careerInput.name = 'career_name[]';
+                        }
+
+                        const checkboxes = pathway.querySelectorAll('input[type="checkbox"]');
+                        checkboxes.forEach(checkbox => {
+                            const courseId = checkbox.value;
+                            checkbox.name = `course_id[${index}][]`;
+                            checkbox.id = `update-checkbox-${fields.id.split('-').pop()}-${index}-${courseId}`;
+                            checkbox.nextElementSibling.setAttribute('for', checkbox.id);
+                        });
+                    });
+                });
+            }
+        });
     </script>
+
+
+    
+    <script src="{{ asset('admin/js/ajax/riasec/add_riasec.js') }}"></script>
+    <script src="{{ asset('admin/js/ajax/riasec/edit_riasec.js') }}"></script>
+
 </body>
 
 </html>

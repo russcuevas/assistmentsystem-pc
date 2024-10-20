@@ -105,7 +105,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($course as $available_course)
+                                        @foreach ($course as $available_course)
                                             <tr>
                                                 <td>{{ $available_course->course_name }}</td>
                                                 <td>{{ $available_course->course_description }}</td>
@@ -129,11 +129,7 @@
                                                     @include('admin.course.modals.delete_course')
                                                 </td>
                                             </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center">No courses available</td>
-                                            </tr>
-                                        @endforelse
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
