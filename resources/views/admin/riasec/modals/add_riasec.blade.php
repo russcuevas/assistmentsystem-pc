@@ -44,7 +44,7 @@
                                     @foreach ($courses as $course)
                                         <div class="col-5">
                                             <label>
-                                                <input type="checkbox" name="course_id[0][]" id="checkbox-{{ $course->id }}" value="{{ $course->id }}">
+                                                <input type="checkbox" class="filled-in chk-col-red" name="course_id[0][]" id="checkbox-{{ $course->id }}" value="{{ $course->id }}">
                                                 <label for="checkbox-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
                                             </label>
                                         </div>

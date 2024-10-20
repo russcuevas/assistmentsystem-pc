@@ -14,15 +14,27 @@ class QuestionnaireController extends Controller
     public function QuestionnairePage()
     {
         $riasecs = Riasec::all();
+
         $questions = DB::table('questions')
             ->join('riasecs', 'questions.riasec_id', '=', 'riasecs.id')
-            ->select('questions.id', 'questions.question_text', 'questions.riasec_id', 'riasecs.riasec_name as riasec_name',  'riasecs.description as riasec_description')
+            ->select(
+                'questions.id',
+                'questions.question_text',
+                'questions.riasec_id',
+                'riasecs.riasec_name as riasec_name',
+                'riasecs.description as riasec_description',
+                'questions.created_at',
+                'questions.updated_at',
+                'riasecs.created_at as riasec_created_at',
+                'riasecs.updated_at as riasec_updated_at'
+            )
             ->get();
 
         $options = DB::table('options')->get();
 
         return view('admin.questionnaire.questionnaire', compact('riasecs', 'questions', 'options'));
     }
+
 
     public function AddQuestionnaire(Request $request)
     {
@@ -44,7 +56,10 @@ class QuestionnaireController extends Controller
             'is_correct' => $validated_data['is_correct'],
         ]);
 
-        return redirect()->back()->with('success', 'Question added successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Question added successfully!'
+        ]);
     }
 
     public function EditQuestionnaire($id)
@@ -67,15 +82,18 @@ class QuestionnaireController extends Controller
         DB::table('questions')->where('id', $id)->update([
             'question_text' => $validated_data['question_text'],
             'riasec_id' => $validated_data['riasec_id'],
+            'updated_at' => now(),
         ]);
 
         DB::table('options')->where('question_id', $id)->update([
             'option_text' => $validated_data['option_text'],
             'is_correct' => 1,
+            'updated_at' => now(),
         ]);
 
         return redirect()->route('admin.questionnaire.page')->with('success', 'Question updated successfully!');
     }
+
 
 
 

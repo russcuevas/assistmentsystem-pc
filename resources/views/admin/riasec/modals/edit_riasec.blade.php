@@ -44,7 +44,7 @@
                                                     @php
                                                         $isChecked = in_array($course->id, $career['courses']);
                                                     @endphp
-                                                    <input type="checkbox" name="course_id[{{ $index }}][]" id="update-checkbox-{{ $riasec_formatting['id'] }}-{{ $index }}-{{ $course->id }}" value="{{ $course->id }}"
+                                                    <input type="checkbox" class="filled-in chk-col-red" name="course_id[{{ $index }}][]" id="update-checkbox-{{ $riasec_formatting['id'] }}-{{ $index }}-{{ $course->id }}" value="{{ $course->id }}"
                                                         {{ $isChecked ? 'checked' : '' }}>
                                                     <label for="update-checkbox-{{ $riasec_formatting['id'] }}-{{ $index }}-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
                                                 </label>

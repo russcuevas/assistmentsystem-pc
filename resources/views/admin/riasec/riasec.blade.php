@@ -225,7 +225,7 @@
                         @foreach ($courses as $course)
                             <div class="col-5">
                                 <label>
-                                    <input type="checkbox" name="course_id[${index}][]" id="checkbox-${index}-{{ $course->id }}" value="{{ $course->id }}">
+                                    <input type="checkbox" class="filled-in chk-col-red" name="course_id[${index}][]" id="checkbox-${index}-{{ $course->id }}" value="{{ $course->id }}">
                                     <label for="checkbox-${index}-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
                                 </label>
                             </div>
@@ -273,7 +273,7 @@
                                         @foreach ($courses as $course)
                                             <div class="col-5">
                                                 <label>
-                                                    <input type="checkbox" name="course_id[${updateIndex}][]" id="update-checkbox-${riasecId}-${updateIndex}-{{ $course->id }}" value="{{ $course->id }}">
+                                                    <input type="checkbox" class="filled-in chk-col-red" name="course_id[${updateIndex}][]" id="update-checkbox-${riasecId}-${updateIndex}-{{ $course->id }}" value="{{ $course->id }}">
                                                     <label for="update-checkbox-${riasecId}-${updateIndex}-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
                                                 </label>
                                             </div>

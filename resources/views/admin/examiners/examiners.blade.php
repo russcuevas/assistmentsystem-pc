@@ -145,18 +145,17 @@
                                 List of Examinees
                             </h2>
                             <div id="print-container">
-                                @if($examiners->isNotEmpty())
-                                <form id="printExamineesForm" style="display:inline;" data-route-print="{{ route('admin.print-examinees') }}">
-                                    <input type="hidden" name="month" value="{{ request('month') }}">
-                                    <input type="hidden" name="year" value="{{ request('year') }}">
-                                    <button type="submit" class="btn bg-red waves-effect btn-sm">
-                                        <i class="material-icons">print</i>
-                                        <span>Download for Print</span>
-                                    </button>
-                                </form>
+                                @if($examiners->isNotEmpty() && $examiners->whereNotNull('fullname')->isNotEmpty())
+                                    <form id="printExamineesForm" style="display:inline;" data-route-print="{{ route('admin.print-examinees') }}">
+                                        <input type="hidden" name="month" value="{{ request('month') }}">
+                                        <input type="hidden" name="year" value="{{ request('year') }}">
+                                        <button type="submit" class="btn bg-red waves-effect btn-sm">
+                                            <i class="material-icons">print</i>
+                                            <span>Download for Print</span>
+                                        </button>
+                                    </form>
                                 @endif
                             </div>
-
                         </div>
                     </div>
                     <div class="body">
