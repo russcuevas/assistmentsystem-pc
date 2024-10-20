@@ -44,52 +44,53 @@
     </nav>
 
     <h2>Analytics preference based on the response of each examinees</h2>
-    <table>
-        <thead>
+<table>
+    <thead>
+        <tr>
+            <th>Fullname</th>
+            <th>RIASEC/Scores</th>
+            <th>Suggested Courses</th>
+            <th>Preferred Courses</th>
+            <th>Date Result</th> <!-- Added header for Date Result -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($topScores as $userId => $scores)
             <tr>
-                <th>Fullname</th>
-                <th>RIASEC/Scores</th>
-                <th>Suggested Courses</th>
-                <th>Preferred Courses</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($topScores as $userId => $scores)
-                <tr>
-                    <td>{{ $users[$userId] }}</td>
-                    <td>
-                        @foreach ($scores as $riasec_id => $data)
-                            <div>{{ $riasec_id }} = {{ $data }}</div>
-                        @endforeach
-                    </td>
-                    
-                    <td>
-                        @foreach ($scores as $riasec_id => $total_points)
-                        <div>
-                            @if(isset($suggestedCourses[$userId][$riasec_id]))
-                                <strong>{{ $riasec_id }}:</strong><br>
-                                @foreach ($suggestedCourses[$userId][$riasec_id] as $course)
-                                    <?php
-                                        $preferredCourseNames = [
-                                            $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A',
-                                            $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A',
-                                            $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
-                                        ];
-                                    ?>
-                                    @if (in_array($course->course_name, $preferredCourseNames))
-                                        <span style="color: red; font-weight: 900;">→ {{ $course->career_name }}: {{ $course->course_name }}</span><br>
-                                    @else
-                                        {{ $course->career_name }}: {{ $course->course_name }}<br>
-                                    @endif
-                                @endforeach
-                            @else
-                                No suggested courses available for {{ $riasec_id }}.<br>
-                            @endif
-                        </div>
-                        @endforeach
-                    </td>
-                    <td>
-                        <div>
+                <td>{{ $users[$userId] }}</td>
+                <td>
+                    @foreach ($scores as $riasec_id => $data)
+                        <div>{{ $riasec_id }} = {{ $data }}</div>
+                    @endforeach
+                </td>
+                
+                <td>
+                    @foreach ($scores as $riasec_id => $total_points)
+                    <div>
+                        @if(isset($suggestedCourses[$userId][$riasec_id]))
+                            <strong>{{ $riasec_id }}:</strong><br>
+                            @foreach ($suggestedCourses[$userId][$riasec_id] as $course)
+                                <?php
+                                    $preferredCourseNames = [
+                                        $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A',
+                                        $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A',
+                                        $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
+                                    ];
+                                ?>
+                                @if (in_array($course->course_name, $preferredCourseNames))
+                                    <span style="color: red; font-weight: 900;">→ {{ $course->career_name }}: {{ $course->course_name }}</span><br>
+                                @else
+                                    {{ $course->career_name }}: {{ $course->course_name }}<br>
+                                @endif
+                            @endforeach
+                        @else
+                            No suggested courses available for {{ $riasec_id }}.<br>
+                        @endif
+                    </div>
+                    @endforeach
+                </td>
+                <td>
+                                            <div>
                             @if(isset($preferredCourses[$userId][$riasec_id]))
                                 Course 1: {{ $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A' }}<br>
                                 Course 2: {{ $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A' }}<br>
@@ -98,11 +99,21 @@
                                 No preferred courses available.<br>
                             @endif
                         </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                </td>
+                <td>
+                    <div>
+                        @if(isset($scoreDates[$userId]) && count($scoreDates[$userId]) > 0)
+                            {{ \Carbon\Carbon::parse(array_values($scoreDates[$userId])[0])->format('Y-m-d H:i') }} <!-- Display only the first date -->
+                        @else
+                            No date available.<br>
+                        @endif
+                    </div>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
 
     
 

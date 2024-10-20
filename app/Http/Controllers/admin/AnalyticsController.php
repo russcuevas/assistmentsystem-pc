@@ -11,14 +11,16 @@ class AnalyticsController extends Controller
     public function AnalyticsPage()
     {
         $userScores = DB::table('riasec_scores')
-            ->select('user_id', 'riasec_id', DB::raw('SUM(points) as total_points'))
-            ->groupBy('user_id', 'riasec_id')
+            ->select('user_id', 'riasec_id', DB::raw('SUM(points) as total_points'), 'created_at')
+            ->groupBy('user_id', 'riasec_id', 'created_at')
             ->orderByDesc('total_points')
             ->get();
 
         $groupedUserScores = [];
+        $scoreDates = [];
         foreach ($userScores as $score) {
             $groupedUserScores[$score->user_id][$score->riasec_id] = $score->total_points;
+            $scoreDates[$score->user_id][$score->riasec_id] = $score->created_at; // Store created_at
         }
 
         $topScores = [];
@@ -55,13 +57,15 @@ class AnalyticsController extends Controller
             }
         }
 
-        return view('admin.analytics.analytics', compact('topScores', 'users', 'suggestedCourses', 'preferredCourses'));
+        return view('admin.analytics.analytics', compact('topScores', 'users', 'suggestedCourses', 'preferredCourses', 'scoreDates')); // Pass scoreDates
     }
+
 
     private function getCourseName($courseId)
     {
         return DB::table('courses')->where('id', $courseId)->value('course_name') ?? 'N/A';
     }
+
 
 
     public function GetExaminersDataByGender()
