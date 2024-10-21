@@ -199,6 +199,7 @@
     <script src="{{ asset('admin/js/ajax/questionnaire/add_questionnaire.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/questionnaire/edit_questionnaire.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/questionnaire/delete_questionnaire.js')}}"></script>
+    <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script>
         function printPage() {
             const iframe = document.getElementById('print-iframe');

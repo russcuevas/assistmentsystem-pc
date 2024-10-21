@@ -10,6 +10,18 @@
     <title>Print Examinees</title>
     <style>
         {{ $css }}
+                .info-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .info-item:last-child {
+            margin-right: 0;
+        }
     </style>
 </head>
 <body>
@@ -26,6 +38,15 @@
     </div>
 
     <div class="container">
+        <div class="info-container">
+            <div class="info-item">Name:</div>
+            <div class="info-item">Date:</div>
+        </div>
+        <div class="info-container">
+            <div class="info-item">Age:</div>
+            <div class="info-item">Strand:</div>
+        </div>
+
         <h2 style="text-align: center">RIASEC EXAMINATION</h2>
         <div class="instructions">Direction: This is a riasec examination please check "True" or "False" for each statement.</div>
         <table class="table table-bordered">

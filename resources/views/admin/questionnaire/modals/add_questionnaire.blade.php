@@ -6,7 +6,7 @@
                 <hr style="background-color: #752738; height: 2px; border: none;">
             </div>
             <div class="modal-body">
-                <form id="form_advanced_validation" class="addQuestionnaire" method="POST" data-route-add-course="{{ route('admin.add.questionnaire') }}">
+                <form id="form_advanced_validation_add_questionnaire" class="addQuestionnaire" method="POST" data-route-add-course="{{ route('admin.add.questionnaire') }}">
                     @csrf
                     <input type="hidden" name="is_correct" value="1">
                     <input type="hidden" name="option_text" id="option_text" readonly>

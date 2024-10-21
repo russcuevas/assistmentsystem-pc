@@ -6,7 +6,7 @@
                 <hr style="background-color: #752738; height: 2px; border: none;">
             </div>
             <div class="modal-body">
-                <form id="form_advanced_validation" class="updateQuestionnaire" method="POST" data-route-update-course="{{ route('admin.update.questionnaire', $question->id) }}">
+                <form id="form_advanced_validation_update_{{ $question->id }}" class="updateQuestionnaire" method="POST" data-route-update-course="{{ route('admin.update.questionnaire', $question->id) }}">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="is_correct" value="1">
