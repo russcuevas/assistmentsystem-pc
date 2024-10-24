@@ -112,16 +112,21 @@
                                                 <td>{{ $available_course->created_at }}</td>
                                                 <td>{{ $available_course->updated_at }}</td>
                                                 <td>
-                                                    <button class="btn btn-warning waves-effect btn-sm" 
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i style="font-size: 15px" class="material-icons">more_vert</i>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="javascript:void(0);" 
                                                             data-toggle="modal" 
                                                             data-target="#updateCourseModal{{ $available_course->id }}">
-                                                        EDIT
-                                                    </button>
-                                                    <button class="btn btn-danger waves-effect btn-sm" 
+                                                            EDIT</a></li>
+                                                            <li><a href="javascript:void(0);"                 
                                                             data-toggle="modal" 
                                                             data-target="#deleteCourseModal{{ $available_course->id }}">
-                                                        DELETE
-                                                    </button>
+                                                            DELETE</a></li>
+                                                        </ul>
+                                                    </div>
                                                     
                                                     <!-- Edit Course Modal -->
                                                     @include('admin.course.modals.edit_course')

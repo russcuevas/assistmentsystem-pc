@@ -122,12 +122,15 @@
                                             <td>{{ $admin->created_at }}</td>
                                             <td>{{ $admin->updated_at }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-warning waves-effect btn-sm" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">
-                                                    EDIT
-                                                </button>
-                                                <button type="button" class="btn btn-danger waves-effect btn-sm" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">
-                                                    DELETE
-                                                </button>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                         <i style="font-size: 15px" class="material-icons">more_vert</i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#editAdminModal{{ $admin->id }}">EDIT</a></li>
+                                                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#deleteAdminModal{{ $admin->id }}">DELETE</a></li>
+                                                    </ul>
+                                                </div>
                                                 <!-- Edit Admin Modal -->
                                                 @include('admin.admin_management.modals.admin_edit_modal')
                                                 <!-- Delete Confirmation Modal -->

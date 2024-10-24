@@ -137,17 +137,21 @@
                                                 <td>{{ $question->created_at }}</td>
                                                 <td>{{ $question->updated_at }}</td>                   
                                                 <td>
-                                                    <button class="btn btn-warning waves-effect btn-sm" 
-                                                            data-toggle="modal" 
-                                                            data-target="#updateQuestionnaireModal{{ $question->id }}">
-                                                        EDIT
-                                                    </button>
-                                                    <button class="btn btn-danger waves-effect btn-sm" 
-                                                            data-toggle="modal" 
-                                                            data-target="#deleteQuestionnaireModal{{ $question->id }}">
-                                                        DELETE
-                                                    </button>
-
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i style="font-size: 15px" class="material-icons">more_vert</i>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="javascript:void(0);" 
+                                                                    data-toggle="modal" 
+                                                                    data-target="#updateQuestionnaireModal{{ $question->id }}">
+                                                                EDIT</a></li>
+                                                                <li><a href="javascript:void(0);"                 
+                                                                    data-toggle="modal" 
+                                                                    data-target="#deleteQuestionnaireModal{{ $question->id }}">
+                                                                DELETE</a></li>
+                                                            </ul>
+                                                        </div>
                                                     {{-- EDIT QUESTIONNAIRE MODAL --}}
                                                     @include('admin.questionnaire.modals.edit_questionnaire')
                                                     {{-- DELETE QUESTIONNAIRE MODAL --}}

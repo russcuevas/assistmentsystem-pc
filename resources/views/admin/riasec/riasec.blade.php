@@ -140,16 +140,21 @@
                                                     <td>{{ $riasec_formatting['created_at'] }}</td>
                                                     <td>{{ $riasec_formatting['updated_at'] }}</td>
                                                     <td>
-                                                            <button class="btn btn-warning waves-effect btn-sm" 
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i style="font-size: 15px" class="material-icons">more_vert</i>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="javascript:void(0);" 
                                                                     data-toggle="modal" 
                                                                     data-target="#updateRiasecModal{{ $riasec_formatting['id'] }}">
-                                                                EDIT
-                                                            </button>
-                                                            <button class="btn btn-danger waves-effect btn-sm"
+                                                                EDIT</a></li>
+                                                                <li><a href="javascript:void(0);"                 
                                                                     data-toggle="modal" 
                                                                     data-target="#deleteRiasecModal{{ $riasec_formatting['id'] }}">
-                                                                DELETE
-                                                            </button>
+                                                                DELETE</a></li>
+                                                            </ul>
+                                                        </div>
 
                                                         {{-- EDIT RIASEC MODAL --}}
                                                         @include('admin.riasec.modals.edit_riasec')

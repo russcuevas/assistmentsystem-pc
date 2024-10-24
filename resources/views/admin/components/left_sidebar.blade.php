@@ -51,12 +51,6 @@
                     <span>Exam Results</span>
                 </a>
             </li>
-            <li class="">
-                <a href="{{ route('admin.analytics.page')}}">
-                    <i class="material-icons">analytics</i>
-                    <span>Analytics</span>
-                </a>
-            </li>
         </ul>
     </div>
     <!-- #Menu -->
