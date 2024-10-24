@@ -57,7 +57,7 @@ class AnalyticsController extends Controller
             }
         }
 
-        return view('admin.analytics.analytics', compact('topScores', 'users', 'suggestedCourses', 'preferredCourses', 'scoreDates')); // Pass scoreDates
+        return view('admin.analytics.analytics', compact('topScores', 'users', 'suggestedCourses', 'preferredCourses', 'scoreDates'));
     }
 
 
@@ -68,15 +68,18 @@ class AnalyticsController extends Controller
 
 
 
-    public function GetExaminersDataByGender()
+    public function GetExaminersDataByGender(Request $request)
     {
+        $year = $request->query('year', date('Y'));
         $data = DB::table('users')
             ->select('gender', DB::raw('COUNT(*) as count'))
+            ->whereYear('updated_at', $year)
             ->groupBy('gender')
             ->get();
 
         return response()->json($data);
     }
+
 
 
     public function GetOfferedCourses()

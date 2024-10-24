@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -10,7 +9,8 @@
     <!-- Favicon-->
     <link rel="icon" href="{{ asset('admin/images/ub-logo.png') }}" type="image/x-icon">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <!-- Bootstrap Core Css -->
     <link href="{{ asset('admin/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
@@ -20,6 +20,9 @@
     <link href="{{ asset('admin/plugins/node-waves/waves.css') }}" rel="stylesheet" />
     <!-- Animation Css -->
     <link href="{{ asset('admin/plugins/animate-css/animate.css') }}" rel="stylesheet" />
+    <!-- JQuery DataTable Css -->
+    <link href="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}"
+        rel="stylesheet">
     <!-- Morris Chart Css-->
     <link href="{{ asset('admin/plugins/morrisjs/morris.css') }}" rel="stylesheet" />
     <!-- Custom Css -->
@@ -52,7 +55,7 @@
     <!-- Top Bar -->
     @include('admin.components.top_bar')
     <!-- #Top Bar -->
-    
+
     <section>
         <!-- Left Sidebar -->
         @include('admin.components.left_sidebar')
@@ -61,7 +64,7 @@
         @include('admin.components.right_sidebar')
         <!-- #END# Right Sidebar -->
     </section>
-    
+
 
     <section class="content">
         <div class="container-fluid">
@@ -102,7 +105,9 @@
                 </div>
             </div>
             <!-- #END# Widgets -->
-             
+        </div>
+
+        <div class="container-fluid">
             <div class="row clearfix">
                 <!-- Bar Chart -->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -113,7 +118,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <canvas id="yearlyExaminees" height="150"></canvas>
+                            <canvas id="yearlyExaminees" height="130"></canvas>
                         </div>
                     </div>
                 </div>
@@ -125,12 +130,27 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <canvas id="gender-chart" height="150"></canvas>
+                            <form action="">
+                                <div class="form-group" style="display: flex; align-items: center;">
+                                    <label for="year-select-gender"
+                                        style="font-weight: 600; margin-right: 10px;">Year:</label>
+                                    <div class="form-line" style="width: 100px">
+                                        <select class="form-control show-tick" id="year-select-gender"
+                                            style="border: none; box-shadow: none;">
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <canvas id="gender-chart" height="95"></canvas>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <!-- #END# Bar Chart -->
+            </div>
 
+            <div class="row clearfix">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
@@ -155,8 +175,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2 style="font-size: 17px; font-weight: 900; color: #752738;">
@@ -166,20 +187,125 @@
                         <div class="body">
                             <form action="">
                                 <div class="form-group" style="display: flex; align-items: center;">
-                                    <label for="year-select" style="font-weight: 600; margin-right: 10px;">Year:</label>
+                                    <label for="year-select-riasec"
+                                        style="font-weight: 600; margin-right: 10px;">Year:</label>
                                     <div class="form-line" style="width: 100px">
-                                        <select class="form-control show-tick" id="year-select" style="border: none; box-shadow: none;">
+                                        <select class="form-control show-tick" id="year-select-riasec"
+                                            style="border: none; box-shadow: none;">
                                             <option value="2024">2024</option>
                                             <option value="2025">2025</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div id="riasec-chart" style="height: 250px;"></div>
+                                <div id="riasec-chart" style="height: 300px;"></div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2 style="font-size: 17px; font-weight: 900; color: #752738;">
+                                ANALYTICS PREFERENCE BASED ON RESULTS
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <table
+                                            class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fullname</th>
+                                                    <th>RIASEC/Scores</th>
+                                                    <th>Suggested Courses</th>
+                                                    <th>Preferred Courses</th>
+                                                    <th>Date Result</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($topScores as $userId => $scores)
+                                                <tr>
+                                                    <td>{{ $users[$userId] }}</td>
+                                                    <td>
+                                                        @foreach ($scores as $riasec_id => $data)
+                                                        <div>{{ $riasec_id }} = {{ $data }}</div>
+                                                        @endforeach
+                                                    </td>
+
+                                                    <td>
+                                                        @foreach ($scores as $riasec_id => $total_points)
+                                                        <div>
+                                                            @if(isset($suggestedCourses[$userId][$riasec_id]))
+                                                            <strong>{{ $riasec_id }}:</strong><br>
+                                                            @foreach ($suggestedCourses[$userId][$riasec_id] as $course)
+                                                            <?php
+                                                                                    $preferredCourseNames = [
+                                                                                        $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A',
+                                                                                        $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A',
+                                                                                        $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
+                                                                                    ];
+                                                                                ?>
+                                                            @if (in_array($course->course_name, $preferredCourseNames))
+                                                            <span style="color: red; font-weight: 900;">→ {{
+                                                                $course->career_name }}: {{ $course->course_name
+                                                                }}</span><br>
+                                                            @else
+                                                            {{ $course->career_name }}: {{ $course->course_name }}<br>
+                                                            @endif
+                                                            @endforeach
+                                                            @else
+                                                            No suggested courses available for {{ $riasec_id }}.<br>
+                                                            @endif
+                                                        </div>
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            @if(isset($preferredCourses[$userId][$riasec_id]))
+                                                            1: {{
+                                                            $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A'
+                                                            }}<br>
+                                                            2: {{
+                                                            $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A'
+                                                            }}<br>
+                                                            3: {{
+                                                            $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
+                                                            }}<br>
+                                                            @else
+                                                            No preferred courses available.<br>
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            @if(isset($scoreDates[$userId]) &&
+                                                            count($scoreDates[$userId]) > 0)
+                                                            {{
+                                                            \Carbon\Carbon::parse(array_values($scoreDates[$userId])[0])->format('Y-m-d
+                                                            H:i') }} <!-- Display only the first date -->
+                                                            @else
+                                                            No date available.<br>
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         </div>
     </section>
 
@@ -202,6 +328,10 @@
     <!-- Waves Effect Plugin Js -->
     <script src="{{ asset('admin/plugins/node-waves/waves.js') }}"></script>
 
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="{{ asset('admin/plugins/jquery-datatable/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
+
     <!-- Jquery CountTo Plugin Js -->
     <script src="{{ asset('admin/plugins/jquery-countto/jquery.countTo.js') }}"></script>
 
@@ -218,225 +348,244 @@
     <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.pie.js') }}"></script>
     <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.categories.js') }}"></script>
     <script src="{{ asset('admin/plugins/flot-charts/jquery.flot.time.js') }}"></script>
-    
+
     <!-- Sparkline Chart Plugin Js -->
     <script src="{{ asset('admin/plugins/jquery-sparkline/jquery.sparkline.js') }}"></script>
 
     {{-- SWEETALERT --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Custom Js -->
+    <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
     <script src="{{ asset('admin/js/pages/forms/form-validation.js') }}"></script>
     <script src="{{ asset('admin/js/admin.js') }}"></script>
     <script src="{{ asset('admin/js/pages/index.js') }}"></script>
     <script src="{{ asset('admin/js/ajax/dashboard_analytics/dashboard_chart.js')}}"></script>
     {{-- Gender Chart Analytics --}}
     <script>
-        fetch('/admin/examiners/data-gender')
+        document.addEventListener('DOMContentLoaded', function () {
+            const yearSelect = document.getElementById('year-select-gender');
+            function fetchAndRenderChart(year) {
+                fetch(`/admin/examiners/data-gender?year=${year}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const labels = data.map(item => item.gender);
+                        const counts = data.map(item => item.count);
+
+                        const maleCount = counts[labels.indexOf("Male")] || 0;
+                        const femaleCount = counts[labels.indexOf("Female")] || 0;
+
+                        const ctx = document.getElementById('gender-chart').getContext('2d');
+
+                        if (window.genderChart) {
+                            window.genderChart.destroy();
+                        }
+
+                        window.genderChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Female', 'Male'],
+                                datasets: [{
+                                    label: 'Total',
+                                    data: [femaleCount, maleCount],
+                                    backgroundColor: ['rgba(255, 105, 180, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                                    borderColor: ['rgba(255, 105, 180, 1)', 'rgba(75, 192, 192, 1)'],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    });
+            }
+
+            fetchAndRenderChart(yearSelect.value);
+
+            yearSelect.addEventListener('change', function () {
+                fetchAndRenderChart(this.value);
+            });
+        });
+    </script>
+
+
+    {{-- Course Chart Analytics --}}
+    <script>
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        fetch('/admin/courses/offered')
             .then(response => response.json())
             .then(data => {
-                const labels = data.map(item => item.gender);
-                const counts = data.map(item => item.count);
+                const courseLabels = Object.keys(data.offered_courses);
+                const courseCounts = Object.values(data.offered_courses);
+                const backgroundColors = courseLabels.map(() => getRandomColor());
+                const borderColors = courseLabels.map(() => getRandomColor());
 
-                const maleCount = counts[labels.indexOf("Male")] || 0;
-                const femaleCount = counts[labels.indexOf("Female")] || 0;
+                const ctx = document.getElementById('course-chart').getContext('2d');
 
-                const ctx = document.getElementById('gender-chart').getContext('2d');
-
-                const genderChart = new Chart(ctx, {
-                    type: 'bar',
+                const courseChart = new Chart(ctx, {
+                    type: 'doughnut',
                     data: {
-                        labels: ['Female', 'Male'],
+                        labels: courseLabels,
                         datasets: [{
-                            label: 'Total',
-                            data: [femaleCount, maleCount],
-                            backgroundColor: ['rgba(255, 105, 180, 0.2)', 'rgba(75, 192, 192, 0.2)'],
-                            borderColor: ['rgba(255, 105, 180, 1)', 'rgba(75, 192, 192, 1)'],
+                            label: 'Offered Courses',
+                            data: courseCounts,
+                            backgroundColor: backgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return tooltipItem.label || '';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching course data:', error);
+            });
+    </script>
+
+    {{-- PREFERRED COURSE --}}
+    <script>
+        fetch('/admin/preferred-courses/counts')
+            .then(response => response.json())
+            .then(data => {
+                const courseLabels = Object.keys(data);
+                const courseCounts = Object.values(data);
+                const colors = [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)',
+                    'rgba(255, 99, 71, 0.5)',
+                    'rgba(60, 179, 113, 0.5)',
+                    'rgba(255, 20, 147, 0.5)',
+                    'rgba(255, 165, 0, 0.5)'
+                ];
+
+                const datasetColors = courseLabels.map((_, index) => colors[index % colors.length]);
+
+                const ctx = document.getElementById('preferred-course-chart').getContext('2d');
+
+                const preferredCourseChart = new Chart(ctx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: courseLabels,
+                        datasets: [{
+                            label: 'Number of Students',
+                            data: courseCounts,
+                            backgroundColor: datasetColors,
+                            borderColor: datasetColors.map(color => color.replace('0.5', '1')),
                             borderWidth: 1
                         }]
                     },
                     options: {
                         scales: {
-                            y: {
+                            r: {
                                 beginAtZero: true
                             }
                         }
                     }
                 });
+            })
+            .catch(error => {
+                console.error('Error fetching preferred course data:', error);
             });
     </script>
 
-    {{-- Course Chart Analytics --}}
-<script>
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
+    {{-- RIASEC based on user scores analytics --}}
+    <script>
+        let morrisBarChart;
 
-    fetch('/admin/courses/offered')
-        .then(response => response.json())
-        .then(data => {
-            const courseLabels = Object.keys(data.offered_courses);
-            const courseCounts = Object.values(data.offered_courses);
-            const backgroundColors = courseLabels.map(() => getRandomColor());
-            const borderColors = courseLabels.map(() => getRandomColor());
+        function fetchRiasecData(year) {
+            fetch(`/admin/riasec/scores?year=${year}`)
+                .then(response => response.json())
+                .then(data => {
+                    const riasecOrder = ['R', 'I', 'A', 'S', 'E', 'C'];
+                    const chartData = [];
 
-            const ctx = document.getElementById('course-chart').getContext('2d');
+                    riasecOrder.forEach(riasec => {
+                        chartData.push({ riasec: riasec, points: 0, courses: '' });
+                    });
 
-            const courseChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: courseLabels,
-                    datasets: [{
-                        label: 'Offered Courses',
-                        data: courseCounts,
-                        backgroundColor: backgroundColors,
-                        borderColor: borderColors,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(tooltipItem) {
-                                    return tooltipItem.label || '';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching course data:', error);
-        });
-</script>
-
-{{-- PREFERRED COURSE --}}
-<script>
-    fetch('/admin/preferred-courses/counts')
-        .then(response => response.json())
-        .then(data => {
-            const courseLabels = Object.keys(data);
-            const courseCounts = Object.values(data);
-            const colors = [
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)',
-                'rgba(255, 99, 71, 0.5)',
-                'rgba(60, 179, 113, 0.5)',
-                'rgba(255, 20, 147, 0.5)',
-                'rgba(255, 165, 0, 0.5)'
-            ];
-
-            const datasetColors = courseLabels.map((_, index) => colors[index % colors.length]);
-
-            const ctx = document.getElementById('preferred-course-chart').getContext('2d');
-
-            const preferredCourseChart = new Chart(ctx, {
-                type: 'polarArea',
-                data: {
-                    labels: courseLabels,
-                    datasets: [{
-                        label: 'Number of Students',
-                        data: courseCounts,
-                        backgroundColor: datasetColors,
-                        borderColor: datasetColors.map(color => color.replace('0.5', '1')),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        r: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching preferred course data:', error);
-        });
-</script>
-
-{{-- RIASEC based on user scores analytics --}}
-<script>
-    let morrisBarChart;
-
-    function fetchRiasecData(year) {
-        fetch(`/admin/riasec/scores?year=${year}`)
-            .then(response => response.json())
-            .then(data => {
-                const riasecOrder = ['R', 'I', 'A', 'S', 'E', 'C'];
-                const chartData = [];
-
-                riasecOrder.forEach(riasec => {
-                    chartData.push({ riasec: riasec, points: 0, courses: '' });
-                });
-
-                data.chartData.forEach(item => {
-                    const index = riasecOrder.indexOf(item.riasec.charAt(0));
-                    if (index !== -1) {
-                        chartData[index].points = item.points;
-                        chartData[index].courses = item.courses;
-                    }
-                });
-
-                const sortedChartData = chartData.sort((a, b) => {
-                    return riasecOrder.indexOf(a.riasec) - riasecOrder.indexOf(b.riasec);
-                });
-
-                if (morrisBarChart) {
-                    morrisBarChart.setData(sortedChartData);
-                } else {
-                    morrisBarChart = new Morris.Bar({
-                        element: 'riasec-chart',
-                        data: sortedChartData,
-                        xkey: 'riasec',
-                        ykeys: ['points'],
-                        labels: ['Total Points'],
-                        barColors: ['#752738'],
-                        xLabelAngle: 60,
-                        hideHover: 'auto',
-                        barSizeRatio: 0.5,
-                        hoverCallback: function(index, options, content, row) {
-                            return `<div style="text-align: left;">
-                                        <strong>${row.riasec}</strong><br>
-                                        <strong>Total Points: (${row.points})</strong><br>
-                                        <strong>Career / Related Courses:</strong><br>
-                                        ${row.courses}
-                                    </div>`;
+                    data.chartData.forEach(item => {
+                        const index = riasecOrder.indexOf(item.riasec.charAt(0));
+                        if (index !== -1) {
+                            chartData[index].points = item.points;
+                            chartData[index].courses = item.courses;
                         }
                     });
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching RIASEC data:', error);
+
+                    const sortedChartData = chartData.sort((a, b) => {
+                        return riasecOrder.indexOf(a.riasec) - riasecOrder.indexOf(b.riasec);
+                    });
+
+                    if (morrisBarChart) {
+                        morrisBarChart.setData(sortedChartData);
+                    } else {
+                        morrisBarChart = new Morris.Bar({
+                            element: 'riasec-chart',
+                            data: sortedChartData,
+                            xkey: 'riasec',
+                            ykeys: ['points'],
+                            labels: ['Total Points'],
+                            barColors: ['#752738'],
+                            xLabelAngle: 60,
+                            hideHover: 'auto',
+                            barSizeRatio: 0.5,
+                            hoverCallback: function (index, options, content, row) {
+                                return `<div style="text-align: left;">
+                                            <strong>${row.riasec}</strong><br>
+                                            <strong>Total Points: (${row.points})</strong><br>
+                                            <strong>Career / Related Courses:</strong><br>
+                                            ${row.courses}
+                                        </div>`;
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching RIASEC data:', error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYear = new Date().getFullYear();
+            fetchRiasecData(currentYear);
+
+            document.getElementById('year-select-riasec').addEventListener('change', function () {
+                const selectedYear = this.value;
+                fetchRiasecData(selectedYear);
             });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const currentYear = new Date().getFullYear();
-        fetchRiasecData(currentYear);
-
-        document.getElementById('year-select').addEventListener('change', function() {
-            const selectedYear = this.value;
-            fetchRiasecData(selectedYear);
         });
-    });
-</script>
+    </script>
 
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <!-- Demo Js -->
