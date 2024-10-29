@@ -144,7 +144,7 @@
                                                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                 <i style="font-size: 15px" class="material-icons">more_vert</i>
                                                             </button>
-                                                            <ul class="dropdown-menu">
+                                                            <ul class="dropdown-menu" style="z-index: 9999; position: relative;">
                                                                 <li><a href="javascript:void(0);" 
                                                                     data-toggle="modal" 
                                                                     data-target="#updateRiasecModal{{ $riasec_formatting['id'] }}">

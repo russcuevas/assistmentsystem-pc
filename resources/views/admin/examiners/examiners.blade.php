@@ -227,11 +227,30 @@
                                                 <td>{{ $examiner->created_at }}</td>
                                                 <td>{{ $examiner->updated_at }}</td>
                                                 <td>
-                                                    <button class="btn btn-danger waves-effect btn-sm" 
-                                                            data-toggle="modal" 
-                                                            data-target="#deleteExamineesModal{{ $examiner->id }}">
-                                                        DELETE
-                                                    </button>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i style="font-size: 15px" class="material-icons">more_vert</i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" style="z-index: 9999; position: relative;">
+                                                            <li>
+                                                                <a href="javascript:void(0);" 
+                                                                data-toggle="modal"
+                                                                data-target="#viewExaminersModal{{ $examiner->id }}">
+                                                                    VIEW
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0);"                 
+                                                                data-toggle="modal" 
+                                                                data-target="#deleteExamineesModal{{ $examiner->id }}">
+                                                                    DELETE
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    {{-- VIEW EXAMINEES MODAL --}}
+                                                    @include('admin.examiners.modals.view_examinees')
+                                                    {{-- DELETE EXAMINEES MODAL --}}
                                                     @include('admin.examiners.modals.delete_examinees')
                                                 </td>
                                             </tr>
