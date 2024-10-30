@@ -7,8 +7,10 @@ use App\Models\Option;
 use App\Models\Question;
 use App\Models\Response;
 use Illuminate\Http\Request;
+use PDF;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ExaminationController extends Controller
 {
@@ -29,15 +31,24 @@ class ExaminationController extends Controller
         $user = Auth::guard('users')->user();
 
         $request->validate([
-            'answer.*' => 'nullable|in:true,false',
+            'answer.*' => 'required|in:true,false',
         ]);
+
+        $responses = [];
 
         foreach ($request->input('answer') as $question_id => $answer) {
             $question = Question::find($question_id);
             if ($question && in_array($question->riasec_id, ['R', 'I', 'A', 'S', 'E', 'C'])) {
+                $is_correct = $answer === 'true';
+                $responses[] = [
+                    'question' => $question->question_text,
+                    'answer' => $is_correct ? '✓' : '✗',
+                    'riasec_id' => $question->riasec_id
+                ];
+
                 $selected_option_id = null;
 
-                if ($answer === 'true') {
+                if ($is_correct) {
                     $selectedOption = Option::where('question_id', $question_id)
                         ->where('option_text', $question->riasec_id)
                         ->first();
@@ -51,13 +62,13 @@ class ExaminationController extends Controller
                     'user_id' => $user->id,
                     'question_id' => $question_id,
                     'selected_option_id' => $selected_option_id,
-                    'is_correct' => $answer === 'true',
+                    'is_correct' => $is_correct,
                 ]);
 
                 DB::table('riasec_scores')->updateOrInsert(
                     ['user_id' => $user->id, 'riasec_id' => $question->riasec_id],
                     [
-                        'points' => DB::raw("points + " . ($answer === 'true' ? 1 : 0)),
+                        'points' => DB::raw("points + " . ($is_correct ? 1 : 0)),
                         'created_at' => now(),
                         'updated_at' => now()
                     ]
@@ -65,13 +76,21 @@ class ExaminationController extends Controller
             }
         }
 
-        return redirect()->route('users.completed.page')->with('success', 'Your responses have been submitted.');
+        $pdf = PDF::loadView('users.pdf.response', ['responses' => $responses, 'user' => $user]);
+        Mail::send('users.email.response', ['user' => $user], function ($message) use ($user, $pdf) {
+            $message->to($user->email)
+                ->subject('Your Response Submission')
+                ->attachData($pdf->output(), 'responses.pdf');
+        });
+
+        return redirect()->route('users.completed.page')->with('success', 'Your responses have been submitted and sent via email.');
     }
+
 
     public function ExaminationCompletedPage()
     {
         $user = Auth::guard('users')->user();
-        
+
         if (!$user) {
             return redirect()->route('login');
         }
@@ -83,27 +102,27 @@ class ExaminationController extends Controller
             ->orderBy('total_points', 'desc')
             ->take(3)
             ->get();
-    
+
         $all_scores = DB::table('riasec_scores')
             ->where('user_id', $user->id)
             ->pluck('points', 'riasec_id');
-    
+
         $preferredCoursesData = DB::table('preferred_courses')
             ->where('user_id', $user->id)
             ->select('course_1', 'course_2', 'course_3')
             ->first();
-    
+
         $preferredCourseIds = array_filter([
             $preferredCoursesData->course_1 ?? null,
             $preferredCoursesData->course_2 ?? null,
             $preferredCoursesData->course_3 ?? null,
         ]);
-    
+
         $preferredCourseNames = DB::table('courses')
             ->whereIn('id', $preferredCourseIds)
             ->pluck('course_name')
             ->toArray();
-    
+
         $preferredCourses = DB::table('course_career_pathways')
             ->join('career_pathways', 'course_career_pathways.career_pathway_id', '=', 'career_pathways.id')
             ->join('courses', 'course_career_pathways.course_id', '=', 'courses.id')
@@ -111,7 +130,7 @@ class ExaminationController extends Controller
             ->whereIn('career_pathways.riasec_id', $scores->pluck('riasec_id'))
             ->select('courses.id', 'courses.course_name', 'career_pathways.career_name', 'career_pathways.riasec_id', 'riasecs.riasec_name')
             ->get();
-    
+
         $groupedPreferredCourses = [];
         foreach ($preferredCourses as $course) {
             $groupedPreferredCourses[$course->riasec_id][$course->career_name][] = [
@@ -120,7 +139,7 @@ class ExaminationController extends Controller
                 'riasec_name' => $course->riasec_name
             ];
         }
-    
+
         return view('users.examination.exam_completed', compact('scores', 'all_scores', 'groupedPreferredCourses', 'user', 'preferredCourseIds', 'preferredCourseNames'));
     }
 }

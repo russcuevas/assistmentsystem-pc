@@ -93,28 +93,33 @@
                     <tbody>
                         @foreach ($questions as $question)
                         <tr style="border: 2px solid black;">
-                            <td style="border: 2px solid black;">{{ $question->question_text }}</td>
+                            <td style="border: 2px solid black;">{{ $loop->iteration }}.) {{ $question->question_text }}</td>
                             <td style="border: 2px solid black;">
                                 @if (in_array($question->riasec_id, ['R', 'I', 'A', 'S', 'E', 'C']))
-                                    <label class="radio-label">
-                                        <input type="radio" name="answer[{{ $question->id }}]" value="true"> True
-                                    </label>
+                                    <div>
+                                        <label class="radio-label">
+                                            <input type="radio" name="answer[{{ $question->id }}]" value="true" required> True
+                                        </label>
+                                    </div>
                                 @endif
                             </td>
                             <td style="border: 2px solid black;">
                                 @if (in_array($question->riasec_id, ['R', 'I', 'A', 'S', 'E', 'C']))
-                                    <label class="radio-label">
-                                        <input type="radio" name="answer[{{ $question->id }}]" value="false"> False
-                                    </label>
+                                    <div>
+                                        <label class="radio-label">
+                                            <input type="radio" name="answer[{{ $question->id }}]" value="false" required> False
+                                        </label>
+                                    </div>
                                 @endif
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
+
                 </table>
                 
-                <button type="submit" class="btn btn-primary waves-effect mb-5">
-                    NEXT
+                <button style="float: right" type="submit" class="btn btn-primary waves-effect mb-5">
+                    SUBMIT
                 </button>
             </form>
         </div>
