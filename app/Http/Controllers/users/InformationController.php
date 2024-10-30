@@ -65,6 +65,10 @@ class InformationController extends Controller
             ]
         );
 
-        return redirect()->route('users.examination.page')->with('success');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Information submitted successfully.',
+            'redirect' => route('users.examination.page')
+        ]);
     }
 }

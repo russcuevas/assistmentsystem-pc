@@ -15,6 +15,7 @@
     <!-- CUSTOM AND STYLE -->
     <link href="{{ asset('examinees/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('examinees/css/custom.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('examinees/css/HoldOn.css') }}">
     <!-- FAVICON -->
     <link rel="shortcut icon" href="{{ asset('auth/images/ub-logo.png') }}" type="image/x-icon">
     <title>UB - Assistments</title>
@@ -50,7 +51,7 @@
                 <a class="btn btn-danger waves-effect" href="{{ route('users.logout.request') }}">Logout</a>
             </div>
             <h2 class="mt-2 mb-5 text-center w-100">Welcome ID: {{ $examiners->default_id }}</h2>
-            <form id="form_validation" method="POST" class="w-100" action="{{ route('users.add.information') }}">
+            <form method="POST" data-route-add-information="{{ route('users.add.information') }}" class="form-validation w-100">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -222,13 +223,15 @@
     <script src="{{ asset('examinees/plugins/jquery-steps/jquery.steps.js') }}"></script>
     <!-- SWEETALERT JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- HOLD ON --}}
+    <script src="{{ asset('examinees/js/HoldOn.js') }}"></script>
     <!-- WAVES EFFECTS JS -->
     <script src="{{ asset('examinees/plugins/node-waves/waves.js') }}"></script>
     <!-- CUSTOM JS -->
     <script src="{{ asset('examinees/js/admin.js') }}"></script>
     <script src="{{ asset('examinees/js/form-validation.js') }}"></script>
     <script src="{{ asset('examinees/js/modals.js') }}"></script>
-
+    <script src="{{ asset('examinees/js/ajax/personal_information.js')}}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const courseSelects = document.querySelectorAll('select[name^="course_"]');
@@ -254,23 +257,5 @@
         });
     </script>
 
-    <script>
-        const form = document.getElementById('form_validation');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            swal({
-                title: "Submit and take assessment?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willSubmit) => {
-                if (willSubmit) {
-                    form.submit();
-                }
-            });
-        });
-    </script>
 </body>
-
 </html>

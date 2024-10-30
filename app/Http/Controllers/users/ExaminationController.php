@@ -20,10 +20,16 @@ class ExaminationController extends Controller
         if (!$user) {
             return redirect()->route('users.information.page')->with('error', 'You must be logged in to access the examination.');
         }
+        $hasSubmitted = Response::where('user_id', $user->id)->exists();
+        if ($hasSubmitted) {
+            return redirect()->route('users.completed.page')->with('error', 'You have already submitted your responses.');
+        }
         $questions = Question::all();
         $options = Option::all();
+
         return view('users.examination.examination', compact('questions', 'options', 'user'));
     }
+
 
 
     public function SubmitResponses(Request $request)
@@ -76,6 +82,7 @@ class ExaminationController extends Controller
             }
         }
 
+        // pdf then send to email
         $pdf = PDF::loadView('users.pdf.response', ['responses' => $responses, 'user' => $user]);
         Mail::send('users.email.response', ['user' => $user], function ($message) use ($user, $pdf) {
             $message->to($user->email)
@@ -83,7 +90,11 @@ class ExaminationController extends Controller
                 ->attachData($pdf->output(), 'responses.pdf');
         });
 
-        return redirect()->route('users.completed.page')->with('success', 'Your responses have been submitted and sent via email.');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Submitted successfully',
+            'redirect' => route('users.completed.page')
+        ]);
     }
 
 
