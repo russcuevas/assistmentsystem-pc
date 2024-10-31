@@ -145,7 +145,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <canvas id="gender-chart" height="95"></canvas>
+                                <canvas id="gender-chart" height="105"></canvas>
                             </form>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div id="riasec-chart" style="height: 300px;"></div>
+                                <div id="riasec-chart" style="height: 400px;"></div>
                             </form>
                         </div>
                     </div>
@@ -290,7 +290,7 @@
                                                             count($scoreDates[$userId]) > 0)
                                                             {{
                                                             \Carbon\Carbon::parse(array_values($scoreDates[$userId])[0])->format('Y-m-d
-                                                            H:i') }} <!-- Display only the first date -->
+                                                            H:i') }}
                                                             @else
                                                             No date available.<br>
                                                             @endif
