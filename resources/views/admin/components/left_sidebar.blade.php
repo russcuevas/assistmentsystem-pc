@@ -46,9 +46,15 @@
                 </ul>
             </li>
             <li class="">
-                <a href="exam_results.html">
+                <a href="{{ route('admin.results.page') }}">
                     <i class="material-icons">done_all</i>
                     <span>Exam Results</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="">
+                    <i class="material-icons">settings</i>
+                    <span>Logs</span>
                 </a>
             </li>
         </ul>

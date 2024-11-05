@@ -219,8 +219,7 @@
                             <div class="table-responsive">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <table
-                                            class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                             <thead>
                                                 <tr>
                                                     <th>Fullname</th>
@@ -236,61 +235,123 @@
                                                     <td>{{ $users[$userId] }}</td>
                                                     <td>
                                                         @foreach ($scores as $riasec_id => $data)
-                                                        <div>{{ $riasec_id }} = {{ $data }}</div>
+                                                            <div>
+                                                                @switch($riasec_id)
+                                                                    @case('R')
+                                                                        Realistic
+                                                                        @break
+                                                                    @case('I')
+                                                                        Investigative
+                                                                        @break
+                                                                    @case('A')
+                                                                        Artistic
+                                                                        @break
+                                                                    @case('S')
+                                                                        Social
+                                                                        @break
+                                                                    @case('E')
+                                                                        Enterprising
+                                                                        @break
+                                                                    @case('C')
+                                                                        Conventional
+                                                                        @break
+                                                                    @default
+                                                                        Unknown
+                                                                @endswitch
+                                                                = {{ $data }}
+                                                            </div>
                                                         @endforeach
                                                     </td>
-
+            
                                                     <td>
                                                         @foreach ($scores as $riasec_id => $total_points)
                                                         <div>
                                                             @if(isset($suggestedCourses[$userId][$riasec_id]))
-                                                            <strong>{{ $riasec_id }}:</strong><br>
+                                                            <strong>
+                                                                @switch($riasec_id)
+                                                                    @case('R')
+                                                                        Realistic:
+                                                                        @break
+                                                                    @case('I')
+                                                                        Investigative:
+                                                                        @break
+                                                                    @case('A')
+                                                                        Artistic:
+                                                                        @break
+                                                                    @case('S')
+                                                                        Social:
+                                                                        @break
+                                                                    @case('E')
+                                                                        Enterprising:
+                                                                        @break
+                                                                    @case('C')
+                                                                        Conventional:
+                                                                        @break
+                                                                    @default
+                                                                        Unknown
+                                                                @endswitch
+                                                            </strong><br>
                                                             @foreach ($suggestedCourses[$userId][$riasec_id] as $course)
                                                             <?php
-                                                                                    $preferredCourseNames = [
-                                                                                        $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A',
-                                                                                        $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A',
-                                                                                        $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
-                                                                                    ];
-                                                                                ?>
+                                                                $preferredCourseNames = [
+                                                                    $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A',
+                                                                    $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A',
+                                                                    $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
+                                                                ];
+                                                            ?>
                                                             @if (in_array($course->course_name, $preferredCourseNames))
-                                                            <span style="color: red; font-weight: 900;">→ {{
-                                                                $course->career_name }}: {{ $course->course_name
-                                                                }}</span><br>
+                                                                <span style="color: red; font-weight: 900;">→ {{ $course->career_name }}: {{ $course->course_name }}</span><br>
                                                             @else
-                                                            {{ $course->career_name }}: {{ $course->course_name }}<br>
+                                                                {{ $course->career_name }}: {{ $course->course_name }}<br>
                                                             @endif
                                                             @endforeach
                                                             @else
-                                                            No suggested courses available for {{ $riasec_id }}.<br>
+                                                                No suggested courses available for 
+                                                                @switch($riasec_id)
+                                                                    @case('R')
+                                                                        Realistic
+                                                                        @break
+                                                                    @case('I')
+                                                                        Investigative
+                                                                        @break
+                                                                    @case('A')
+                                                                        Artistic
+                                                                        @break
+                                                                    @case('S')
+                                                                        Social
+                                                                        @break
+                                                                    @case('E')
+                                                                        Enterprising
+                                                                        @break
+                                                                    @case('C')
+                                                                        Conventional
+                                                                        @break
+                                                                    @default
+                                                                        Unknown
+                                                                @endswitch.
                                                             @endif
                                                         </div>
                                                         @endforeach
                                                     </td>
+            
                                                     <td>
                                                         <div>
                                                             @if(isset($preferredCourses[$userId][$riasec_id]))
-                                                            1: {{
-                                                            $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A'
-                                                            }}<br>
-                                                            2: {{
-                                                            $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A'
-                                                            }}<br>
-                                                            3: {{
-                                                            $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
-                                                            }}<br>
+                                                            1: {{ $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A' }}<br>
+                                                            2: {{ $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A' }}<br>
+                                                            3: {{ $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A' }}<br>
                                                             @else
-                                                            No preferred courses available.<br>
+                                                                No preferred courses available.<br>
                                                             @endif
                                                         </div>
                                                     </td>
+            
                                                     <td>
                                                         <div>
-                                                            @if(isset($scoreDates[$userId]) &&
-                                                            count($scoreDates[$userId]) > 0)
+                                                            @if(isset($scoreDates[$userId]) && count($scoreDates[$userId]) > 0)
                                                             {{
-                                                            \Carbon\Carbon::parse(array_values($scoreDates[$userId])[0])->format('Y-m-d
-                                                            H:i') }}
+                                                                \Carbon\Carbon::parse(array_values($scoreDates[$userId])[0])->format('Y-m-d H:i')
+                                                            }}
                                                             @else
                                                             No date available.<br>
                                                             @endif
@@ -307,6 +368,7 @@
                     </div>
                 </div>
             </div>
+            
 
         </div>
         </div>

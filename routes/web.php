@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\CourseController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ExaminersController;
 use App\Http\Controllers\admin\QuestionnaireController;
+use App\Http\Controllers\admin\ResultsController;
 use App\Http\Controllers\admin\RiasecController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\users\ExaminationController;
@@ -77,6 +78,12 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/courses/offered', [AnalyticsController::class, 'GetOfferedCourses']);
     Route::get('/admin/preferred-courses/counts', [AnalyticsController::class, 'GetPreferredCourseCounts']);
     Route::get('/admin/riasec/scores', [AnalyticsController::class, 'GetRiasecScores']);
+
+    // RESULTS PAGE ADMIN
+    Route::get('admin/exam_results', [ResultsController::class, 'ResultsPage'])->name('admin.results.page');
+    Route::get('/admin/results/{userId}', [ResultsController::class, 'GetExaminersResults'])->name('admin.results.view');
+    Route::get('/admin/get-examiners-month-year', [ResultsController::class, 'GetExaminersMonthYear'])->name('admin.filter-month-year.examinees.results');
+
 });
 
 
