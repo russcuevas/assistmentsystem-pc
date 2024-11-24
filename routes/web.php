@@ -81,9 +81,8 @@ Route::middleware(['admin'])->group(function () {
 
     // RESULTS PAGE ADMIN
     Route::get('admin/exam_results', [ResultsController::class, 'ResultsPage'])->name('admin.results.page');
-    Route::get('/admin/results/{userId}', [ResultsController::class, 'GetExaminersResults'])->name('admin.results.view');
+    Route::get('/admin/exam_results/{userId}', [ResultsController::class, 'GetExaminersResults'])->name('admin.results.view');
     Route::get('/admin/get-examiners-month-year', [ResultsController::class, 'GetExaminersMonthYear'])->name('admin.filter-month-year.examinees.results');
-
 });
 
 
