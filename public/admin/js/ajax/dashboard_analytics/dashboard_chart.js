@@ -122,8 +122,21 @@ function fetchCourseChart() {
     fetch('/admin/courses/offered')
         .then(response => response.json())
         .then(data => {
-            const courseLabels = Object.keys(data.offered_courses);
-            const courseCounts = Object.values(data.offered_courses);
+            const offeredCourses = data.offered_courses;
+
+            if (Object.keys(offeredCourses).length === 0) {
+                const ctx = document.getElementById('course-chart').getContext('2d');
+                const courseLabels = ['No displayed offered course'];
+                const courseCounts = [1];
+                const backgroundColors = ['brown'];
+                const borderColors = ['brown'];
+
+                createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
+                return;
+            }
+
+            const courseLabels = Object.keys(offeredCourses);
+            const courseCounts = Object.values(offeredCourses);
             const backgroundColors = courseLabels.map(getRandomColor);
             const borderColors = courseLabels.map(getRandomColor);
 
@@ -134,8 +147,18 @@ function fetchCourseChart() {
                 console.error('Course counts contain negative values:', courseCounts);
             }
         })
-        .catch(error => console.error('Error fetching course data:', error));
+        .catch(error => {
+            console.error('Error fetching course data:', error);
+            const ctx = document.getElementById('course-chart').getContext('2d');
+            const courseLabels = ['Error fetching data'];
+            const courseCounts = [1];
+            const backgroundColors = ['brown'];
+            const borderColors = ['brown'];
+
+            createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
+        });
 }
+
 
 function fetchPreferredCourses() {
     fetch('/admin/preferred-courses/counts')
@@ -143,8 +166,20 @@ function fetchPreferredCourses() {
         .then(data => {
             const courseLabels = Object.keys(data);
             const courseCounts = Object.values(data);
-            const colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 
-                            'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'];
+
+            if (courseLabels.length === 0) {
+                const ctx = document.getElementById('preferred-course-chart').getContext('2d');
+                const courseLabels = ['No displayed preferred courses'];
+                const courseCounts = [1];
+                const backgroundColors = ['brown'];
+                const borderColors = ['brown'];
+
+                createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
+                return;
+            }
+
+            const colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'];
             const datasetColors = courseLabels.map((_, index) => colors[index % colors.length]);
 
             if (validateData(courseCounts)) {
@@ -154,8 +189,18 @@ function fetchPreferredCourses() {
                 console.error('Preferred course counts contain negative values:', courseCounts);
             }
         })
-        .catch(error => console.error('Error fetching preferred course data:', error));
+        .catch(error => {
+            console.error('Error fetching preferred course data:', error);
+            const ctx = document.getElementById('preferred-course-chart').getContext('2d');
+            const courseLabels = ['Error fetching data'];
+            const courseCounts = [1];
+            const backgroundColors = ['brown'];
+            const borderColors = ['brown'];
+
+            createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
+        });
 }
+
 
 let morrisBarChart;
 
@@ -213,7 +258,7 @@ function fetchRiasecData(year) {
 
 document.addEventListener('DOMContentLoaded', function () {
     fetchYearlyExaminees();
-    
+
     const yearSelect = document.getElementById('year-select-gender');
     fetchGenderChart(yearSelect.value);
     yearSelect.addEventListener('change', function () {
