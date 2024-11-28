@@ -121,7 +121,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <canvas id="yearlyExaminees" height="130"></canvas>
+                            <canvas id="yearlyExaminees" height="139"></canvas>
                         </div>
                     </div>
                 </div>

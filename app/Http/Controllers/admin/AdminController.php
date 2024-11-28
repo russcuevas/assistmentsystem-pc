@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -13,10 +14,9 @@ class AdminController extends Controller
 {
     public function AdminManagementPage()
     {
-        $admins = Admin::all();
+        $admins = Admin::where('id', '!=', Auth::guard('admin')->id())->get();
         return view('admin.admin_management.admin_management', compact('admins'));
     }
-
 
     public function AddAdmin(Request $request)
     {

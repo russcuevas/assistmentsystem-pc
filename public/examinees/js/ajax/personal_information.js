@@ -97,8 +97,11 @@ $(document).ready(function () {
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
-                    }).then(() => {
-                        window.location.href = response.redirect;
+                    }).then((willRedirect) => {
+                        HoldOn.close();
+                        if (willRedirect) {
+                            window.location.href = response.redirect;
+                        }
                     });
                 },
                 error: function (xhr) {
