@@ -128,10 +128,8 @@
                                                                             <div class="modal-dialog modal-md" role="document">
                                                                                 <div class="modal-content">
                                                                                     <div class="modal-header">
-                                                                                        <h5 class="modal-title" id="viewExaminersDetailsLabel">Examiner Information</h5>
-                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                            <span aria-hidden="true">&times;</span>
-                                                                                        </button>
+                                                                                        <h4 class="modal-title" id="viewExaminersDetailsLabel">Examiners Information</h4>
+                                                                                        <hr style="background-color: #752738; height: 2px; border: none;">
                                                                                     </div>
                                                                                     <div class="modal-body">
                                                                                                 <p><strong>Examiner ID:</strong> {{ $default_id->default_id }}</p>
@@ -145,7 +143,8 @@
                                                                                                 <p><strong>Updated At:</strong> {{ $default_id->updated_at }}</p>
                                                                                     </div>
                                                                                     <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                        <button class="btn bg-red waves-effect">PRINT INFORMATION</button>
+                                                                                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
