@@ -26,36 +26,17 @@ class InformationController extends Controller
 
     public function AddInformation(Request $request)
     {
+        // Get the current authenticated user
+        $user = Auth::guard('users')->user();
+
+        // Validate only the courses
         $request->validate([
-            'fullname' => 'nullable|string|max:255',
-            'gender' => 'nullable|string|max:10',
-            'email' => 'nullable|email|max:255|unique:users,email,',
-            'age' => 'nullable|string|max:3',
-            'birthday' => 'nullable|date',
-            'strand' => 'nullable|string|max:255',
             'course_1' => 'nullable|exists:courses,id',
             'course_2' => 'nullable|exists:courses,id',
             'course_3' => 'nullable|exists:courses,id',
         ]);
 
-        $user = Auth::guard('users')->user();
-        $birthday = $request->input('birthday');
-        if ($birthday) {
-            $formatted_password = date('Ymd', strtotime($birthday));
-        } else {
-            $formatted_password = $user->password;
-        }
-
-        $user->update([
-            'fullname' => $request->input('fullname'),
-            'gender' => $request->input('gender'),
-            'email' => $request->input('email'),
-            'age' => $request->input('age'),
-            'birthday' => $request->input('birthday'),
-            'strand' => $request->input('strand'),
-            'password' => Hash::make($formatted_password),
-        ]);
-
+        // Update or create the user's preferred courses
         PreferredCourse::updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -65,9 +46,10 @@ class InformationController extends Controller
             ]
         );
 
+        // Return a success response
         return response()->json([
             'status' => 'success',
-            'message' => 'Information submitted successfully.',
+            'message' => 'Courses updated successfully.',
             'redirect' => route('users.examination.page')
         ]);
     }

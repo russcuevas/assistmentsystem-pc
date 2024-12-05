@@ -45,26 +45,27 @@
     <div id="nav-body" class="d-flex justify-content-center" style="margin-bottom:50px;">
         <div id="form-container">
             <div class="title">
-                <div style="display:flex;align-items:center">
+                <div style="display:flex; justify-content: center;">
                     <div>
-                        <img src="{{ asset('auth/images/ub-logo.png') }}" />
+                        <img style="height: 100px !important; border: 1px solid black; border-radius: 50px;" src="{{ asset('examinees/images/copwell-logo.jpg') }}" />
                     </div>
-                    <div>
-                        UB RIASEC RESULTS
+                    <div style="margin-top: 15px">
+                        RIASEC RESULTS
+                        <span style="font-size: 9px !important; display: block; margin-top: 0;">Realistic / Investigative / Artistic / Social / Enterprising / Conventional</span>
                     </div>
                 </div>
             </div>
 
             <div id="division"></div>
-            <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
-                <h2>Personal Details</h2>
+            <div class="d-flex justify-content-between align-items-center mb-3 mt-5">
+                <h2>PERSONAL DETAILS</h2>
                 <div>
                     <a href="" class="btn btn-secondary me-2">Profile</a>
                     <a href="{{ route('users.logout.request') }}" class="btn btn-danger">Logout</a>
                 </div>
             </div>
             
-            <ul>
+            <ul class="mb-5">
                 <strong>Fullname:</strong> {{ $user->fullname }}<br>
                 <strong>Gender:</strong> {{ $user->gender }}<br>
                 <strong>Age:</strong> {{ $user->age }}<br>
@@ -75,7 +76,7 @@
             </ul>
             
             <div id="division"></div>
-            <h2 class="mt-3">MY INTEREST CODE</h2>
+            <h2 class="mt-5 mb-5">MY INTEREST CODE</h2>
             
             @php
             $riasec_names = DB::table('riasecs')->pluck('riasec_name', 'id')->toArray();
@@ -93,26 +94,36 @@
             $top_scores = array_slice($ordered_scores, 0, 3, true);
             @endphp
             
-            <h2>Top 3 Highest Points in the RIASEC</h2>
-            <ul>
-                @foreach ($top_scores as $riasec_id => $total_points)
-                    <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $total_points }}</li>
-                @endforeach
-            </ul>
-            
-            <h2>Total Points for Each RIASEC</h2>
-            <ul>
-                @foreach ($riasec_order as $riasec_id)
-                    <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $all_scores[$riasec_id] ?? 0 }}</li>
-                @endforeach
-            </ul>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Top 3 Highest Points in the RIASEC</h2>
+                    <ul>
+                        @foreach ($top_scores as $riasec_id => $total_points)
+                            <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $total_points }}</li>
+                        @endforeach
+                    </ul>
+                </div>
 
-            <div style="width: 50%">
-                <canvas id="myDonutChart" width="50" height="400"></canvas>  
+                <div class="col-md-6">
+                    <h2>Total Points for Each RIASEC</h2>
+                    <ul>
+                        @foreach ($riasec_order as $riasec_id)
+                            <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $all_scores[$riasec_id] ?? 0 }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
+            <div class="d-flex justify-content-center mt-5 mb-5">
+                <div style="width: 50%;">
+                    <canvas id="myDonutChart" width="400" height="400"></canvas>  
+                </div>
+            </div>
+
+            <div id="division"></div>
+            <br>
             <br>
             <h2>Preferred Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px"><i>(the highlighted related to your preferred course)</i></span></h2>
-            <ul>
+            <ul class="mb-5">
                 @foreach ($scores as $score)
                     @if (isset($groupedPreferredCourses[$score->riasec_id]))
                         <li>
@@ -174,8 +185,12 @@
                     },
                     title: {
                         display: true,
-                        text: 'RIASEC Interest Scores'
+                        text: 'RIASEC SCORE GRAPH',
+                        font: {
+                            size: 30 // Adjust the size value as needed
+                        }
                     }
+
                 }
             },
         };

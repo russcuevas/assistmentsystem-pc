@@ -72,7 +72,11 @@
 
     <div id="nav-bar" class="d-flex justify-content-center align-items-center">
         <div>
-            <img class="ub-logo" src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo" /> <span style="font-weight: 900;">EXAM RESULT</span>
+            <img class="ub-logo" style="border-radius: 50px; height: 80px; width: 80px;" src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo" /> 
+            <img class="ub-logo" style="border-radius: 50px; height: 70px; width: 70px; margin-left: -10px;" src="{{ asset('examinees/images/copwell-logo.jpg') }}" />
+            <span style="font-weight: 900;">                         
+                RIASEC RESULTS
+            </span>
         </div>
     </div>
 
@@ -111,29 +115,37 @@
                 $top_scores = array_slice($ordered_scores, 0, 3, true);
             @endphp
 
-            <h3>Top 3 Highest Points in the RIASEC</h3>
-            <ul>
-                @foreach ($top_scores as $riasec_id => $total_points)
-                    <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $total_points }}</li>
-                @endforeach
-            </ul>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Top 3 Highest Points in the RIASEC</h3>
+                    <ul>
+                        @foreach ($top_scores as $riasec_id => $total_points)
+                            <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $total_points }}</li>
+                        @endforeach
+                    </ul>
+                </div>
 
-            <h3>Total Points for Each RIASEC</h3>
-            <ul>
-                @foreach ($riasec_order as $riasec_id)
-                    <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $scores->firstWhere('riasec_id', $riasec_id)->total_points ?? 0 }}</li>
-                @endforeach
-            </ul>
+                <div class="col-md-6">
+                    <h3>Total Points for Each RIASEC</h3>
+                    <ul>
+                        @foreach ($riasec_order as $riasec_id)
+                            <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $scores->firstWhere('riasec_id', $riasec_id)->total_points ?? 0 }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
 
-            <div style="width: 50%; margin-top: 20px;">
+
+            <div style="width: 100%; height: 100vh; display: flex !important; justify-content: center !important; align-items: center !important;">
                 <canvas id="myDonutChart" width="50" height="400"></canvas>  
             </div>
 
+
             <div id="division"></div>
 
-            <h2>Suggested Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px"><i>(the highlighted courses are related to {{ $user->fullname }} preferred courses)</i></span></h2>
+            <h2>Suggested Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px;"><i>(the highlighted courses are related to {{ $user->fullname }} preferred courses)</i></span></h2>
 
-            <ul>
+            <ul style="margin-bottom: 50px !important;">
                 @foreach ($scores as $score)
                     @if (isset($groupedPreferredCourses[$score->riasec_id]))
                         <li>

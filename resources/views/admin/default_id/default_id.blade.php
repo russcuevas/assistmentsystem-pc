@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <!-- Bootstrap Core Css -->
     <link href="{{ asset('admin/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <!-- Bootstrap Select Css -->
+    <link href="{{ asset('admin/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet">
     <!-- Waves Effect Css -->
     <link href="{{ asset('admin/plugins/node-waves/waves.css') }}" rel="stylesheet" />
     <!-- Animation Css -->
@@ -77,8 +79,7 @@
                         Examinees Management
                     </li>
                     <li class="active"><i style="font-size: 20px;" class="material-icons">badge</i> 
-                        List
-                        of Default ID
+                        Add Examiners
                     </li>
                 </ol>
             </div>
@@ -89,81 +90,22 @@
                     <div class="card">
                         <div class="header">
                             <h2 style="font-size: 25px; font-weight: 900; color: #752738;">
-                                List of Default ID
+                                Add Examiners
                             </h2>
                         </div>
                         <div class="body">
                             <div>
-                                <a href="" class="btn bg-red waves-effect" style="margin-bottom: 15px;" data-toggle="modal" data-target="#addDefaultIdModal">+ ADD DEFAULT ID</a>
+                                <a href="" class="btn bg-red waves-effect" style="margin-bottom: 15px;" data-toggle="modal" data-target="#addDefaultIdModal">+ ADD EXAMINERS</a>
                             </div>
                             @include('admin.default_id.modals.add_default_id')
                             <div class="table-responsive">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <table style="width: 100%;">
-                                            <tr>
-                                                <td style="text-align: left;">
-                                                    <h3>No records</h3>
-                                                </td>
-                                                <td style="text-align: right;">
-                                                <button id="delete-selected-default-id-btn" 
-                                                        class="btn bg-red waves-effect btn-sm" 
-                                                        style="display: none;" 
-                                                        data-route="{{ route('admin.default.id.bulk.delete') }}">
-                                                    DELETE SELECTED
-                                                </button>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <div class="col-md-12">
                                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                             <thead>
                                                 <tr>
-                                                    <th>Default ID</th>
-                                                    <th>Created At</th>
-                                                    <th>Updated At</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse ($available_default_id as $default_id)
-                                                    @if (empty($default_id->fullname))
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="delete-checkbox" id="checkbox-{{ $default_id->default_id }}" value="{{ $default_id->default_id }}">
-                                                                <label for="checkbox-{{ $default_id->default_id }}">{{ $default_id->default_id }}</label>
-                                                            </td>
-                                                            <td>{{ $default_id->created_at }}</td>
-                                                            <td>{{ $default_id->updated_at }}</td>
-                                                            <td>
-                                                                <button class="btn btn-danger waves-effect btn-sm" 
-                                                                        data-toggle="modal" 
-                                                                        data-target="#deleteExaminersModal{{ $default_id->default_id }}">
-                                                                    DELETE
-                                                                </button>
-                                                                @include('admin.default_id.modals.delete_default_id')
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="4" class="text-center">No records</td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <table style="width: 100%;">
-                                            <tr>
-                                                <td style="text-align: left;">
-                                                    <h3>Has records</h3>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Default ID</th>
+                                                    <th>Examiner ID</th>
+                                                    <th>Fullname</th>
                                                     <th>Created At</th>
                                                     <th>Updated At</th>
                                                     <th>Actions</th>
@@ -174,9 +116,42 @@
                                                     @if (!empty($default_id->fullname))
                                                         <tr>
                                                             <td>{{ $default_id->default_id }}</td>
+                                                            <td>{{ $default_id->fullname }}</td>
                                                             <td>{{ $default_id->created_at }}</td>
                                                             <td>{{ $default_id->updated_at }}</td>
-                                                            <td><span style="color: green; font-weight: 900;">Has records</span></td>
+                                                            <td>
+                                                                <a href="#" data-toggle="modal" data-target="#viewExaminersDetails{{ $default_id->id }}" class="btn btn-warning">View Information</a>
+                                                                        {{-- VIEW MODAL --}}
+ 
+                                                                        @foreach ($available_default_id as $default_id)
+                                                                        <div class="modal fade" id="viewExaminersDetails{{ $default_id->id }}" tabindex="-1" role="dialog" aria-labelledby="viewExaminersDetailsLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-md" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="viewExaminersDetailsLabel">Examiner Information</h5>
+                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                                <p><strong>Examiner ID:</strong> {{ $default_id->default_id }}</p>
+                                                                                                <p><strong>Fullname:</strong> {{ $default_id->fullname }}</p>
+                                                                                                <p><strong>Gender:</strong> {{ $default_id->gender }}</p>
+                                                                                                <p><strong>Age:</strong> {{ $default_id->age }}</p>
+                                                                                                <p><strong>Birthday:</strong> {{ $default_id->birthday }}</p>
+                                                                                                <p><strong>Strand:</strong> {{ $default_id->strand }}</p>
+                                                                                                <p><strong>Email:</strong> {{ $default_id->email }}</p>
+                                                                                                <p><strong>Created At:</strong> {{ $default_id->created_at }}</p>
+                                                                                                <p><strong>Updated At:</strong> {{ $default_id->updated_at }}</p>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                            </td>
                                                         </tr>
                                                     @endif
                                                 @empty
@@ -201,6 +176,9 @@
 
     <!-- Bootstrap Core Js -->
     <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.js') }}"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="{{ asset('admin/plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
 
     <!-- Select Plugin Js -->
     <script src="{{ asset('admin/plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>

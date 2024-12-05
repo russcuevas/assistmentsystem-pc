@@ -9,15 +9,48 @@ $('.addDefaultId').validate({
         $(element).parents('.form-group').append(error);
     },
     rules: {
-        count: {
+        // We no longer need the 'count' field, so we remove validation for it.
+        fullname: {
+            required: true
+        },
+        gender: {
+            required: true
+        },
+        age: {
             required: true,
             min: 1
+        },
+        birthday: {
+            required: true
+        },
+        strand: {
+            required: true
+        },
+        email: {
+            required: true,
+            email: true
         }
     },
     messages: {
-        count: {
-            required: "Please enter the number of IDs to add",
-            min: "Please enter a value greater than or equal to 1"
+        fullname: {
+            required: "Please enter the full name."
+        },
+        gender: {
+            required: "Please select the gender."
+        },
+        age: {
+            required: "Please enter the age.",
+            min: "Please enter a value greater than or equal to 1."
+        },
+        birthday: {
+            required: "Please select the birthday."
+        },
+        strand: {
+            required: "Please enter the strand."
+        },
+        email: {
+            required: "Please enter the email address.",
+            email: "Please enter a valid email address."
         }
     }
 });
@@ -26,7 +59,7 @@ $('form.addDefaultId').on('submit', function (event) {
     event.preventDefault();
 
     const form = $(this);
-    
+
     if (form.valid()) {
         const formData = form.serialize();
         const addDefaultIdUrl = form.data('route-add-default-id');
@@ -65,7 +98,7 @@ $('form.addDefaultId').on('submit', function (event) {
 function addShowLoading() {
     HoldOn.open({
         theme: 'sk-circle',
-        message: '<div class="loading-message">Please wait, adding ID...</div>',
+        message: '<div class="loading-message">Please wait, adding examiner...</div>',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         textColor: '#fff'
     });

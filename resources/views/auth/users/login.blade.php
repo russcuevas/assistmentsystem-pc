@@ -24,7 +24,7 @@
 
         <form action="{{ route('users.login.request') }}" method="POST">
             @csrf
-            <label style="font-weight: 600;" for="default_id">Default ID</label>
+            <label style="font-weight: 600;" for="default_id">Examiners ID</label>
             <input type="text" name="default_id" id="default_id" required>
 
             <label style="font-weight: 600;" for="password">Password</label>

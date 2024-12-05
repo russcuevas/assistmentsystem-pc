@@ -21,7 +21,7 @@
                 </a>
                 <ul class="ml-menu">
                     <li class="{{ request()->routeIs('admin.default.id.page') ? 'active' : '' }}">
-                        <a href="{{ route('admin.default.id.page') }}">Default ID</a>
+                        <a href="{{ route('admin.default.id.page') }}">Add Examiners</a>
                     </li>
                     <li class="{{ request()->routeIs('admin.examiners.page') ? 'active' : '' }}">
                         <a href="{{ route('admin.examiners.page') }}">Examinees List</a>
@@ -51,12 +51,12 @@
                     <span>Exam Results</span>
                 </a>
             </li>
-            <li class="">
+            {{-- <li class="">
                 <a href="">
                     <i class="material-icons">settings</i>
                     <span>Logs</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
 
     </div>

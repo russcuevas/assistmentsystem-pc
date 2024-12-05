@@ -46,14 +46,14 @@
     </div>
 
     <div id="nav-body" class="d-flex justify-content-center" style="margin-bottom:50px;">
-        <div id="form-container" class="row">
+        <div id="form-container" class="row" style="background-color: #752738;">
             <div class="d-flex justify-content-end mt-4">
                 <a class="btn btn-danger waves-effect" href="{{ route('users.logout.request') }}">Logout</a>
             </div>
-            <h2 class="mt-2 mb-5 text-center w-100">Welcome ID: {{ $examiners->default_id }}</h2>
+            <h2 class="mt-2 mb-5 text-center w-100" style="color: white"><img style="height: 70px; border-radius: 50px;" src="{{ asset('examinees/images/copwell-logo.jpg') }}" alt=""> Welcome ID: {{ $examiners->default_id }}</h2>
             <form method="POST" data-route-add-information="{{ route('users.add.information') }}" class="form-validation w-100">
                 @csrf
-                <div class="row">
+                <div class="row" style="background-color: white; padding: 20px;">
                     <div class="col-md-6">
                         <h6>Personal Information</h6>
                         <div id="division"></div>
@@ -64,7 +64,7 @@
                                         <label style="margin-bottom: 0px !important;"
                                             class="form-label">Fullname</label>
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="fullname" required>
+                                            <input style="background-color: gray; color: white; padding: 10px;" type="text" class="form-control" name="fullname" value="{{ $examiners->fullname }}" required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                     <div class="form-group form-float">
                                         <label style="margin-bottom: 0px !important;" class="form-label">Email</label>
                                         <div class="form-line">
-                                            <input type="email" class="form-control" name="email" required>
+                                            <input style="background-color: gray; color: white; padding: 10px;" type="email" class="form-control" name="email" value="{{ $examiners->email}} " required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                                         <label style="margin-bottom: 0px !important;"
                                             class="form-label">Birthday</label>
                                         <div class="form-line">
-                                            <input type="date" class="form-control" name="birthday" required>
+                                            <input style="background-color: gray; color: white; padding: 10px;" type="date" class="form-control" name="birthday" value="{{ $examiners->birthday }}" required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -94,11 +94,9 @@
                                 <div class="col-sm-12">
                                     <div class="form-group form-float">
                                         <label style="margin-bottom: 0px !important;" class="form-label">Sex</label>
+
                                         <div class="form-line">
-                                            <select class="form-select" style="border: none !important;" name="gender" id="">
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                            </select>
+                                            <input style="background-color: gray; color: white; padding: 10px; text-transform: capitalize;" type="text" class="form-control" name="gender" value="{{ $examiners->gender }}" required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +107,7 @@
                                         <label style="margin-bottom: 0px !important;" class="form-label">Age</label>
 
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="age" required>
+                                            <input style="background-color: gray; color: white; padding: 10px;" type="text" class="form-control" name="age" value="{{ $examiners->age }}" required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +117,7 @@
                                     <div class="form-group form-float">
                                         <label style="margin-bottom: 0px !important;" class="form-label">Strand</label>
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="strand" required>
+                                            <input style="background-color: gray; color: white; padding: 10px;" type="text" class="form-control" name="strand" value="{{ $examiners->strand }}" required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -180,11 +178,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end mt-4 mb-4">
+                    <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary waves-effect">
                         Submit
                     </button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4 mb-4">                   
                 </div>
             </form>
         </div>

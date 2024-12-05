@@ -132,9 +132,26 @@ class ExaminersController extends Controller
 
     public function DefaultIDPage()
     {
+        // Generate the base of the default_id using the current year
+        $baseId = date('Y'); // Current year, e.g., "2024"
+
+        // Get the last used 'default_id' based on the current year
+        $last_id = User::where('default_id', 'like', $baseId . '%')
+            ->orderBy('default_id', 'desc')
+            ->pluck('default_id')
+            ->first();
+
+        // Generate a new ID by incrementing the last two digits of the last ID
+        if ($last_id) {
+            $lastNumber = substr($last_id, -2); // Extract the last two digits
+            $next_id = $baseId . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
+        } else {
+            // If no previous ID exists, start with 01
+            $next_id = $baseId . '01';
+        }
+
         $available_default_id = User::all();
         $default_id = User::pluck('default_id')->toArray();
-        $next_id = !empty($default_id) ? max($default_id) + 1 : 1;
 
         $examiners = DB::table('users')
             ->leftJoin('preferred_courses', 'users.id', '=', 'preferred_courses.user_id')
@@ -158,40 +175,47 @@ class ExaminersController extends Controller
         return view('admin.default_id.default_id', compact('available_default_id', 'default_id', 'next_id', 'examiners'));
     }
 
+
     public function ExaminersAccountAdd(Request $request)
     {
         $request->validate([
-            'count' => 'required|integer|min:1',
+            'fullname' => 'required|string',
+            'gender' => 'required|string',
+            'age' => 'required|integer|min:1',
+            'birthday' => 'required|date',
+            'strand' => 'required|string',
+            'email' => 'required|email',
         ]);
 
-        $count = (int) $request->input('count');
-        $randomizeNumber = date('Ym');
+        $baseId = date('Y');
+        $last_id = User::where('default_id', 'like', $baseId . '%')
+            ->orderBy('default_id', 'desc')
+            ->pluck('default_id')
+            ->first();
 
-        $maxId = User::where('default_id', 'like', "$randomizeNumber%")
-            ->max('default_id');
-
-        if ($maxId) {
-            $lastNumber = (int) substr($maxId, -1);
-            $startFrom = $lastNumber + 1;
+        if ($last_id) {
+            $lastNumber = substr($last_id, -2);
+            $newId = $baseId . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
         } else {
-            $startFrom = 1;
+            $newId = $baseId . '01';
         }
+        User::create([
+            'default_id' => $newId,
+            'password' => Hash::make('ub1234'),
+            'fullname' => $request->input('fullname'),
+            'gender' => $request->input('gender'),
+            'age' => $request->input('age'),
+            'birthday' => $request->input('birthday'),
+            'strand' => $request->input('strand'),
+            'email' => $request->input('email'),
+        ]);
 
-        $created_id = [];
-
-        for ($i = 0; $i < $count; $i++) {
-            $newId = $randomizeNumber . ($startFrom + $i);
-
-            User::create([
-                'default_id' => $newId,
-                'password' => Hash::make('ub1234')
-            ]);
-
-            $created_id[] = $newId;
-        }
-
-        return response()->json(['success' => 'Default IDs added successfully']);
+        return response()->json(['success' => 'Examiner added successfully']);
     }
+
+
+
+
 
 
 
