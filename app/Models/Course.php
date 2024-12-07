@@ -12,5 +12,16 @@ class Course extends Model
     protected $fillable = [
         'course_name',
         'course_description',
+        'course_picture',
     ];
+
+    public function setCoursePicturesAttribute($value)
+    {
+        $this->attributes['course_picture'] = json_encode($value);
+    }
+
+    public function getCoursePicturesAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }

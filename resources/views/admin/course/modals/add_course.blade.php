@@ -6,14 +6,15 @@
                 <hr style="background-color: #752738; height: 2px; border: none;">
             </div>
             <div class="modal-body">
-                    <form id="form_advanced_validation" class="addCourse" method="POST" data-route-add-course="{{ route('admin.add.course') }}">
+                <!-- Add enctype to allow file uploads -->
+                <form id="form_advanced_validation" class="addCourse" method="POST" data-route-add-course="{{ route('admin.add.course') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group form-float">
                         <label style="color: #212529; font-weight: 600;" class="form-label">Course Name</label>
                         <div class="form-line">
                             <input type="text" name="course_name" class="form-control" required>
                         </div>
-                            <div id="error-course" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
+                        <div id="error-course" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
 
                     <div class="form-group form-float">
@@ -21,6 +22,15 @@
                         <div class="form-line">
                             <textarea name="course_description" cols="30" rows="5" class="form-control no-resize" required></textarea>
                         </div>
+                    </div>
+
+                    <!-- Add input for multiple course pictures -->
+                    <div class="form-group form-float">
+                        <label style="color: #212529; font-weight: 600;" class="form-label">Course Pictures</label>
+                        <div class="form-line">
+                            <input type="file" name="course_pictures[]" class="form-control" multiple>
+                        </div>
+                        <div id="error-pictures" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
             </div>
             <div class="modal-footer">

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('course_name');
             $table->text('course_description');
+            $table->json('course_picture')->nullable();
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

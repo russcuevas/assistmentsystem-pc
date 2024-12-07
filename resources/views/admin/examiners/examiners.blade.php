@@ -224,9 +224,9 @@
                                                 <td>{{ $examiner->birthday }}</td>
                                                 <td>{{ $examiner->strand }}</td>
                                                 <td>
-                                                    1.) {{ $examiner->course_1_name ?? 'N/A' }} <br>
-                                                    2.) {{ $examiner->course_2_name ?? 'N/A' }} <br>
-                                                    3.) {{ $examiner->course_3_name ?? 'N/A' }} <br>
+                                                    1.) {{ $examiner->course_1_name ?? 'Not choosing' }} <br>
+                                                    2.) {{ $examiner->course_2_name ?? 'Not choosing' }} <br>
+                                                    3.) {{ $examiner->course_3_name ?? 'Not choosing' }} <br>
                                                 </td>
                                                 <td>{{ $examiner->created_at }}</td>
                                                 <td>{{ $examiner->updated_at }}</td>

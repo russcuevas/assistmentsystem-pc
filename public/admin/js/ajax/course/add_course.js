@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // Initialize validation
     $('.addCourse').validate({
         highlight: function (input) {
             $(input).parents('.form-line').addClass('error');
@@ -29,32 +30,38 @@ $(document).ready(function () {
         }
     });
 
+    // Handle form submission
     $('form.addCourse').on('submit', function (event) {
         event.preventDefault();
         const form = $(this);
 
+        // Only submit if the form is valid
         if (form.valid()) {
-            const formData = form.serialize();
-            const addCourseUrl = form.data('route-add-course');
-            addCourseShowLoading();
+            const formData = new FormData(this);  // Use FormData to handle file uploads
+            const addCourseUrl = form.data('route-add-course');  // Get the URL from data attribute
+            addCourseShowLoading();  // Show loading spinner
 
             $.ajax({
                 url: addCourseUrl,
                 type: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Add CSRF token to headers
                 },
                 data: formData,
+                contentType: false,  // Important for file uploads
+                processData: false,  // Prevent jQuery from processing data
                 success: function (response) {
+                    // On success, show success message
                     swal({
                         title: "Success!",
                         text: response.message,
                         icon: "success",
                     }).then(() => {
-                        location.reload();
+                        location.reload();  // Reload the page after successful form submission
                     });
                 },
                 error: function (xhr) {
+                    // Handle errors
                     const errors = xhr.responseJSON.errors;
                     let errorMessage = 'An error occurred:';
 
@@ -64,8 +71,9 @@ $(document).ready(function () {
                     if (errors) {
                         $.each(errors, function (key, value) {
                             if (key === 'course_name') {
+                                // Display the error next to course name field
                                 $('#error-course').text(value[0]);
-                                HoldOn.close();
+                                HoldOn.close();  // Close loading spinner
                             } else {
                                 errorMessage += `\n- ${value[0]}`;
                             }
@@ -73,17 +81,19 @@ $(document).ready(function () {
                     }
 
                     if (errorMessage !== 'An error occurred:') {
-                        swal("Error!", errorMessage, "error");
+                        swal("Error!", errorMessage, "error");  // Show error message
                     }
                 }
             });
         }
     });
 
+    // Clear error message on course name input
     $('input[name="course_name"]').on('input', function () {
         $('#error-course').text('');
     });
 
+    // Show loading spinner during form submission
     function addCourseShowLoading() {
         HoldOn.open({
             theme: 'sk-circle',

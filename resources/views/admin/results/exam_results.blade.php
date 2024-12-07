@@ -138,94 +138,95 @@
             <!-- Widgets -->
             <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                            <h2 class="m-0" style="font-size: 25px; font-weight: 900; color: #752738;">
-                                Examiners Results
-                            </h2>
-                        </div>
-                    </div>
-                    <div class="body">
-                        <div class="row mb-3">
-                            <div class="form-group">
-                                <form action="{{ route('admin.filter-month-year.examinees.results') }}" method="GET">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                            <select class="form-control select-form" id="month" name="month">
-                                                <option value="">All months</option>
-                                                @foreach (range(1, 12) as $monthValue)
-                                                    <option value="{{ $monthValue }}" {{ $monthValue == request('month') ? 'selected' : '' }}>
-                                                        {{ date('F', mktime(0, 0, 0, $monthValue, 1)) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                            <select class="form-control select-form select-form-lg" id="year" name="year">
-                                                <option value="">All years</option>
-                                                @foreach (range(date('Y'), date('Y') + 2) as $yearValue)
-                                                    <option value="{{ $yearValue }}" {{ $yearValue == request('year') ? 'selected' : '' }}>
-                                                        {{ $yearValue }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <button type="submit" class="btn bg-red waves-effect btn-sm filter-button">
-                                                <i class="material-icons">filter_list</i> <span class="filter-span">FILTER</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+    <div class="card">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <h2 class="m-0" style="font-size: 25px; font-weight: 900; color: #752738;">
+                    Examiners Results
+                </h2>
+            </div>
+        </div>
+        <div class="body">
+            <div class="row mb-3">
+                <div class="form-group">
+                    <form action="{{ route('admin.filter-month-year.examinees.results') }}" method="GET">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                <select class="form-control select-form" id="month" name="month">
+                                    <option value="">All months</option>
+                                    @foreach (range(1, 12) as $monthValue)
+                                        <option value="{{ $monthValue }}" {{ $monthValue == request('month') ? 'selected' : '' }}>
+                                            {{ date('F', mktime(0, 0, 0, $monthValue, 1)) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                <select class="form-control select-form select-form-lg" id="year" name="year">
+                                    <option value="">All years</option>
+                                    @foreach (range(date('Y'), date('Y') + 2) as $yearValue)
+                                        <option value="{{ $yearValue }}" {{ $yearValue == request('year') ? 'selected' : '' }}>
+                                            {{ $yearValue }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <button type="submit" class="btn bg-red waves-effect btn-sm filter-button">
+                                    <i class="material-icons">filter_list</i> <span class="filter-span">FILTER</span>
+                                </button>
                             </div>
                         </div>
-                        
-                        <div id="printable-area" class="table-responsive mt-3">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Fullname</th>
-                                        <th>Gender</th>
-                                        <th>Age</th>
-                                        <th>Birthday</th>
-                                        <th>Strand</th>
-                                        <th>Preferred Course</th>
-                                        <th>Created At</th>
-                                        <th>Updated At</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($usersData as $data)
-                                        @if(!is_null($data['user']->fullname) && !empty($data['user']->fullname))
-                                            <tr>
-                                                <td>{{ $data['user']->id }}</td>
-                                                <td>{{ $data['user']->fullname }}</td>
-                                                <td>{{ $data['user']->gender }}</td>
-                                                <td>{{ $data['user']->age }}</td>
-                                                <td>{{ $data['user']->birthday }}</td>
-                                                <td>{{ $data['user']->strand }}</td>
-                                                <td>
-                                                    @foreach($data['preferredCourseNames'] as $courseName)
-                                                        <p>{{ $loop->iteration }}.) {{ $courseName }}</p>
-                                                    @endforeach
-                                                </td>
-                                                <td>{{ $data['user']->created_at }}</td>
-                                                <td>{{ $data['user']->updated_at }}</td>
-                                                <td>
-                                                    <a href="{{ route('admin.results.view', $data['user']->id) }}" class="btn btn-primary">View Results</a>
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+
+            <div id="printable-area" class="table-responsive mt-3">
+                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fullname</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Birthday</th>
+                            <th>Strand</th>
+                            <th>Preferred Course</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($usersData as $data)
+                            @if(!empty($data['preferredCourseNames']))
+                                <tr>
+                                    <td>{{ $data['user']->id }}</td>
+                                    <td>{{ $data['user']->fullname }}</td>
+                                    <td>{{ $data['user']->gender }}</td>
+                                    <td>{{ $data['user']->age }}</td>
+                                    <td>{{ $data['user']->birthday }}</td>
+                                    <td>{{ $data['user']->strand }}</td>
+                                    <td>
+                                        @foreach($data['preferredCourseNames'] as $courseName)
+                                            <p>{{ $loop->iteration }}.) {{ $courseName }}</p>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $data['user']->created_at }}</td>
+                                    <td>{{ $data['user']->updated_at }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.results.view', $data['user']->id) }}" class="btn btn-primary">View Results</a>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
     </section>
 
     <!-- Jquery Core Js -->

@@ -6,7 +6,8 @@
                 <hr style="background-color: #752738; height: 2px; border: none;">
             </div>
             <div class="modal-body">
-                <form id="form_advanced_validation" class="updateCourse" method="POST" data-route-edit-course="{{ route('admin.update.course', $available_course->id) }}" data-course-id="{{ $available_course->id }}">
+                <!-- Add enctype to allow file uploads -->
+                <form id="form_advanced_validation" class="updateCourse" method="POST" data-route-edit-course="{{ route('admin.update.course', $available_course->id) }}" data-course-id="{{ $available_course->id }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group form-float" style="margin-bottom: 25px !important">
@@ -22,6 +23,15 @@
                         <div class="form-line">
                             <textarea name="course_description" cols="30" rows="5" class="form-control no-resize" required>{{ $available_course->course_description }}</textarea>
                         </div>
+                    </div>
+
+                    <!-- Add input for multiple course pictures -->
+                    <div class="form-group form-float">
+                        <label style="color: #212529; font-weight: 600;" class="form-label">Update Course Pictures</label>
+                        <div class="form-line">
+                            <input type="file" name="course_pictures[]" class="form-control" multiple>
+                        </div>
+                        <div id="error-edit-pictures{{ $available_course->id }}" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                     </div>
             </div>
             <div class="modal-footer">

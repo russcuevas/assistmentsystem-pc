@@ -38,9 +38,9 @@ $(document).ready(function () {
         $('#error-edit-course' + courseId).text('');
 
         if (form.valid()) {
-            const formData = new FormData(this);
+            const formData = new FormData(this);  // Use FormData to include file uploads
             const updateCourseUrl = form.data('route-edit-course');
-            updateCourseShowLoading()
+            updateCourseShowLoading();
 
             $.ajax({
                 url: updateCourseUrl,
@@ -78,7 +78,7 @@ $(document).ready(function () {
                     if (errorMessage !== 'An error occurred:') {
                         swal("Error!", errorMessage, "error");
                     }
-                },
+                }
             });
         }
     });
@@ -87,7 +87,6 @@ $(document).ready(function () {
         const courseId = $(this).closest('form').data('course-id');
         $('#error-edit-course' + courseId).text('');
     });
-
 
     function updateCourseShowLoading() {
         HoldOn.open({
