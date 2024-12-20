@@ -97,6 +97,7 @@
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
+                                            <th>Course Picture</th>
                                             <th>Course Name</th>
                                             <th>Course Description</th>
                                             <th>Created At</th>
@@ -107,6 +108,18 @@
                                     <tbody>
                                         @foreach ($course as $available_course)
                                             <tr>
+                                                <td>
+                                                    @if ($available_course->course_picture)
+                                                        @php
+                                                            $coursePictures = json_decode($available_course->course_picture, true);
+                                                        @endphp
+                                                        @foreach ($coursePictures as $picture)
+                                                            <img src="{{ asset('storage/course/course_picture/' . $picture) }}" alt="Course Image" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                                        @endforeach
+                                                    @else
+                                                        No image
+                                                    @endif
+                                                </td>
                                                 <td>{{ $available_course->course_name }}</td>
                                                 <td>{{ $available_course->course_description }}</td>
                                                 <td>{{ $available_course->created_at }}</td>

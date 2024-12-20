@@ -74,20 +74,17 @@
         <div>
             <img class="ub-logo" style="border-radius: 50px; height: 80px; width: 80px;" src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo" /> 
             <img class="ub-logo" style="border-radius: 50px; height: 70px; width: 70px; margin-left: -10px;" src="{{ asset('examinees/images/copwell-logo.jpg') }}" />
-            <span style="font-weight: 900;">                         
-                RIASEC RESULTS
-            </span>
         </div>
     </div>
 
     <div class="container">
         <div class="container-box">
             <a class="btn btn-danger me-2" style="float: right; margin-top: 30px;" href="{{ route('admin.results.page')  }}">Go back</a>
-            <h2>{{ $user->fullname }}'s Results</h2>
+            <h2>RIASEC RESULT</h2>
 
             <ul>
                 <strong>Fullname:</strong> {{ $user->fullname }}<br>
-                <strong>Gender:</strong> {{ $user->gender }}<br>
+                <strong>Sex:</strong> <span style="text-transform: capitalize">{{ $user->gender }}</span><br>
                 <strong>Age:</strong> {{ $user->age }}<br>
                 <strong>Birthday:</strong> {{ \Carbon\Carbon::parse($user->birthday)->format('F j, Y') }}<br>
                 <strong>Strand:</strong> {{ $user->strand }}<br>

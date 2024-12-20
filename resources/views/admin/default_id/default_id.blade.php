@@ -134,7 +134,7 @@
                                                                                     <div class="modal-body">
                                                                                                 <p><strong>Examiner ID:</strong> {{ $default_id->default_id }}</p>
                                                                                                 <p><strong>Fullname:</strong> {{ $default_id->fullname }}</p>
-                                                                                                <p><strong>Gender:</strong> {{ $default_id->gender }}</p>
+                                                                                                <p><strong>Sex:</strong> <span style="text-transform: capitalize">{{ $default_id->gender }}</span></p>
                                                                                                 <p><strong>Age:</strong> {{ $default_id->age }}</p>
                                                                                                 <p><strong>Birthday:</strong> {{ $default_id->birthday }}</p>
                                                                                                 <p><strong>Strand:</strong> {{ $default_id->strand }}</p>

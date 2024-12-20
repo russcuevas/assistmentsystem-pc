@@ -23,10 +23,10 @@
                     </div>
 
                     <div class="form-group form-float">
-                        <label style="color: #212529; font-weight: 600;" class="form-label">Gender</label>
+                        <label style="color: #212529; font-weight: 600;" class="form-label">Sex</label>
                         <div class="form-line">
                             <select class="form-control" name="gender" required>
-                                <option value="">Select Gender</option>
+                                <option value="">Select Sex</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>

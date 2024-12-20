@@ -108,8 +108,8 @@ function fetchGenderChart(year) {
             const labels = data.map(item => item.gender);
             const counts = data.map(item => item.count);
 
-            const maleCount = counts[labels.indexOf("Male")] || 0;
-            const femaleCount = counts[labels.indexOf("Female")] || 0;
+            const maleCount = counts[labels.indexOf("male")] || 0;
+            const femaleCount = counts[labels.indexOf("female")] || 0;
 
             const ctx = document.getElementById('gender-chart').getContext('2d');
             createGenderChart(ctx, femaleCount, maleCount);

@@ -203,7 +203,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Fullname</th>
-                                        <th>Gender</th>
+                                        <th>Sex</th>
                                         <th>Age</th>
                                         <th>Birthday</th>
                                         <th>Strand</th>

@@ -129,7 +129,7 @@
                     <div class="card">
                         <div class="header">
                             <h2 style="font-size: 17px; font-weight: 900; color: #752738;">
-                                EXAMINERS BASED ON GENDER
+                                EXAMINERS BASED ON SEX
                             </h2>
                         </div>
                         <div class="body">
