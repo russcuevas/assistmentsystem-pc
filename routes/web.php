@@ -10,12 +10,14 @@ use App\Http\Controllers\admin\ResultsController;
 use App\Http\Controllers\admin\RiasecController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\users\ExaminationController;
+use App\Http\Controllers\users\HomeController;
 use App\Http\Controllers\users\InformationController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('default');
-});
+
+Route::get('/', [HomeController::class, 'HomePage'])->name('default.page');
+Route::get('/course/{id}', [HomeController::class, 'ShowCourse'])->name('show.course');
+
 
 
 // ADMIN AUTH PAGE

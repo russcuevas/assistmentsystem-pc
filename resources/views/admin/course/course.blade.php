@@ -29,6 +29,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- SLICK --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
 </head>
 
 <body class="theme-red">
@@ -100,8 +104,8 @@
                                             <th>Course Picture</th>
                                             <th>Course Name</th>
                                             <th>Course Description</th>
-                                            <th>Created At</th>
-                                            <th>Updated At</th>
+                                            <th>Created</th>
+                                            <th>Updated</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -113,9 +117,15 @@
                                                         @php
                                                             $coursePictures = json_decode($available_course->course_picture, true);
                                                         @endphp
-                                                        @foreach ($coursePictures as $picture)
-                                                            <img src="{{ asset('storage/course/course_picture/' . $picture) }}" alt="Course Image" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
-                                                        @endforeach
+                                                        <div class="slick-container" style="max-width: 200px;">
+                                                            @foreach ($coursePictures as $picture)
+                                                                <div class="slick-slide">
+                                                                    <img src="{{ asset('storage/course/course_picture/' . $picture) }}" 
+                                                                        alt="Course Image" 
+                                                                        style="width: 100%; height: 150px; object-fit: cover;">
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
                                                     @else
                                                         No image
                                                     @endif
@@ -131,22 +141,23 @@
                                                         </button>
                                                         <ul class="dropdown-menu" style="z-index: 9999; position: relative;">
                                                             <li><a href="javascript:void(0);" 
-                                                            data-toggle="modal" 
-                                                            data-target="#updateCourseModal{{ $available_course->id }}">
-                                                            EDIT</a></li>
+                                                                data-toggle="modal" 
+                                                                data-target="#updateCourseModal{{ $available_course->id }}">
+                                                                EDIT</a></li>
                                                             <li><a href="javascript:void(0);"                 
-                                                            data-toggle="modal" 
-                                                            data-target="#deleteCourseModal{{ $available_course->id }}">
-                                                            DELETE</a></li>
+                                                                data-toggle="modal" 
+                                                                data-target="#deleteCourseModal{{ $available_course->id }}">
+                                                                DELETE</a></li>
                                                         </ul>
                                                     </div>
                                                     
                                                     <!-- Edit Course Modal -->
                                                     @include('admin.course.modals.edit_course')
-                                                    {{-- Delete Course Modal --}}
+                                                    <!-- Delete Course Modal -->
                                                     @include('admin.course.modals.delete_course')
                                                 </td>
                                             </tr>
+
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -183,7 +194,6 @@
     {{-- SWEETALERT --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
     <!-- Custom Js -->
     <script src="{{ asset('admin/js/admin.js') }}"></script>
     <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
@@ -195,6 +205,23 @@
     <script src="{{ asset('admin/js/ajax/course/edit_course.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/course/delete_course.js')}}"></script>
     <script src="{{ asset('admin/js/demo.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.slick-container').slick({
+                slidesToShow: 1,              
+                slidesToScroll: 1,            
+                dots: true,                   
+                arrows: true,                 
+                infinite: true,               
+                autoplay: true,              
+                autoplaySpeed: 2000,          
+                adaptiveHeight: true         
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>
