@@ -4,7 +4,7 @@
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
                 <a id="app-title" style="display:flex;align-items:center" class="navbar-brand" href="{{ route('admin.dashboard.page') }}">
-                    <img id="bcas-logo" style="width:45px;display:inline;margin-right:10px;"  src="{{ asset('admin/images/ub-logo.png') }}" />
+                    <img  style="width:45px;display:inline;margin-right:10px;"  src="{{ asset('admin/images/ub-logo.png') }}" />
                     <span style="color: #FEC653;">ASSISTments</span>
                 </a>
             </div>

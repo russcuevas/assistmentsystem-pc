@@ -9,9 +9,16 @@
     <link rel="shortcut icon" href="{{ asset('auth/images/ub-logo.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('default/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css">
     <style>
         .course-image {
             width: 50%;
+        }
+
+        .slick-slide img {
+            display: inline-block;
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -40,22 +47,45 @@
     </nav>
 
     <div class="container mt-5">
-    <h1>{{ $course->course_name }}</h1>
-    @if($course->course_picture && is_array($course->course_picture))
-        <img src="{{ asset('storage/course/course_picture/' . $course->course_picture[0]) }}" 
-             alt="{{ $course->course_name }}" class="img-fluid mb-4 course-image">
-    @else
+        <h1>{{ $course->course_name }}</h1>
+
+        <!-- Slick Carousel -->
+        @if($course->course_picture && is_array($course->course_picture))
+        <div class="slick-container mb-4">
+            @foreach($course->course_picture as $picture)
+            <div>
+                <img src="{{ asset('storage/course/course_picture/' . $picture) }}" 
+                     alt="{{ $course->course_name }}" class="img-fluid course-image">
+            </div>
+            @endforeach
+        </div>
+        @else
         <img src="{{ asset('default-course-image.jpg') }}" 
              alt="{{ $course->course_name }}" class="img-fluid mb-4 course-image">
-    @endif
+        @endif
 
-    <p><strong>Course Description:</strong></p>
-    <p>{{ $course->course_description }}</p>
+        <p><strong>Course Description:</strong></p>
+        <p>{{ $course->course_description }}</p>
 
-    <a href="{{ route('default.page') }}" class="btn btn-secondary mb-5">Back to Courses</a>
-</div>
+        <a href="{{ route('default.page') }}" class="btn btn-secondary mb-5">Back to Courses</a>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.slick-container').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true,
+                arrows: true,
+                infinite: true,
+                autoplay: true,
+                autoplaySpeed: 2000
+            });
+        });
+    </script>
 </body>
 
 </html>

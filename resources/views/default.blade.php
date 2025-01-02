@@ -6,16 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UB - Assistments</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="shortcut icon" href="{{ asset('auth/images/ub-logo.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('default/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
+    <style>
+        .slick-container img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('default.page')}}">
+            <a class="navbar-brand" href="{{ route('default.page') }}">
                 <img src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo">
                 UB-LIPA
             </a>
@@ -41,27 +49,49 @@
     </header>
 
     <div class="container">
-        <h3 class="mt-5">AVAILABLE COURSE</h3>
-        <div class="row">
-            @foreach($courses as $course)
-            <div class="col-12 col-sm-6 col-md-4 mb-4">
-                <div class="course-card">
-                    @if($course->course_picture && is_array($course->course_picture))
-                        <img src="{{ asset('storage/course/course_picture/' . $course->course_picture[0]) }}" alt="{{ $course->course_name }}">
-                    @else
-                        <img src="{{ asset('default-course-image.jpg') }}" alt="{{ $course->course_name }}">
-                    @endif
-                    <h2>{{ $course->course_name }}</h2>
-                    <p>{{ \Illuminate\Support\Str::limit($course->course_description, 100) }}</p>
+    <h3 class="mt-5">BROWSE COURSE</h3>
+    <div class="row">
+        @foreach($courses as $course)
+        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch">
+            <div class="course-card d-flex flex-column">
+                @if($course->course_picture && is_array($course->course_picture))
+                    <div class="slick-container">
+                        @foreach($course->course_picture as $picture)
+                            <img style="height: 300px" src="{{ asset('storage/course/course_picture/' . $picture) }}" alt="{{ $course->course_name }}">
+                        @endforeach
+                    </div>
+                @else
+                    <img src="{{ asset('default-course-image.jpg') }}" alt="{{ $course->course_name }}">
+                @endif
+                <h2>{{ $course->course_name }}</h2>
+                <p>{{ \Illuminate\Support\Str::limit($course->course_description, 100) }}</p>
+                <div class="mt-auto">
                     <a href="{{ route('show.course', $course->id) }}" class="btn btn-primary learn-btn">Learn More</a>
                 </div>
             </div>
-            @endforeach
         </div>
+        @endforeach
     </div>
+</div>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.slick-container').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true,
+                arrows: true,
+                infinite: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                adaptiveHeight: true
+            });
+        });
+    </script>
 </body>
 
 </html>

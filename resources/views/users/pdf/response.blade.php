@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Responses</title>
+    <title>Results Copy</title>
     <style>
         body { font-family: Arial, sans-serif; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h1>Your Responses</h1>
+    <h1>Thankyou for taking the exam</h1>
     <p>Name: {{ $user->fullname }}</p>
     <p>Default ID: {{ $user->default_id }}</p>
     <p>Age: {{ $user->age }}</p>

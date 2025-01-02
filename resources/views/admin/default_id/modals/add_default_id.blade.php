@@ -63,6 +63,7 @@
                         <label style="color: #212529; font-weight: 600;" class="form-label">Email</label>
                         <div class="form-line">
                             <input type="email" class="form-control" name="email" required>
+                            <div class="help-info"><span style="color: red">*</span> <span style="color: black">Email address must be valid</span></div>
                         </div>
                     </div>
 

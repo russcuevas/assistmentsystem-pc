@@ -59,7 +59,7 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'profile_picture' => 'nullable|image',
             'fullname' => 'required|string',
-            'email' => 'required|email|unique:admins,email,' . $id, // Unique validation
+            'email' => 'required|email|unique:admins,email,' . $id,
             'password' => 'nullable|min:6',
         ]);
 
@@ -70,11 +70,9 @@ class AdminController extends Controller
         $admin = Admin::findOrFail($id);
 
         if ($request->hasFile('profile_picture')) {
-            // Delete the old profile picture if it exists
             if ($admin->profile_picture) {
                 Storage::disk('public')->delete($admin->profile_picture);
             }
-            // Store the new profile picture
             $admin->profile_picture = $request->file('profile_picture')->store('admin/profile', 'public');
         }
 
