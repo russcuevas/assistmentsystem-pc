@@ -70,6 +70,24 @@ class QuestionnaireController extends Controller
             'option_text' => 'required|string|max:1',
         ]);
 
+        $riasecOptions = [
+            'R' => 'R',
+            'I' => 'I',
+            'A' => 'A',
+            'S' => 'S',
+            'E' => 'E',
+            'C' => 'C',
+        ];
+
+        $riasecLetter = $riasecOptions[$validated_data['riasec_id']] ?? null;
+
+        if (!$riasecLetter) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid Riasec selection.'
+            ]);
+        }
+
         DB::table('questions')->where('id', $id)->update([
             'question_text' => $validated_data['question_text'],
             'riasec_id' => $validated_data['riasec_id'],
@@ -77,7 +95,7 @@ class QuestionnaireController extends Controller
         ]);
 
         DB::table('options')->where('question_id', $id)->update([
-            'option_text' => $validated_data['option_text'],
+            'option_text' => $riasecLetter,
             'is_correct' => 1,
             'updated_at' => now(),
         ]);
@@ -87,6 +105,7 @@ class QuestionnaireController extends Controller
             'message' => 'Question updated successfully!'
         ]);
     }
+
 
 
     public function DeleteQuestionnaire($id)

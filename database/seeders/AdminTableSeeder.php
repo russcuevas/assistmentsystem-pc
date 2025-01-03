@@ -14,13 +14,23 @@ class AdminTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('admins')->insert([
-            'profile_picture' => null, // Set profile_picture to null
-            'fullname' => 'Admin User',
-            'email' => 'russelcuevas0@gmail.com',
-            'password' => Hash::make('123456789'), // Use a hashed password
-            'created_at' => now(), // Optionally add timestamps
-            'updated_at' => now(),
-        ]);
+        DB::table('admins')->insert(
+            [
+                'profile_picture' => null,
+                'fullname' => 'Copwell Admin',
+                'email' => 'ubcopwell@gmail.com',
+                'password' => Hash::make('123456789'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'profile_picture' => null,
+                'fullname' => 'Admission Admin',
+                'email' => 'ubadmission@gmail.com',
+                'password' => Hash::make('123456789'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
     }
 }

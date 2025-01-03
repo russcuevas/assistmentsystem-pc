@@ -15,8 +15,7 @@ $(document).ready(function () {
                 minlength: 3
             },
             course_description: {
-                required: true,
-                minlength: 5
+                required: true
             }
         },
         messages: {
@@ -25,20 +24,19 @@ $(document).ready(function () {
                 minlength: "Course name must be at least 3 characters."
             },
             course_description: {
-                required: "Course description is required.",
-                minlength: "Course description must be at least 5 characters."
+                required: "Course description is required."
             }
         }
     });
 
-    $('form.updateCourse').on('submit', function (event) {
+    $(document).on('submit', 'form.updateCourse', function (event) {
         event.preventDefault();
         const form = $(this);
         const courseId = form.data('course-id');
         $('#error-edit-course' + courseId).text('');
 
         if (form.valid()) {
-            const formData = new FormData(this);  // Use FormData to include file uploads
+            const formData = new FormData(this);
             const updateCourseUrl = form.data('route-edit-course');
             updateCourseShowLoading();
 

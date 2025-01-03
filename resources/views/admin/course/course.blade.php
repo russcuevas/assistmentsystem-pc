@@ -101,9 +101,9 @@
                                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Course Picture</th>
-                                            <th>Course Name</th>
-                                            <th>Course Description</th>
+                                            <th>Picture</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
                                             <th>Created</th>
                                             <th>Updated</th>
                                             <th>Actions</th>
@@ -117,12 +117,12 @@
                                                         @php
                                                             $coursePictures = json_decode($available_course->course_picture, true);
                                                         @endphp
-                                                        <div class="slick-container" style="max-width: 200px;">
+                                                        <div class="slick-container">
                                                             @foreach ($coursePictures as $picture)
                                                                 <div class="slick-slide">
                                                                     <img src="{{ asset('storage/course/course_picture/' . $picture) }}" 
                                                                         alt="Course Image" 
-                                                                        style="width: 100%; height: 150px; object-fit: cover;">
+                                                                        style="width: 200px; height: auto: object-fit: cover;">
                                                                 </div>
                                                             @endforeach
                                                         </div>
@@ -208,19 +208,27 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.slick-container').slick({
-                slidesToShow: 1,              
-                slidesToScroll: 1,            
-                dots: true,                   
-                arrows: true,                 
-                infinite: true,               
-                autoplay: true,              
-                autoplaySpeed: 2000,          
-                adaptiveHeight: true         
+            function initSlick() {
+                $('.slick-container').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: true,
+                    arrows: true,
+                    infinite: true,
+                    autoplay: true,
+                    autoplaySpeed: 2000,
+                    adaptiveHeight: true
+                });
+            }
+
+            initSlick();
+
+            $('.js-basic-example').on('draw.dt', function() {
+                initSlick();
             });
         });
-    </script>
 
+    </script>
 
 </body>
 

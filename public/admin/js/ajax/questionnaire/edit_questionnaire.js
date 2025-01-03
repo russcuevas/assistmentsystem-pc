@@ -29,13 +29,13 @@ $(document).ready(function () {
         }
     });
 
-    $('form.updateQuestionnaire').on('submit', function (event) {
+    $(document).on('submit', 'form.updateQuestionnaire', function (event) {
         event.preventDefault();
         const form = $(this);
 
         if (form.valid()) {
-            const formData = form.serialize();
-            const updateQuestionnaireUrl = form.data('route-update-course');
+            const formData = form.serialize();  // Serialize the form data
+            const updateQuestionnaireUrl = form.data('route-update-course');  // Get the route for updating the questionnaire
             updateQuestionnaireShowLoading();
 
             $.ajax({
@@ -51,27 +51,27 @@ $(document).ready(function () {
                         text: response.message,
                         icon: "success",
                     }).then(() => {
-                        location.reload();
+                        location.reload();  // Reload the page after success
                     });
                 },
                 error: function (xhr) {
                     const errors = xhr.responseJSON.errors;
                     let errorMessage = 'An error occurred:';
 
-                    $('#error-question').text('');
+                    $('#error-question').text('');  // Clear previous error message
 
                     if (errors) {
                         $.each(errors, function (key, value) {
                             if (key === 'question_text') {
-                                $('#error-question').text(value[0]);
+                                $('#error-question').text(value[0]);  // Display error for question_text
                             } else {
-                                errorMessage += `\n- ${value[0]}`;
+                                errorMessage += `\n- ${value[0]}`;  // Other error messages
                             }
                         });
                     }
 
                     if (errorMessage !== 'An error occurred:') {
-                        swal("Error!", errorMessage, "error");
+                        swal("Error!", errorMessage, "error");  // Show error alert
                     }
                 }
             });
