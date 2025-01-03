@@ -219,7 +219,7 @@
                                             <tr>
                                                 <td>{{ $examiner->default_id }}</td>
                                                 <td>{{ $examiner->fullname }}</td>
-                                                <td>{{ $examiner->gender }}</td>
+                                                <td style="text-transform: capitalize;">{{ $examiner->gender }}</td>
                                                 <td>{{ $examiner->age }}</td>
                                                 <td>{{ $examiner->birthday }}</td>
                                                 <td>{{ $examiner->strand }}</td>
@@ -311,13 +311,6 @@
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/examiners/delete_examiners.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/examiners/print_examiners.js')}}"></script>
-
-    
-
-
-
-
-
 
     <script src="{{ asset('admin/js/demo.js') }}"></script>
 </body>

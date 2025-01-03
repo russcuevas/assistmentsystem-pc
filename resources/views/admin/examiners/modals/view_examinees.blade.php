@@ -11,7 +11,7 @@
                     <strong style="color: #752738;">Fullname:</strong> {{ $examiner->fullname }}
                 </div>
                 <div style="margin-bottom: 10px;">
-                    <strong style="color: #752738;">Sex:</strong> {{ $examiner->gender }}
+                    <strong style="color: #752738;">Sex:</strong> <span style="text-transform: capitalize">{{ $examiner->gender }}</span>
                 </div>
                 <div style="margin-bottom: 10px;">
                     <strong style="color: #752738;">Age:</strong> {{ $examiner->age }}

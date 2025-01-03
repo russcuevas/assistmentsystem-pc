@@ -132,18 +132,17 @@
                                                                                         <hr style="background-color: #752738; height: 2px; border: none;">
                                                                                     </div>
                                                                                     <div class="modal-body">
-                                                                                                <p><strong>Examiner ID:</strong> {{ $default_id->default_id }}</p>
-                                                                                                <p><strong>Fullname:</strong> {{ $default_id->fullname }}</p>
-                                                                                                <p><strong>Sex:</strong> <span style="text-transform: capitalize">{{ $default_id->gender }}</span></p>
-                                                                                                <p><strong>Age:</strong> {{ $default_id->age }}</p>
-                                                                                                <p><strong>Birthday:</strong> {{ $default_id->birthday }}</p>
-                                                                                                <p><strong>Strand:</strong> {{ $default_id->strand }}</p>
-                                                                                                <p><strong>Email:</strong> {{ $default_id->email }}</p>
-                                                                                                <p><strong>Created At:</strong> {{ $default_id->created_at }}</p>
-                                                                                                <p><strong>Updated At:</strong> {{ $default_id->updated_at }}</p>
+                                                                                                <p><strong style="color: #752738;">Examiner ID:</strong> {{ $default_id->default_id }}</p>
+                                                                                                <p><strong style="color: #752738;">Fullname:</strong> {{ $default_id->fullname }}</p>
+                                                                                                <p><strong style="color: #752738;">Sex:</strong> <span style="text-transform: capitalize">{{ $default_id->gender }}</span></p>
+                                                                                                <p><strong style="color: #752738;">Age:</strong> {{ $default_id->age }}</p>
+                                                                                                <p><strong style="color: #752738;">Birthday:</strong> {{ $default_id->birthday }}</p>
+                                                                                                <p><strong style="color: #752738;">Strand:</strong> {{ $default_id->strand }}</p>
+                                                                                                <p><strong style="color: #752738;">Email:</strong> {{ $default_id->email }}</p>
+                                                                                                <p><strong style="color: #752738;">Created At:</strong> {{ $default_id->created_at }}</p>
+                                                                                                <p><strong style="color: #752738;">Updated At:</strong> {{ $default_id->updated_at }}</p>
                                                                                     </div>
                                                                                     <div class="modal-footer">
-                                                                                        <button class="btn bg-red waves-effect">PRINT INFORMATION</button>
                                                                                         <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                                                                                     </div>
                                                                                 </div>
