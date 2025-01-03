@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ExaminerCreated;
 use App\Models\User;
 use PDF;
 use Illuminate\Http\Request;
@@ -209,6 +210,8 @@ class ExaminersController extends Controller
             'strand' => $request->input('strand'),
             'email' => $request->input('email'),
         ]);
+
+        Mail::to($user->email)->send(new ExaminerCreated($user, $password));
 
         return response()->json(['success' => 'Examiner added successfully']);
     }

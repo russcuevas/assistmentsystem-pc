@@ -17,6 +17,96 @@
         h1, h2 {
             color: #333;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-dialog {
+            max-width: 500px;
+            margin: 1.75rem auto;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 0.3rem;
+            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+            outline: 0;
+            animation: showModal 0.3s ease-out;
+        }
+
+        @keyframes showModal {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .modal-body {
+            padding: 1rem;
+            color: #212529;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #752738;
+        }
+
+        .modal-trigger {
+            background-color: #17a2b8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -56,18 +146,30 @@
                 </div>
             </div>
 
+            @if(session('success'))
+                <div class="alert alert-success mt-3">{{ session('success') }}</div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger mt-3">
+                        @foreach($errors->all() as $error)
+                            {{ $error }}<br>
+                        @endforeach
+                </div>
+            @endif
+
             <div id="division"></div>
             <div class="d-flex justify-content-between align-items-center mb-3 mt-5">
                 <h2>PERSONAL DETAILS</h2>
                 <div>
-                    <a href="" class="btn btn-secondary me-2">Profile</a>
+                <a class="btn btn-secondary waves-effect" style="margin-right: 5px;">Profile</a>
                     <a href="{{ route('users.logout.request') }}" class="btn btn-danger">Logout</a>
                 </div>
             </div>
             
             <ul class="mb-5">
                 <strong>Fullname:</strong> {{ $user->fullname }}<br>
-                <strong>Gender:</strong> {{ $user->gender }}<br>
+                <strong>Gender:</strong> <span style="text-transform: capitalize;">{{ $user->gender }}</span><br>
                 <strong>Age:</strong> {{ $user->age }}<br>
                 <strong>Birthday:</strong> {{ \Carbon\Carbon::parse($user->birthday)->format('F j, Y') }}<br>
                 <strong>Strand:</strong> {{ $user->strand }}<br>
@@ -122,7 +224,8 @@
             <div id="division"></div>
             <br>
             <br>
-            <h2>Preferred Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px"><i>(the highlighted related to your preferred course)</i></span></h2>
+            <h2>Preferred Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px"><i>(the highlighted course related to your preferred course)</i></span></h2><br><br>
+            <h6 style="color: brown; font-weight: 900;">SUGGESTED COURSE</h6>
             <ul class="mb-5">
                 @foreach ($scores as $score)
                     @if (isset($groupedPreferredCourses[$score->riasec_id]))
@@ -136,7 +239,7 @@
                                 <br>{{ $careerName }}: 
                                 @foreach ($courses as $course)
                                     <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
-                                        {{ $course['name'] }}, &nbsp;
+                                        {{ $course['name'] }}<br>
                                     </span>
                                 @endforeach
                             @endforeach
@@ -144,8 +247,35 @@
                     @endif
                 @endforeach
             </ul>
-        
         </div>
+
+        <div id="changePasswordModal" class="modal" style="display: none;">
+        <div class="modal-dialog" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Password</h5>
+                    <button class="btn-close" onclick="closeChangePasswordModal()"></button>
+                </div>
+                <div class="modal-body mt-3">
+                    <form id="changePasswordForm" method="POST" action="{{ route('users.change.password') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label style="color: black" for="newPassword" class="form-label">New Password</label>
+                            <input style="border: 2px solid black;" type="password" class="form-control" id="newPassword" name="new_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label style="color: black" for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <input style="border: 2px solid black;" type="password" class="form-control" id="confirmPassword" name="new_password_confirmation" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" style="background-color: #5b1b2b !important; border: none;">Change Password</button>
+                    <button class="btn btn-secondary" onclick="closeChangePasswordModal()">Cancel</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -196,6 +326,29 @@
         };
 
         const myDonutChart = new Chart(ctx, config);
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const changePasswordButton = document.querySelector('.btn-secondary.waves-effect');
+    const changePasswordModal = document.getElementById('changePasswordModal');
+
+    changePasswordButton.addEventListener('click', function () {
+        changePasswordModal.style.display = 'flex';
+    });
+
+    function closeChangePasswordModal() {
+        changePasswordModal.style.display = 'none';
+    }
+
+    window.onclick = function (event) {
+        if (event.target === changePasswordModal) {
+            closeChangePasswordModal();
+        }
+    };
+
+    window.closeChangePasswordModal = closeChangePasswordModal; // Expose to global scope
+});
+
     </script>
 </body>
 </html>

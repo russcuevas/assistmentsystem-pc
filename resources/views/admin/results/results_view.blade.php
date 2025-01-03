@@ -140,8 +140,8 @@
 
             <div id="division"></div>
 
-            <h2>Suggested Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px;"><i>(the highlighted courses are related to {{ $user->fullname }} preferred courses)</i></span></h2>
-
+            <h2>Suggested Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px;"><i>(the highlighted courses are related to {{ $user->fullname }} preferred courses)</i></span><br><br></h2>
+            <h6 style="color: brown; font-weight: 900;">SUGGESTED COURSE</h6>
             <ul style="margin-bottom: 50px !important;">
                 @foreach ($scores as $score)
                     @if (isset($groupedPreferredCourses[$score->riasec_id]))

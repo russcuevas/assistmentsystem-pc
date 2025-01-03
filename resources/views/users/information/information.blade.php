@@ -48,9 +48,22 @@
     <div id="nav-body" class="d-flex justify-content-center" style="margin-bottom:50px;">
         <div id="form-container" class="row" style="background-color: #752738;">
             <div class="d-flex justify-content-end mt-4">
+                <a class="btn btn-secondary waves-effect" style="margin-right: 5px;">Profile</a>
                 <a class="btn btn-danger waves-effect" href="{{ route('users.logout.request') }}">Logout</a>
             </div>
             <h2 class="mt-2 mb-5 text-center w-100" style="color: white"><img style="height: 70px; border-radius: 50px;" src="{{ asset('examinees/images/copwell-logo.jpg') }}" alt=""> Welcome ID: {{ $examiners->default_id }}</h2>
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger">
+                        @foreach($errors->all() as $error)
+                            {{ $error }}<br>
+                        @endforeach
+                </div>
+            @endif
+
             <form method="POST" data-route-add-information="{{ route('users.add.information') }}" class="form-validation w-100">
                 @csrf
                 <div class="row" style="background-color: white; padding: 20px;">
@@ -189,6 +202,36 @@
             </form>
         </div>
     </div>
+
+    <div id="changePasswordModal" class="modal" style="display: none;">
+        <div class="modal-dialog" style="width: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Password</h5>
+                    <button class="btn-close" onclick="closeChangePasswordModal()"></button>
+                </div>
+                <div id="division-modal"></div>
+                <div class="modal-body mt-3">
+                    <form id="changePasswordForm" method="POST" action="{{ route('users.change.password') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label style="color: black" for="newPassword" class="form-label">New Password</label>
+                            <input style="border: 2px solid black;" type="password" class="form-control" id="newPassword" name="new_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label style="color: black" for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <input style="border: 2px solid black;" type="password" class="form-control" id="confirmPassword" name="new_password_confirmation" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                    <button class="btn btn-secondary" onclick="closeChangePasswordModal()">Cancel</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
 
     <div id="customModal" class="modal">
         <div class="modal-dialog">

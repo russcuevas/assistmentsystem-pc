@@ -11,9 +11,9 @@
     <div class="form-container">
         <div class="logo-title-wrapper">
             <div class="logo">
-                <img src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo">
+                <img style="cursor: pointer" onclick="window.location.href='{{ route('default.page') }}'" src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo">
             </div>
-            <h1>Login Page</h1>
+            <h1 style="cursor: pointer" onclick="window.location.href='{{ route('default.page') }}'">Login Page</h1>
         </div>
 
         @if(session('error'))

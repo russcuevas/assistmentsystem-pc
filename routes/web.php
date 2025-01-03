@@ -12,6 +12,7 @@ use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\users\ExaminationController;
 use App\Http\Controllers\users\HomeController;
 use App\Http\Controllers\users\InformationController;
+use App\Http\Controllers\users\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -99,6 +100,10 @@ Route::middleware(['users'])->group(function () {
     // EXAMINATION INFORMATION PAGE
     Route::get('/examinees/landing_page', [InformationController::class, 'ExaminersInformationPage'])->name('users.information.page');
     Route::post('/examinees/add_information', [InformationController::class, 'AddInformation'])->name('users.add.information');
+
+    // CHANGE PASSWORD
+    Route::post('/users/change_password', [ProfileController::class, 'UsersChangePassword'])->name('users.change.password');
+
 
     // EXAMINATION FORM PAGE
     Route::get('/examinees/examination', [ExaminationController::class, 'ExaminationPage'])->name('users.examination.page');

@@ -203,7 +203,7 @@
                                 <tr>
                                     <td>{{ $data['user']->id }}</td>
                                     <td>{{ $data['user']->fullname }}</td>
-                                    <td>{{ $data['user']->gender }}</td>
+                                    <td style="text-transform: capitalize">{{ $data['user']->gender }}</td>
                                     <td>{{ $data['user']->age }}</td>
                                     <td>{{ $data['user']->birthday }}</td>
                                     <td>{{ $data['user']->strand }}</td>

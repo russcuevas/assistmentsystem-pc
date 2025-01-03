@@ -26,17 +26,14 @@ class InformationController extends Controller
 
     public function AddInformation(Request $request)
     {
-        // Get the current authenticated user
         $user = Auth::guard('users')->user();
 
-        // Validate only the courses
         $request->validate([
             'course_1' => 'nullable|exists:courses,id',
             'course_2' => 'nullable|exists:courses,id',
             'course_3' => 'nullable|exists:courses,id',
         ]);
 
-        // Update or create the user's preferred courses
         PreferredCourse::updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -46,7 +43,6 @@ class InformationController extends Controller
             ]
         );
 
-        // Return a success response
         return response()->json([
             'status' => 'success',
             'message' => 'Courses updated successfully.',
