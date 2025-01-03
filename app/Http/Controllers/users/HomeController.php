@@ -23,10 +23,16 @@ class HomeController extends Controller
 
     public function ShowCourse($id)
     {
-        $course = Course::findOrFail($id);
+        $course = Course::find($id);
+
+        if (!$course) {
+            return redirect()->route('default.page');
+        }
+
         if ($course->course_picture) {
             $course->course_picture = json_decode($course->course_picture, true);
         }
+
         return view('show_course', compact('course'));
     }
 }

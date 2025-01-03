@@ -12,14 +12,59 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
     <style>
+
+        .nav-link.active {
+            color: #FEC653 !important;
+        }
         .slick-container img {
             width: 100%;
             height: auto;
+        }
+        
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #752738;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .logo-preloader {
+            width: 100px;
+            animation: tibok 1s infinite;
+        }
+
+        @keyframes tibok {
+            0% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.2);
+            }
+            50% {
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <div id="preloader">
+        <img class="logo-preloader" src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo" class="logo">
+    </div>
+
 
     <nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
         <div class="container-fluid">
@@ -31,6 +76,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('default.page') }}">Home</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.login.page') }}">Admin Login</a>
                     </li>
@@ -50,26 +98,30 @@
     <div class="container">
     <h3 class="mt-5">BROWSE COURSE</h3>
     <div class="row">
-        @foreach($courses as $course)
-        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch">
-            <div class="course-card d-flex flex-column">
-                @if($course->course_picture && is_array($course->course_picture))
-                    <div class="slick-container">
-                        @foreach($course->course_picture as $picture)
-                            <img style="height: 300px" src="{{ asset('storage/course/course_picture/' . $picture) }}" alt="{{ $course->course_name }}">
-                        @endforeach
+        @if($courses->isEmpty())
+            <h1 style="text-align: center; color: #752738">NO COURSE AVAILABLE</h1>
+        @else
+            @foreach($courses as $course)
+            <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch">
+                <div class="course-card d-flex flex-column">
+                    @if($course->course_picture && is_array($course->course_picture))
+                        <div class="slick-container">
+                            @foreach($course->course_picture as $picture)
+                                <img style="height: 300px" src="{{ asset('storage/course/course_picture/' . $picture) }}" alt="{{ $course->course_name }}">
+                            @endforeach
+                        </div>
+                    @else
+                        <img src="{{ asset('default-course-image.jpg') }}" alt="{{ $course->course_name }}">
+                    @endif
+                    <h2>{{ $course->course_name }}</h2>
+                    <p>{{ \Illuminate\Support\Str::limit($course->course_description, 100) }}</p>
+                    <div class="mt-auto">
+                        <a href="{{ route('show.course', $course->id) }}" class="btn btn-primary learn-btn">Learn More</a>
                     </div>
-                @else
-                    <img src="{{ asset('default-course-image.jpg') }}" alt="{{ $course->course_name }}">
-                @endif
-                <h2>{{ $course->course_name }}</h2>
-                <p>{{ \Illuminate\Support\Str::limit($course->course_description, 100) }}</p>
-                <div class="mt-auto">
-                    <a href="{{ route('show.course', $course->id) }}" class="btn btn-primary learn-btn">Learn More</a>
                 </div>
             </div>
-        </div>
-        @endforeach
+            @endforeach
+        @endif
     </div>
 </div>
 
@@ -90,6 +142,11 @@
                 adaptiveHeight: true
             });
         });
+    </script>
+    <script>
+        setTimeout(function() {
+            document.getElementById('preloader').style.display = 'none';
+        }, 1500);
     </script>
 </body>
 

@@ -6,8 +6,50 @@
     <title>UB - Assistments</title>
     <link rel="stylesheet" href="{{ asset('auth/css/login.css') }}">
     <link rel="shortcut icon" href="{{ asset('auth/images/ub-logo.png') }}" type="image/x-icon">
+    <style>
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #752738;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .logo-preloader {
+            width: 100px;
+            animation: tibok 1s infinite;
+        }
+
+        @keyframes tibok {
+            0% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.2);
+            }
+            50% {
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
+
+    <div id="preloader">
+        <img class="logo-preloader" src="{{ asset('auth/images/ub-logo.png') }}" alt="UB Logo" class="logo">
+    </div>
+
     <div class="form-container">
         <div class="logo-title-wrapper">
             <div class="logo">
@@ -32,5 +74,11 @@
             <button type="submit">Login</button>
         </form>
     </div>
+
+    <script>
+        setTimeout(function() {
+            document.getElementById('preloader').style.display = 'none';
+        }, 1500);
+    </script>
 </body>
 </html>
