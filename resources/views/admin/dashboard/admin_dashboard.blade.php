@@ -28,6 +28,7 @@
     <!-- Custom Css -->
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
 </head>
 
 <body class="theme-red">
@@ -171,7 +172,26 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <canvas id="course-chart" height="150"></canvas>
+                            <div class="table-responsive">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($course as $available_course)
+                                                <tr>
+                                                <td>{{ $available_course->course_name }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,7 +203,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <canvas id="preferred-course-chart" height="150"></canvas>
+                            <canvas id="preferred-course-chart" height="245"></canvas>
                         </div>
                     </div>
                 </div>
@@ -441,9 +461,32 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Custom Js -->
-    <script src="{{ asset('admin/js/pages/tables/jquery-datatable.js') }}"></script>
+    <script>
+        $(function () {
+        $('.js-basic-example').DataTable({
+            responsive: true,
+            pageLength: 5,
+            lengthChange: false
+        });
+
+        $('.js-exportable').DataTable({
+            dom: 'Bfrtip',
+            responsive: true,
+            pageLength: 5,
+            lengthChange: false,
+            buttons: [
+                { extend: 'copy', className: 'custom-button' },
+                { extend: 'csv', className: 'custom-button' },
+                { extend: 'excel', className: 'custom-button' },
+                { extend: 'pdf', className: 'custom-button' },
+                { extend: 'print', className: 'custom-button' }
+            ]
+        });
+    });
+    </script>
     <script src="{{ asset('admin/js/pages/forms/form-validation.js') }}"></script>
     <script src="{{ asset('admin/js/admin.js') }}"></script>
+    <script src="{{ asset('admin/js/HoldOn.js') }}"></script>
     <script src="{{ asset('admin/js/pages/index.js') }}"></script>
     <script src="{{ asset('admin/js/ajax/dashboard_analytics/dashboard_chart.js')}}"></script>
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>

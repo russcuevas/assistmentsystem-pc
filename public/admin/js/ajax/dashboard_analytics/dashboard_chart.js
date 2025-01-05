@@ -118,46 +118,46 @@ function fetchGenderChart(year) {
 }
 
 
-function fetchCourseChart() {
-    fetch('/admin/courses/offered')
-        .then(response => response.json())
-        .then(data => {
-            const offeredCourses = data.offered_courses;
+// function fetchCourseChart() {
+//     fetch('/admin/courses/offered')
+//         .then(response => response.json())
+//         .then(data => {
+//             const offeredCourses = data.offered_courses;
 
-            if (Object.keys(offeredCourses).length === 0) {
-                const ctx = document.getElementById('course-chart').getContext('2d');
-                const courseLabels = ['No displayed offered course'];
-                const courseCounts = [1];
-                const backgroundColors = ['brown'];
-                const borderColors = ['brown'];
+//             if (Object.keys(offeredCourses).length === 0) {
+//                 const ctx = document.getElementById('course-chart').getContext('2d');
+//                 const courseLabels = ['No displayed offered course'];
+//                 const courseCounts = [1];
+//                 const backgroundColors = ['brown'];
+//                 const borderColors = ['brown'];
 
-                createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
-                return;
-            }
+//                 createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
+//                 return;
+//             }
 
-            const courseLabels = Object.keys(offeredCourses);
-            const courseCounts = Object.values(offeredCourses);
-            const backgroundColors = courseLabels.map(getRandomColor);
-            const borderColors = courseLabels.map(getRandomColor);
+//             const courseLabels = Object.keys(offeredCourses);
+//             const courseCounts = Object.values(offeredCourses);
+//             const backgroundColors = courseLabels.map(getRandomColor);
+//             const borderColors = courseLabels.map(getRandomColor);
 
-            if (validateData(courseCounts)) {
-                const ctx = document.getElementById('course-chart').getContext('2d');
-                createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
-            } else {
-                console.error('Course counts contain negative values:', courseCounts);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching course data:', error);
-            const ctx = document.getElementById('course-chart').getContext('2d');
-            const courseLabels = ['Error fetching data'];
-            const courseCounts = [1];
-            const backgroundColors = ['brown'];
-            const borderColors = ['brown'];
+//             if (validateData(courseCounts)) {
+//                 const ctx = document.getElementById('course-chart').getContext('2d');
+//                 createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
+//             } else {
+//                 console.error('Course counts contain negative values:', courseCounts);
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error fetching course data:', error);
+//             const ctx = document.getElementById('course-chart').getContext('2d');
+//             const courseLabels = ['Error fetching data'];
+//             const courseCounts = [1];
+//             const backgroundColors = ['brown'];
+//             const borderColors = ['brown'];
 
-            createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
-        });
-}
+//             createDoughnutChart(ctx, courseLabels, courseCounts, backgroundColors, borderColors);
+//         });
+// }
 
 
 function fetchPreferredCourses() {
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchGenderChart(this.value);
     });
 
-    fetchCourseChart();
+    // fetchCourseChart();
     fetchPreferredCourses();
 
     const currentYear = new Date().getFullYear();

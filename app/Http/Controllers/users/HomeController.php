@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function HomePage()
     {
-        $courses = Course::all();
+        $courses = Course::paginate(6);
 
         foreach ($courses as $course) {
             if ($course->course_picture) {

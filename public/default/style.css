@@ -43,6 +43,7 @@
 
         .course-card {
             background: #fff;
+            border: 2px solid #752738;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -107,12 +108,12 @@
         }
 
         .learn-btn {
-            background-color: #FEC653;
+            background-color: #752738;
             border: none;
         }
 
         .learn-btn:hover {
-            background-color: yellow;
+            background-color: #FEC653;
         }
 
         @media (max-width: 768px) {

@@ -104,7 +104,6 @@ Route::middleware(['users'])->group(function () {
     // CHANGE PASSWORD
     Route::post('/users/change_password', [ProfileController::class, 'UsersChangePassword'])->name('users.change.password');
 
-
     // EXAMINATION FORM PAGE
     Route::get('/examinees/examination', [ExaminationController::class, 'ExaminationPage'])->name('users.examination.page');
     Route::post('/examinees/submit_responses', [ExaminationController::class, 'SubmitResponses'])->name('users.submit.responses');

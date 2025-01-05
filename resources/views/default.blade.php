@@ -56,6 +56,22 @@
                 transform: scale(1);
             }
         }
+
+        .pagination .page-item.active .page-link {
+            background-color: #752738 !important;
+            border-color: #752738 !important;
+            color: #fff !important;
+        }
+
+        .pagination .page-link {
+            color: #752738;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #FEC653;
+            color: #752738;
+        }
+
     </style>
 </head>
 
@@ -96,12 +112,12 @@
     </header>
 
     <div class="container">
-    <h3 class="mt-5">BROWSE COURSE</h3>
+    <h3 class="mt-5">OFFERED COURSE</h3>
     <div class="row">
-        @if($courses->isEmpty())
-            <h1 style="text-align: center; color: #752738">NO COURSE AVAILABLE</h1>
-        @else
-            @foreach($courses as $course)
+    @if($courses->isEmpty())
+        <h1 style="text-align: center; color: #752738">NO OFFERED COURSE AVAILABLE</h1>
+    @else
+        @foreach($courses as $course)
             <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch">
                 <div class="course-card d-flex flex-column">
                     @if($course->course_picture && is_array($course->course_picture))
@@ -120,10 +136,14 @@
                     </div>
                 </div>
             </div>
-            @endforeach
-        @endif
+        @endforeach
+        <div class="d-flex justify-content-center">
+            {{ $courses->links('pagination::bootstrap-5') }}
+        </div>
+    @endif
     </div>
-</div>
+
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>

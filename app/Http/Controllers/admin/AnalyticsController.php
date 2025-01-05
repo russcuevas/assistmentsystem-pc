@@ -23,16 +23,16 @@ class AnalyticsController extends Controller
     }
 
 
-    public function GetOfferedCourses()
-    {
-        $offered_courses = DB::table('courses')
-            ->select('course_name', DB::raw('COUNT(*) as count'))
-            ->groupBy('course_name')
-            ->pluck('count', 'course_name')
-            ->toArray();
+    // public function GetOfferedCourses()
+    // {
+    //     $offered_courses = DB::table('courses')
+    //         ->select('course_name', DB::raw('COUNT(*) as count'))
+    //         ->groupBy('course_name')
+    //         ->pluck('count', 'course_name')
+    //         ->toArray();
 
-        return response()->json(['offered_courses' => $offered_courses]);
-    }
+    //     return response()->json(['offered_courses' => $offered_courses]);
+    // }
 
     public function GetPreferredCourseCounts()
     {

@@ -16,6 +16,7 @@ class DashboardController extends Controller
 {
     public function AdminDashboardPage()
     {
+        $course = Course::all();
         $get_total_admin = Admin::count();
         $get_total_examinees = User::whereNotNull('fullname')->where('fullname', '!=', '')->count();
         $get_total_course = Course::count();
@@ -67,7 +68,7 @@ class DashboardController extends Controller
             }
         }
 
-        return view('admin.dashboard.admin_dashboard', compact('get_total_admin', 'get_total_examinees', 'get_total_course', 'topScores', 'users', 'suggestedCourses', 'preferredCourses', 'scoreDates'));
+        return view('admin.dashboard.admin_dashboard', compact('course', 'get_total_admin', 'get_total_examinees', 'get_total_course', 'topScores', 'users', 'suggestedCourses', 'preferredCourses', 'scoreDates'));
     }
 
     private function getCourseName($courseId)
