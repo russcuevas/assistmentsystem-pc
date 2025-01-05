@@ -24,12 +24,11 @@
 
                     <div class="form-group form-float">
                         <label style="color: #212529; font-weight: 600;" class="form-label">Sex</label>
-                        <div class="form-line">
-                            <select class="form-control" name="gender" required>
-                                <option value="">Select Sex</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
+                        <div>
+                            <input name="gender" value="male" type="radio" id="rdbMale"  />
+                            <label class="radio" for="rdbMale">Male</label>
+                            <input name="gender" value="female" type="radio" id="rdbFemale"  />
+                            <label class="radio" for="rdbFemale">Female</label>
                         </div>
                     </div>
 

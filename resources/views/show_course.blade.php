@@ -35,15 +35,37 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('default.page') }}">Home</a>
+                        <a class="nav-link active" href="{{ route('default.page') }}">Home</a>
                     </li>
+
+                    @auth('admin')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.dashboard.page') }}">Dashboard</a>
+                    </li>
+                    @else
+                    @auth('users')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.information.page') }}">Results</a>
+                    </li>
+                    @else
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.login.page') }}">Admin Login</a>
                     </li>
+                    @endauth
+                    @endauth
+
+                    @auth('users')
+
+
+                    @else
+                    @unless(Auth::guard('admin')->check())
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.login.page') }}">Examiners Login</a>
                     </li>
+                    @endunless
+                    @endauth
                 </ul>
+
             </div>
         </div>
     </nav>

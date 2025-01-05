@@ -6,7 +6,7 @@
                 <hr style="background-color: #752738; height: 2px; border: none;">
             </div>
             <div class="modal-body">
-                    <form id="form_advanced_validation" class="addRiasec" method="POST" data-route-add-riasec="{{ route('admin.add.riasec') }}">
+                <form id="form_advanced_validation" class="addRiasec" method="POST" data-route-add-riasec="{{ route('admin.add.riasec') }}">
                     @csrf
                     <div class="form-group form-float">
                         <label style="color: #212529; font-weight: 600;" class="form-label">Initial</label>
@@ -30,36 +30,45 @@
                         </div>
                     </div>
 
+                    <!-- Career Pathway Fields Container -->
                     <div id="career-pathway-fields">
-                        <div class="form-group">
-                        <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]">Career Pathway</label>
-                            <div class="form-line">
-                                <input type="text" class="form-control" name="career_name[]" required>
-                            </div>
-                            </div>
-                        <div class="form-group form-float career-pathway">
-                            <label style="color: #212529; font-weight: 600; margin-top: 20px; !important" class="form-label" for="course_id[]">Select Related Courses</label>
-                            <div class="fields-scroll" style="margin-top: 5px">
-                                <div>
-                                    @foreach ($courses as $course)
-                                        <div class="col-5">
-                                            <label>
-                                                <input type="checkbox" class="filled-in chk-col-red" name="course_id[0][]" id="checkbox-{{ $course->id }}" value="{{ $course->id }}">
-                                                <label for="checkbox-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
-                                            </label>
-                                        </div>
-                                    @endforeach
+                        <div class="career-pathway">
+                            <div class="form-group">
+                                <label style="color: #212529; font-weight: 600;" class="form-label" for="career_name[]">Career Pathway</label>
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="career_name[]" required>
                                 </div>
                             </div>
+
+                            <div class="form-group form-float">
+                                <label style="color: #212529; font-weight: 600; margin-top: 20px;" class="form-label" for="course_id[]">Select Related Courses</label>
+                                <div class="fields-scroll" style="margin-top: 5px">
+                                    <div>
+                                        @foreach ($courses as $course)
+                                            <div class="col-5">
+                                                <label>
+                                                    <input type="checkbox" class="filled-in chk-col-red" name="course_id[0][]" id="checkbox-{{ $course->id }}" value="{{ $course->id }}">
+                                                    <label for="checkbox-{{ $course->id }}" style="text-transform: uppercase">{{ $course->course_name }}</label>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Remove Button -->
                             <button type="button" class="btn btn-danger waves-effect remove">Remove</button>
                         </div>
                     </div>
+
+                    <!-- Add Another Career Pathway Button -->
                     <button type="button" style="margin-top: 10px;" class="btn btn-success waves-effect" id="add-career-pathway">+ Add Another Career Pathway</button>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn bg-red waves-effect">SAVE CHANGES</button>
-                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn bg-red waves-effect">SAVE CHANGES</button>
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                </div>
             </form>
         </div>
     </div>

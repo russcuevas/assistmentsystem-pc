@@ -103,7 +103,7 @@
                             </div>
                             @include('admin.riasec.modals.add_riasec')
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                <table class="table table-bordered table-striped table-hover">
                                     <thead>
                                         <tr>
                                             <th>Initial</th>
@@ -116,56 +116,69 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            // Define the custom sorting order
+                                            $order = ['R', 'I', 'A', 'S', 'E', 'C'];
+
+                                            // Sort the formattedRiasec array based on the custom order
+                                            uasort($formattedRiasec, function ($a, $b) use ($order) {
+                                                $aIndex = array_search($a['id'], $order);
+                                                $bIndex = array_search($b['id'], $order);
+                                                return $aIndex - $bIndex;
+                                            });
+                                        @endphp
+
                                         @foreach ($formattedRiasec as $riasec_name => $riasec_formatting)
-                                                <tr>
-                                                    <td>{{ $riasec_formatting['id'] }}</td>
-                                                    <td>{{ $riasec_name }}</td>
-                                                    <td>{{ $riasec_formatting['description'] }}</td>
-                                                    <td>
-                                                        @foreach ($riasec_formatting['careers'] as $career)
-                                                            <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
-                                                            @if (!empty($career['courses']))
-                                                                @foreach ($career['courses'] as $courseId)
-                                                                    @php
-                                                                        $courseName = $courses->firstWhere('id', $courseId)?->course_name;
-                                                                    @endphp
-                                                                    {{ $courseName ? $courseName : 'Course not found' }},<br>
-                                                                @endforeach
-                                                            @else
-                                                                No courses available
-                                                            @endif
-                                                            <br>
-                                                        @endforeach
-                                                    </td>
-                                                    <td>{{ $riasec_formatting['created_at'] }}</td>
-                                                    <td>{{ $riasec_formatting['updated_at'] }}</td>
-                                                    <td>
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i style="font-size: 15px" class="material-icons">more_vert</i>
-                                                            </button>
-                                                            <ul class="dropdown-menu" style="z-index: 9999; position: relative;">
-                                                                <li><a href="javascript:void(0);" 
-                                                                    data-toggle="modal" 
-                                                                    data-target="#updateRiasecModal{{ $riasec_formatting['id'] }}">
+                                            <tr>
+                                                <td>{{ $riasec_formatting['id'] }}</td>
+                                                <td>{{ $riasec_name }}</td>
+                                                <td>{{ $riasec_formatting['description'] }}</td>
+                                                <td>
+                                                    @foreach ($riasec_formatting['careers'] as $career)
+                                                        <span style="color: #752738; font-weight: 900">{{ $career['name'] }}:</span>
+                                                        @if (!empty($career['courses']))
+                                                            @foreach ($career['courses'] as $courseId)
+                                                                @php
+                                                                    $courseName = $courses->firstWhere('id', $courseId)?->course_name;
+                                                                @endphp
+                                                                {{ $courseName ? $courseName : 'Course not found' }},<br>
+                                                            @endforeach
+                                                        @else
+                                                            No courses available
+                                                        @endif
+                                                        <br>
+                                                    @endforeach
+                                                </td>
+                                                <td>{{ $riasec_formatting['created_at'] }}</td>
+                                                <td>{{ $riasec_formatting['updated_at'] }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i style="font-size: 15px" class="material-icons">more_vert</i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" style="z-index: 9999; position: relative;">
+                                                            <li><a href="javascript:void(0);" 
+                                                                data-toggle="modal" 
+                                                                data-target="#updateRiasecModal{{ $riasec_formatting['id'] }}">
                                                                 EDIT</a></li>
-                                                                <li><a href="javascript:void(0);"                 
-                                                                    data-toggle="modal" 
-                                                                    data-target="#deleteRiasecModal{{ $riasec_formatting['id'] }}">
+                                                            <li><a href="javascript:void(0);"                 
+                                                                data-toggle="modal" 
+                                                                data-target="#deleteRiasecModal{{ $riasec_formatting['id'] }}">
                                                                 DELETE</a></li>
-                                                            </ul>
-                                                        </div>
+                                                        </ul>
+                                                    </div>
 
-                                                        {{-- EDIT RIASEC MODAL --}}
-                                                        @include('admin.riasec.modals.edit_riasec')
+                                                    {{-- EDIT RIASEC MODAL --}}
+                                                    @include('admin.riasec.modals.edit_riasec')
 
-                                                        {{-- DELETE RIASEC MODAL --}}
-                                                        @include('admin.riasec.modals.delete_riasec')
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                                    {{-- DELETE RIASEC MODAL --}}
+                                                    @include('admin.riasec.modals.delete_riasec')
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -223,7 +236,7 @@
                     <div id="error-career-${index}" class="error-message" style="font-size:12px; margin-top:5px; font-weight:900; color: red;"></div>
                 </div>
             </div>
-            <div class="form-group form-float career-pathway">
+            <div class="form-group form-float">
                 <label style="color: #212529; font-weight: 600; margin-top: 20px;" class="form-label" for="course_id[]">Select Related Courses</label>
                 <div class="fields-scroll" style="margin-top: 5px">
                     <div>
@@ -243,11 +256,13 @@
         document.getElementById('career-pathway-fields').appendChild(newField);
         index++;
     });
+
     document.getElementById('career-pathway-fields').addEventListener('click', function (e) {
         if (e.target.classList.contains('remove')) {
             e.target.closest('.career-pathway').remove();
         }
     });
+
     </script>
 
     {{-- FOR UPDATE MODAL --}}
