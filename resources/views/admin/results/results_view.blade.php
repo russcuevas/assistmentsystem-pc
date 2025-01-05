@@ -155,7 +155,7 @@
                                 <br>{{ $careerName }}: 
                                 @foreach ($courses as $course)
                                     <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
-                                        {{ $course['name'] }}, &nbsp;
+                                        {{ $course['name'] }}<br>
                                     </span>
                                 @endforeach
                             @endforeach

@@ -224,7 +224,7 @@
             <div id="division"></div>
             <br>
             <br>
-            <h2>Preferred Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px"><i>(the highlighted course related to your preferred course)</i></span></h2><br><br>
+            <h2>Suggested Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px"><i>(the highlighted course related to your preferred course)</i></span></h2><br><br>
             <h6 style="color: brown; font-weight: 900;">SUGGESTED COURSE</h6>
             <ul class="mb-5">
                 @foreach ($scores as $score)
