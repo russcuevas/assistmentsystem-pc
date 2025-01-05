@@ -178,13 +178,15 @@
                                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                             <thead>
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>Course Name</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($course as $available_course)
+                                                @foreach ($course as $index => $available_course)
                                                 <tr>
-                                                <td>{{ $available_course->course_name }}</td>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $available_course->course_name }}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

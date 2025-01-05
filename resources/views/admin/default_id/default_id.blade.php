@@ -122,7 +122,6 @@
                                                             <td>
                                                                 <a href="#" data-toggle="modal" data-target="#viewExaminersDetails{{ $default_id->id }}" class="btn btn-warning">View Information</a>
                                                                         {{-- VIEW MODAL --}}
- 
                                                                         @foreach ($available_default_id as $default_id)
                                                                         <div class="modal fade" id="viewExaminersDetails{{ $default_id->id }}" tabindex="-1" role="dialog" aria-labelledby="viewExaminersDetailsLabel" aria-hidden="true">
                                                                             <div class="modal-dialog modal-md" role="document">
@@ -154,7 +153,7 @@
                                                     @endif
                                                 @empty
                                                     <tr>
-                                                        <td colspan="4" class="text-center">No records</td>
+                                                        <td colspan="5" class="text-center">No records</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>
