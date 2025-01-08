@@ -23,14 +23,6 @@ class AdminTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'profile_picture' => null,
-                'fullname' => 'Admission Admin',
-                'email' => 'ubadmission@gmail.com',
-                'password' => Hash::make('123456789'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
         );
     }
 }

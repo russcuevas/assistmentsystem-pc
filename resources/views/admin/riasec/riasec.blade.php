@@ -117,10 +117,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            // Define the custom sorting order
                                             $order = ['R', 'I', 'A', 'S', 'E', 'C'];
-
-                                            // Sort the formattedRiasec array based on the custom order
                                             uasort($formattedRiasec, function ($a, $b) use ($order) {
                                                 $aIndex = array_search($a['id'], $order);
                                                 $bIndex = array_search($b['id'], $order);

@@ -259,6 +259,12 @@
                 <div class="modal-body mt-3">
                     <form id="changePasswordForm" method="POST" action="{{ route('users.change.password') }}">
                         @csrf
+
+                        <div class="mb-3">
+                            <label style="color: black" for="newPassword" class="form-label">Default ID</label>
+                            <input style="background-color: gray; color: white;" type="text" class="form-control" value="{{ $user->default_id }}" readonly>
+                        </div>
+
                         <div class="mb-3">
                             <label style="color: black" for="newPassword" class="form-label">New Password</label>
                             <input style="border: 2px solid black;" type="password" class="form-control" id="newPassword" name="new_password" required>

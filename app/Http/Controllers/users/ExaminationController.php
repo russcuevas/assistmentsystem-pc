@@ -82,12 +82,15 @@ class ExaminationController extends Controller
             }
         }
 
-        // pdf then send to email
         $pdf = PDF::loadView('users.pdf.response', ['responses' => $responses, 'user' => $user]);
-        Mail::send('users.email.response', ['user' => $user], function ($message) use ($user, $pdf) {
+        $pdfFilePath = public_path('examinees/pdf/RIASEC.pdf');
+
+        // Send the email with both PDFs
+        Mail::send('users.email.response', ['user' => $user], function ($message) use ($user, $pdf, $pdfFilePath) {
             $message->to($user->email)
                 ->subject('Your Response Submission')
-                ->attachData($pdf->output(), 'responses.pdf');
+                ->attachData($pdf->output(), 'responses.pdf')
+                ->attach($pdfFilePath, ['as' => 'RIASEC.pdf', 'mime' => 'application/pdf']);
         });
 
         return response()->json([

@@ -216,13 +216,6 @@ class ExaminersController extends Controller
         return response()->json(['success' => 'Examiner added successfully']);
     }
 
-
-
-
-
-
-
-
     public function ExaminersListDelete($id)
     {
         $user = User::where('id', $id)->first();

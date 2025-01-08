@@ -51,9 +51,9 @@
                         <div class="form-line">
                             <select class="form-control" name="strand" required>
                                 <option value="">Select Strand</option>
-                                <option value="HUMSS">Humanities and Social Science</option>
-                                <option value="ABM">Accountancy, Business and Management</option>
-                                <option value="STEM">Science, Technology, Engineering, and Mathematics</option>
+                                <option value="HUMSS">Humanities and Social Science (HUMSS)</option>
+                                <option value="ABM">Accountancy, Business and Management (ABM)</option>
+                                <option value="STEM">Science, Technology, Engineering, and Mathematics (STEM)</option>
                             </select>
                         </div>
                     </div>

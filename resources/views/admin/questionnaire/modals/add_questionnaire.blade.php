@@ -23,7 +23,7 @@
                     @endphp
 
                     <div class="form-group form-float">
-                        <label for="riasec_id" style="color: #212529; font-weight: 600;" class="form-label">Select Riasec</label>
+                        <label for="riasec_id" style="color: #212529; font-weight: 600;" class="form-label">Related to RIASEC</label>
                         <div class="form-line">
                             <select class="form-control show-tick" name="riasec_id" id="riasec_id" required>
                                 @foreach ($riasec_format as $format)

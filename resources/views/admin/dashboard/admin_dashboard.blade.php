@@ -205,7 +205,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <canvas id="preferred-course-chart" height="245"></canvas>
+                            <canvas id="preferred-course-chart" height="248"></canvas>
                         </div>
                     </div>
                 </div>

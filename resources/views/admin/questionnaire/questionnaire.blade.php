@@ -113,7 +113,6 @@
                                             <th>#</th>
                                             <th>Question</th>
                                             <th>Related</th>
-                                            <th>Options</th>
                                             <th>Created At</th>
                                             <th>Updated At</th>
                                             <th>Actions</th>
@@ -125,15 +124,6 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $question->question_text }}</td>
                                                 <td>{{ $question->riasec_id }} = {{ $question->riasec_name }}</td>
-                                                <td>
-                                                    <ul>
-                                                        @foreach ($options as $option)
-                                                            @if ($option->question_id == $question->id)
-                                                                <p>{{ $option->option_text }} (Correct: {{ $option->is_correct ? 'Yes' : 'No' }})</p>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
-                                                </td>
                                                 <td>{{ $question->created_at }}</td>
                                                 <td>{{ $question->updated_at }}</td>                   
                                                 <td>
