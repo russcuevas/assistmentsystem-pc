@@ -96,37 +96,28 @@
 
             <h2>INTEREST CODE</h2>
 
-            @php
-                $riasec_names = DB::table('riasecs')->pluck('riasec_name', 'id')->toArray();
-                $riasec_order = ['R', 'I', 'A', 'S', 'E', 'C'];
-                $ordered_scores = [];
-                
-                foreach ($riasec_order as $riasec_id) {
-                    $total_points = $scores->firstWhere('riasec_id', $riasec_id)->total_points ?? 0;
-                    if ($total_points > 0) {
-                        $ordered_scores[$riasec_id] = $total_points;
-                    }
-                }
-                
-                arsort($ordered_scores);
-                $top_scores = array_slice($ordered_scores, 0, 3, true);
-            @endphp
-
             <div class="row">
+                <!-- Top 3 Highest Points in the RIASEC -->
                 <div class="col-md-6">
                     <h3>Top 3 Highest Points in the RIASEC</h3>
                     <ul>
                         @foreach ($top_scores as $riasec_id => $total_points)
-                            <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $total_points }}</li>
+                            <li>
+                                {{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $total_points }}
+                            </li>
                         @endforeach
                     </ul>
                 </div>
 
+                <!-- Total Points for Each RIASEC -->
                 <div class="col-md-6">
                     <h3>Total Points for Each RIASEC</h3>
                     <ul>
                         @foreach ($riasec_order as $riasec_id)
-                            <li>{{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = {{ $scores->firstWhere('riasec_id', $riasec_id)->total_points ?? 0 }}</li>
+                            <li>
+                                {{ $riasec_id }} ({{ $riasec_names[$riasec_id] ?? 'N/A' }}) = 
+                                {{ $scores->firstWhere('riasec_id', $riasec_id)->total_points ?? 0 }}
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -151,8 +142,9 @@
                                 $riasecName = $groupedPreferredCourses[$riasec_id][$firstCareer][0]['riasec_name'] ?? '';
                             @endphp
                             <span style="font-weight: 900">{{ $riasecName }}</span>
+
                             @foreach ($groupedPreferredCourses[$riasec_id] as $careerName => $courses)
-                                <br>{{ $careerName }}: 
+                                <br>{{ $careerName }}: <br>
                                 @foreach ($courses as $course)
                                     <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
                                         {{ $course['name'] }}<br>
@@ -211,12 +203,12 @@
         datasets: [{
             label: 'Points',
             data: [
-                {{ $ordered_scores['R'] ?? 0 }},
-                {{ $ordered_scores['I'] ?? 0 }},
-                {{ $ordered_scores['A'] ?? 0 }},
-                {{ $ordered_scores['S'] ?? 0 }},
-                {{ $ordered_scores['E'] ?? 0 }},
-                {{ $ordered_scores['C'] ?? 0 }}
+                {{ $scores->firstWhere('riasec_id', 'R')->total_points ?? 0 }},
+                {{ $scores->firstWhere('riasec_id', 'I')->total_points ?? 0 }},
+                {{ $scores->firstWhere('riasec_id', 'A')->total_points ?? 0 }},
+                {{ $scores->firstWhere('riasec_id', 'S')->total_points ?? 0 }},
+                {{ $scores->firstWhere('riasec_id', 'E')->total_points ?? 0 }},
+                {{ $scores->firstWhere('riasec_id', 'C')->total_points ?? 0 }}
             ],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.6)',

@@ -114,8 +114,31 @@ class ExaminationController extends Controller
             ->where('user_id', $user->id)
             ->groupBy('riasec_id')
             ->orderBy('total_points', 'desc')
-            ->take(3)
             ->get();
+
+        $riasec_order = ['R', 'I', 'A', 'S', 'E', 'C'];
+
+        $ordered_scores = [];
+        foreach ($scores as $score) {
+            $ordered_scores[$score->riasec_id] = $score->total_points;
+        }
+
+        arsort($ordered_scores);
+
+        $top_scores = [];
+        $top_count = 0;
+        $max_scores = 3;
+        $last_score = null;
+
+        foreach ($ordered_scores as $riasec_id => $total_points) {
+            if ($top_count < $max_scores || $total_points == $last_score) {
+                $top_scores[$riasec_id] = $total_points;
+                $top_count++;
+                $last_score = $total_points;
+            }
+        }
+
+        $riasec_names = DB::table('riasecs')->pluck('riasec_name', 'id')->toArray();
 
         $all_scores = DB::table('riasec_scores')
             ->where('user_id', $user->id)
@@ -154,6 +177,16 @@ class ExaminationController extends Controller
             ];
         }
 
-        return view('users.examination.exam_completed', compact('scores', 'all_scores', 'groupedPreferredCourses', 'user', 'preferredCourseIds', 'preferredCourseNames'));
+        return view('users.examination.exam_completed', compact(
+            'scores',
+            'riasec_names',
+            'top_scores',
+            'all_scores',
+            'groupedPreferredCourses',
+            'user',
+            'preferredCourseIds',
+            'preferredCourseNames',
+            'riasec_order'
+        ));
     }
 }

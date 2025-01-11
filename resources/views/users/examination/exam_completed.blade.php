@@ -180,22 +180,7 @@
             <div id="division"></div>
             <h2 class="mt-5 mb-5">MY INTEREST CODE</h2>
             
-            @php
-            $riasec_names = DB::table('riasecs')->pluck('riasec_name', 'id')->toArray();
-            $riasec_order = ['R', 'I', 'A', 'S', 'E', 'C'];
-            $ordered_scores = [];
-            
-            foreach ($riasec_order as $riasec_id) {
-                $total_points = $scores->firstWhere('riasec_id', $riasec_id)->total_points ?? 0;
-                if ($total_points > 0) {
-                    $ordered_scores[$riasec_id] = $total_points;
-                }
-            }
-            
-            arsort($ordered_scores);
-            $top_scores = array_slice($ordered_scores, 0, 3, true);
-            @endphp
-            
+
             <div class="row">
                 <div class="col-md-6">
                     <h2>Top 3 Highest Points in the RIASEC</h2>
@@ -227,16 +212,17 @@
             <h2>Suggested Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px"><i>(the highlighted course related to your preferred course)</i></span></h2><br><br>
             <h6 style="color: brown; font-weight: 900;">SUGGESTED COURSE</h6>
             <ul class="mb-5">
-                @foreach ($scores as $score)
-                    @if (isset($groupedPreferredCourses[$score->riasec_id]))
+                @foreach ($top_scores as $riasec_id => $total_points)
+                    @if (isset($groupedPreferredCourses[$riasec_id]))
                         <li>
                             @php
-                                $firstCareer = array_key_first($groupedPreferredCourses[$score->riasec_id]);
-                                $riasecName = $groupedPreferredCourses[$score->riasec_id][$firstCareer][0]['riasec_name'] ?? '';
+                                $firstCareer = array_key_first($groupedPreferredCourses[$riasec_id]);
+                                $riasecName = $groupedPreferredCourses[$riasec_id][$firstCareer][0]['riasec_name'] ?? '';
                             @endphp
                             <span style="font-weight: 900">{{ $riasecName }}</span>
-                            @foreach ($groupedPreferredCourses[$score->riasec_id] as $careerName => $courses)
-                                <br>{{ $careerName }}: 
+                            
+                            @foreach ($groupedPreferredCourses[$riasec_id] as $careerName => $courses)
+                                <br>{{ $careerName }}:<br>
                                 @foreach ($courses as $course)
                                     <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
                                         {{ $course['name'] }}<br>
@@ -247,6 +233,7 @@
                     @endif
                 @endforeach
             </ul>
+
         </div>
 
         <div id="changePasswordModal" class="modal" style="display: none;">

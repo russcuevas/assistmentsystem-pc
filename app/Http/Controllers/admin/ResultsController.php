@@ -77,6 +77,34 @@ class ResultsController extends Controller
             ->orderBy('total_points', 'desc')
             ->get();
 
+        // Define the order of RIASEC categories
+        $riasec_order = ['R', 'I', 'A', 'S', 'E', 'C'];
+
+        // Prepare ordered scores for top 3
+        $ordered_scores = [];
+        foreach ($scores as $score) {
+            $ordered_scores[$score->riasec_id] = $score->total_points;
+        }
+
+        arsort($ordered_scores);
+
+        $top_scores = [];
+        $top_count = 0;
+        $max_scores = 3;
+        $last_score = null;
+
+        foreach ($ordered_scores as $riasec_id => $total_points) {
+            if ($top_count < $max_scores || $total_points == $last_score) {
+                $top_scores[$riasec_id] = $total_points;
+                $top_count++;
+                $last_score = $total_points;
+            }
+        }
+
+        // Get the RIASEC names
+        $riasec_names = DB::table('riasecs')->pluck('riasec_name', 'id')->toArray();
+
+        // Get preferred courses
         $preferredCoursesData = DB::table('preferred_courses')
             ->where('user_id', $user->id)
             ->select('course_1', 'course_2', 'course_3')
@@ -110,7 +138,16 @@ class ResultsController extends Controller
             ];
         }
 
-        return view('admin.results.results_view', compact('user', 'scores', 'preferredCourseNames', 'groupedPreferredCourses', 'preferredCourseIds'));
+        return view('admin.results.results_view', compact(
+            'user',
+            'scores',
+            'preferredCourseNames',
+            'groupedPreferredCourses',
+            'preferredCourseIds',
+            'riasec_order',
+            'top_scores',  // Include top scores for display
+            'riasec_names' // Include RIASEC names for display
+        ));
     }
 
     public function GetExaminersMonthYear(Request $request)
