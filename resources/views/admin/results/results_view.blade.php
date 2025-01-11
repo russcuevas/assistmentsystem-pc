@@ -143,15 +143,15 @@
             <h2>Suggested Courses for Top 3 RIASEC <br> <span style="color: brown; font-size: 20px;"><i>(the highlighted courses are related to {{ $user->fullname }} preferred courses)</i></span><br><br></h2>
             <h6 style="color: brown; font-weight: 900;">SUGGESTED COURSE</h6>
             <ul style="margin-bottom: 50px !important;">
-                @foreach ($scores as $score)
-                    @if (isset($groupedPreferredCourses[$score->riasec_id]))
+                @foreach ($top_scores as $riasec_id => $total_points)
+                    @if (isset($groupedPreferredCourses[$riasec_id]))
                         <li>
                             @php
-                                $firstCareer = array_key_first($groupedPreferredCourses[$score->riasec_id]);
-                                $riasecName = $groupedPreferredCourses[$score->riasec_id][$firstCareer][0]['riasec_name'] ?? '';
+                                $firstCareer = array_key_first($groupedPreferredCourses[$riasec_id]);
+                                $riasecName = $groupedPreferredCourses[$riasec_id][$firstCareer][0]['riasec_name'] ?? '';
                             @endphp
                             <span style="font-weight: 900">{{ $riasecName }}</span>
-                            @foreach ($groupedPreferredCourses[$score->riasec_id] as $careerName => $courses)
+                            @foreach ($groupedPreferredCourses[$riasec_id] as $careerName => $courses)
                                 <br>{{ $careerName }}: 
                                 @foreach ($courses as $course)
                                     <span class="{{ in_array($course['id'], $preferredCourseIds) ? 'highlight' : '' }}">
@@ -202,43 +202,57 @@
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
 
     
-
-
-
-
-
     <script src="{{ asset('admin/js/demo.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var ctx = document.getElementById('myDonutChart').getContext('2d');
-        var myDonutChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: @json(array_keys($ordered_scores)),
-                datasets: [{
-                    label: 'RIASEC Scores',
-                    data: @json(array_values($ordered_scores)),
-                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4caf50', '#ff9f40', '#c45850'],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw;
-                            }
-                        }
+    const ctx = document.getElementById('myDonutChart').getContext('2d');
+    const data = {
+        labels: ['Realistic', 'Investigative', 'Artistic', 'Social', 'Enterprising', 'Conventional'],
+        datasets: [{
+            label: 'Points',
+            data: [
+                {{ $ordered_scores['R'] ?? 0 }},
+                {{ $ordered_scores['I'] ?? 0 }},
+                {{ $ordered_scores['A'] ?? 0 }},
+                {{ $ordered_scores['S'] ?? 0 }},
+                {{ $ordered_scores['E'] ?? 0 }},
+                {{ $ordered_scores['C'] ?? 0 }}
+            ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'RIASEC SCORE GRAPH',
+                    font: {
+                        size: 30 // Adjust the size value as needed
                     }
                 }
             }
-        });
-    </script>
+        }
+    };
+
+    const myDonutChart = new Chart(ctx, config);
+</script>
+
 
 </body>
 </html>
