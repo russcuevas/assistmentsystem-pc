@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -29,6 +30,19 @@
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/themes/all-themes.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('admin/css/HoldOn.css') }}">
+    <style>
+        .toggle-btn {
+            background-color: #752738;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .toggle-btn:hover {
+            background-color: #681b2c;
+        }
+    </style>
 </head>
 
 <body class="theme-red">
@@ -175,7 +189,8 @@
                             <div class="table-responsive">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                        <table
+                                            class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -259,9 +274,11 @@
                             <div class="table-responsive">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                        <table
+                                            class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                             <thead>
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>Fullname</th>
                                                     <th>RIASEC/Scores</th>
                                                     <th>Suggested Courses</th>
@@ -272,125 +289,116 @@
                                             <tbody>
                                                 @foreach ($topScores as $userId => $scores)
                                                 <tr>
+                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $users[$userId] }}</td>
-                                                    <td>
-                                                        @foreach ($scores as $riasec_id => $data)
-                                                            <div>
-                                                                @switch($riasec_id)
-                                                                    @case('R')
-                                                                        Realistic
-                                                                        @break
-                                                                    @case('I')
-                                                                        Investigative
-                                                                        @break
-                                                                    @case('A')
-                                                                        Artistic
-                                                                        @break
-                                                                    @case('S')
-                                                                        Social
-                                                                        @break
-                                                                    @case('E')
-                                                                        Enterprising
-                                                                        @break
-                                                                    @case('C')
-                                                                        Conventional
-                                                                        @break
-                                                                    @default
-                                                                        Unknown
-                                                                @endswitch
-                                                                = {{ $data }}
-                                                            </div>
-                                                        @endforeach
-                                                    </td>
-            
                                                     <td>
                                                         @foreach ($scores as $riasec_id => $total_points)
                                                         <div>
-                                                            @if(isset($suggestedCourses[$userId][$riasec_id]))
-                                                            <strong>
-                                                                @switch($riasec_id)
-                                                                    @case('R')
-                                                                        Realistic:
-                                                                        @break
-                                                                    @case('I')
-                                                                        Investigative:
-                                                                        @break
-                                                                    @case('A')
-                                                                        Artistic:
-                                                                        @break
-                                                                    @case('S')
-                                                                        Social:
-                                                                        @break
-                                                                    @case('E')
-                                                                        Enterprising:
-                                                                        @break
-                                                                    @case('C')
-                                                                        Conventional:
-                                                                        @break
-                                                                    @default
-                                                                        Unknown
-                                                                @endswitch
-                                                            </strong><br>
-                                                            @foreach ($suggestedCourses[$userId][$riasec_id] as $course)
-                                                            <?php
-                                                                $preferredCourseNames = [
-                                                                    $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A',
-                                                                    $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A',
-                                                                    $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A'
-                                                                ];
-                                                            ?>
-                                                            @if (in_array($course->course_name, $preferredCourseNames))
-                                                                <span style="color: red; font-weight: 900;">→ {{ $course->career_name }}: {{ $course->course_name }}</span><br>
-                                                            @else
-                                                                {{ $course->career_name }}: {{ $course->course_name }}<br>
-                                                            @endif
-                                                            @endforeach
-                                                            @else
-                                                                No suggested courses available for 
-                                                                @switch($riasec_id)
-                                                                    @case('R')
-                                                                        Realistic
-                                                                        @break
-                                                                    @case('I')
-                                                                        Investigative
-                                                                        @break
-                                                                    @case('A')
-                                                                        Artistic
-                                                                        @break
-                                                                    @case('S')
-                                                                        Social
-                                                                        @break
-                                                                    @case('E')
-                                                                        Enterprising
-                                                                        @break
-                                                                    @case('C')
-                                                                        Conventional
-                                                                        @break
-                                                                    @default
-                                                                        Unknown
-                                                                @endswitch.
-                                                            @endif
+                                                            @switch($riasec_id)
+                                                            @case('R') Realistic @break
+                                                            @case('I') Investigative @break
+                                                            @case('A') Artistic @break
+                                                            @case('S') Social @break
+                                                            @case('E') Enterprising @break
+                                                            @case('C') Conventional @break
+                                                            @default Unknown
+                                                            @endswitch
+                                                            = {{ $total_points }}
                                                         </div>
                                                         @endforeach
                                                     </td>
-            
+
+                                                    <td>
+                                                        <button class="toggle-btn"
+                                                            data-toggle-id="courses-{{ $userId }}">
+                                                            SHOW SUGGESTED COURSES
+                                                        </button>
+                                                        <div id="courses-{{ $userId }}" class="toggle-content"
+                                                            style="display: none;">
+                                                            @foreach ($scores as $riasec_id => $total_points)
+                                                            <div>
+                                                                @if(isset($suggestedCourses[$userId][$riasec_id]))
+                                                                <strong>
+                                                                    @switch($riasec_id)
+                                                                    @case('R') Realistic: @break
+                                                                    @case('I') Investigative: @break
+                                                                    @case('A') Artistic: @break
+                                                                    @case('S') Social: @break
+                                                                    @case('E') Enterprising: @break
+                                                                    @case('C') Conventional: @break
+                                                                    @default Unknown
+                                                                    @endswitch
+                                                                </strong><br>
+
+                                                                @php
+                                                                $groupedCourses = [];
+                                                                foreach ($suggestedCourses[$userId][$riasec_id] as
+                                                                $course) {
+                                                                $groupedCourses[$course->career_name][] =
+                                                                $course->course_name;
+                                                                }
+                                                                @endphp
+
+                                                                @foreach ($groupedCourses as $careerName => $courses)
+                                                                <div>{{ $careerName }}:</div>
+                                                                @foreach ($courses as $courseName)
+                                                                @php
+                                                                $preferredCourseNames = [
+                                                                $preferredCourses[$userId][$riasec_id]['course_1'] ??
+                                                                'N/A',
+                                                                $preferredCourses[$userId][$riasec_id]['course_2'] ??
+                                                                'N/A',
+                                                                $preferredCourses[$userId][$riasec_id]['course_3'] ??
+                                                                'N/A'
+                                                                ];
+                                                                @endphp
+                                                                @if (in_array($courseName, $preferredCourseNames))
+                                                                <span style="color: red; font-weight: 900;">→ {{
+                                                                    $courseName }}</span><br>
+                                                                @else
+                                                                {{ $courseName }}<br>
+                                                                @endif
+                                                                @endforeach
+                                                                @endforeach
+                                                                @else
+                                                                No suggested courses available for
+                                                                @switch($riasec_id)
+                                                                @case('R') Realistic @break
+                                                                @case('I') Investigative @break
+                                                                @case('A') Artistic @break
+                                                                @case('S') Social @break
+                                                                @case('E') Enterprising @break
+                                                                @case('C') Conventional @break
+                                                                @default Unknown
+                                                                @endswitch.
+                                                                @endif
+                                                            </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </td>
+
                                                     <td>
                                                         <div>
                                                             @if(isset($preferredCourses[$userId][$riasec_id]))
-                                                            1: {{ $preferredCourses[$userId][$riasec_id]['course_1'] ?? 'N/A' }}<br>
-                                                            2: {{ $preferredCourses[$userId][$riasec_id]['course_2'] ?? 'N/A' }}<br>
-                                                            3: {{ $preferredCourses[$userId][$riasec_id]['course_3'] ?? 'N/A' }}<br>
+                                                            1: {{ $preferredCourses[$userId][$riasec_id]['course_1'] ??
+                                                            'N/A' }}<br>
+                                                            2: {{ $preferredCourses[$userId][$riasec_id]['course_2'] ??
+                                                            'N/A' }}<br>
+                                                            3: {{ $preferredCourses[$userId][$riasec_id]['course_3'] ??
+                                                            'N/A' }}<br>
                                                             @else
-                                                                No preferred courses available.<br>
+                                                            No preferred courses available.<br>
                                                             @endif
                                                         </div>
                                                     </td>
-            
+
                                                     <td>
                                                         <div>
-                                                            @if(isset($scoreDates[$userId]) && count($scoreDates[$userId]) > 0)
+                                                            @if(isset($scoreDates[$userId]) &&
+                                                            count($scoreDates[$userId]) > 0)
                                                             {{
-                                                                \Carbon\Carbon::parse(array_values($scoreDates[$userId])[0])->format('Y-m-d H:i')
+                                                            \Carbon\Carbon::parse(array_values($scoreDates[$userId])[0])->format('Y-m-d
+                                                            H:i')
                                                             }}
                                                             @else
                                                             No date available.<br>
@@ -399,6 +407,9 @@
                                                     </td>
                                                 </tr>
                                                 @endforeach
+
+
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -408,7 +419,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
         </div>
         </div>
@@ -465,26 +476,26 @@
     <!-- Custom Js -->
     <script>
         $(function () {
-        $('.js-basic-example').DataTable({
-            responsive: true,
-            pageLength: 5,
-            lengthChange: false
-        });
+            $('.js-basic-example').DataTable({
+                responsive: true,
+                pageLength: 5,
+                lengthChange: false
+            });
 
-        $('.js-exportable').DataTable({
-            dom: 'Bfrtip',
-            responsive: true,
-            pageLength: 5,
-            lengthChange: false,
-            buttons: [
-                { extend: 'copy', className: 'custom-button' },
-                { extend: 'csv', className: 'custom-button' },
-                { extend: 'excel', className: 'custom-button' },
-                { extend: 'pdf', className: 'custom-button' },
-                { extend: 'print', className: 'custom-button' }
-            ]
+            $('.js-exportable').DataTable({
+                dom: 'Bfrtip',
+                responsive: true,
+                pageLength: 5,
+                lengthChange: false,
+                buttons: [
+                    { extend: 'copy', className: 'custom-button' },
+                    { extend: 'csv', className: 'custom-button' },
+                    { extend: 'excel', className: 'custom-button' },
+                    { extend: 'pdf', className: 'custom-button' },
+                    { extend: 'print', className: 'custom-button' }
+                ]
+            });
         });
-    });
     </script>
     <script src="{{ asset('admin/js/pages/forms/form-validation.js') }}"></script>
     <script src="{{ asset('admin/js/admin.js') }}"></script>
@@ -494,6 +505,28 @@
     <script src="{{ asset('admin/js/ajax/change_password/change_password.js')}}"></script>
     <!-- Demo Js -->
     <script src="{{ asset('admin/js/demo.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const toggleId = button.getAttribute('data-toggle-id');
+                    const toggleContent = document.getElementById(toggleId);
+
+                    // Toggle the visibility of the content
+                    if (toggleContent.style.display === 'none') {
+                        toggleContent.style.display = 'block';
+                        button.textContent = 'HIDE SUGGESTED COURSES'; // Change button text
+                    } else {
+                        toggleContent.style.display = 'none';
+                        button.textContent = 'SHOW SUGGESTED COURSES'; // Change button text
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

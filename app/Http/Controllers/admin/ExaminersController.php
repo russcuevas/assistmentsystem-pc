@@ -7,6 +7,7 @@ use App\Mail\ExaminerCreated;
 use App\Models\User;
 use PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -174,7 +175,6 @@ class ExaminersController extends Controller
         return view('admin.default_id.default_id', compact('available_default_id', 'default_id', 'next_id', 'examiners'));
     }
 
-
     public function ExaminersAccountAdd(Request $request)
     {
         $request->validate([
@@ -199,7 +199,8 @@ class ExaminersController extends Controller
             $newId = $baseId . '01';
         }
 
-        $password = 'ub1234';
+        $password = Str::random(8);
+
         $user = User::create([
             'default_id' => $newId,
             'password' => Hash::make($password),

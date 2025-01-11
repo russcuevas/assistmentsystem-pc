@@ -25,8 +25,8 @@ class RiasecController extends Controller
                 'riasecs.created_at',
                 'riasecs.updated_at',
                 'career_pathways.career_name',
-                DB::raw('GROUP_CONCAT(courses.id ORDER BY courses.course_name SEPARATOR ", ") as course_ids'), // Get course IDs
-                DB::raw('GROUP_CONCAT(courses.course_name ORDER BY courses.course_name SEPARATOR ", ") as course_names') // Get course names
+                DB::raw('GROUP_CONCAT(courses.id ORDER BY courses.course_name SEPARATOR ", ") as course_ids'),
+                DB::raw('GROUP_CONCAT(courses.course_name ORDER BY courses.course_name SEPARATOR ", ") as course_names')
             )
             ->groupBy('riasecs.id', 'riasecs.riasec_name', 'riasecs.description', 'riasecs.created_at', 'riasecs.updated_at', 'career_pathways.career_name')
             ->get();
@@ -44,7 +44,7 @@ class RiasecController extends Controller
             }
             $formattedRiasec[$item->riasec_name]['careers'][] = [
                 'name' => $item->career_name,
-                'courses' => $item->course_ids ? explode(', ', $item->course_ids) : [] // Now using course IDs
+                'courses' => $item->course_ids ? explode(', ', $item->course_ids) : []
             ];
         }
 

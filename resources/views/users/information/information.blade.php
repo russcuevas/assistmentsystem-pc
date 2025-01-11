@@ -30,16 +30,16 @@
         <div style="padding:10px;">
             <div>
                 <div id="school-name">
-                    UNIVERSITY OF BATANGAS LIPA CITY CAMPUS
+                    UNIVERSITY OF BATANGAS LIPA CITY
                 </div>
                 <div class="sub-details">
-                    Sample Address
+                    Gov. Feliciano Leviste Road, Lipa City, Philippines
                 </div>
                 <div class="sub-details">
-                    www.ub.edu.ph / sample email
+                    ublc@ub.edu.ph
                 </div>
                 <div class="sub-details">
-                    telefax: sample-number
+                    (043) 706 0041
                 </div>
             </div>
         </div>

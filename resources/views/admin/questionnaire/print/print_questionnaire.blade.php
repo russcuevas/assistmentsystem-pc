@@ -30,10 +30,10 @@
             <img class="ub-logo" src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('auth/images/ub-logo.png'))) }}" alt="UB Logo" />
         </div>
         <div style="padding:10px;">
-            <div id="school-name">UNIVERSITY OF BATANGAS LIPA CITY CAMPUS</div>
-            <div class="sub-details">Sample Address</div>
-            <div class="sub-details">www.ub.edu.ph / sample email</div>
-            <div class="sub-details">telefax: sample-number</div>
+            <div id="school-name">UNIVERSITY OF BATANGAS LIPA CITY</div>
+            <div class="sub-details">Gov. Feliciano Leviste Road, Lipa City, Philippines</div>
+            <div class="sub-details">ublc@ub.edu.ph</div>
+            <div class="sub-details">(043) 706 0041</div>
         </div>
     </div>
 

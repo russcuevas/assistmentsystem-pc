@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $get_total_examinees = User::whereNotNull('fullname')->where('fullname', '!=', '')->count();
         $get_total_course = Course::count();
 
+        // Fetching user RIASEC scores
         $userScores = DB::table('riasec_scores')
             ->select('user_id', 'riasec_id', DB::raw('SUM(points) as total_points'), 'created_at')
             ->groupBy('user_id', 'riasec_id', 'created_at')
@@ -34,15 +35,31 @@ class DashboardController extends Controller
             $scoreDates[$score->user_id][$score->riasec_id] = $score->created_at;
         }
 
+        // Determine top scores, considering ties
         $topScores = [];
         foreach ($groupedUserScores as $userId => $scores) {
-            arsort($scores);
-            $topScores[$userId] = array_slice($scores, 0, 3, true);
+            arsort($scores); // Sort the scores in descending order
+            $topScores[$userId] = [];
+            $maxScores = 3;  // You can set this to any number of top scores you'd like
+            $lastScore = null;
+            $topCount = 0;
+
+            // Include ties in the top scores
+            foreach ($scores as $riasec_id => $total_points) {
+                if ($topCount < $maxScores || $total_points == $lastScore) {
+                    $topScores[$userId][$riasec_id] = $total_points;
+                    $topCount++;
+                    $lastScore = $total_points;
+                }
+            }
         }
 
+        // Fetch user full names for displaying
         $users = DB::table('users')->whereIn('id', array_keys($topScores))->pluck('fullname', 'id');
-        $preferredCourses = [];
+
+        // Fetch suggested courses for each RIASEC
         $suggestedCourses = [];
+        $preferredCourses = [];
 
         foreach ($topScores as $userId => $scores) {
             foreach ($scores as $riasec_id => $total_points) {
@@ -70,6 +87,7 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.admin_dashboard', compact('course', 'get_total_admin', 'get_total_examinees', 'get_total_course', 'topScores', 'users', 'suggestedCourses', 'preferredCourses', 'scoreDates'));
     }
+
 
     private function getCourseName($courseId)
     {
