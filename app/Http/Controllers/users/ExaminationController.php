@@ -88,7 +88,7 @@ class ExaminationController extends Controller
         // Send the email with both PDFs
         Mail::send('users.email.response', ['user' => $user], function ($message) use ($user, $pdf, $pdfFilePath) {
             $message->to($user->email)
-                ->subject('Your Response Submission')
+                ->subject('Results')
                 ->attachData($pdf->output(), 'responses.pdf')
                 ->attach($pdfFilePath, ['as' => 'RIASEC.pdf', 'mime' => 'application/pdf']);
         });

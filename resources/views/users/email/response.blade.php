@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Response Submission</title>
+    <title>Results</title>
 </head>
 <body>
     <h3>Hello, {{ $user->fullname }}</h3>
